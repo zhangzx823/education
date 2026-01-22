@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>陪伴你的关键选择</title>
+    <title>成为更好的自己</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,22 +14,30 @@
         
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background: #f5f7fa;
+            background: #0a0a0a;
             min-height: 100vh;
-            color: #1a1a2e;
+            color: #fff;
         }
         
-        /* 导航栏 - 咨询风格 */
+        /* 导航栏 - 透明风格 */
         .navbar {
-            background: #fff;
-            padding: 15px 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 25px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-            position: sticky;
-            top: 0;
             z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+            transition: background 0.3s;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(10px);
+            padding: 18px 60px;
         }
         
         .nav-brand {
@@ -37,311 +45,329 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: #1a1a2e;
+            color: #fff;
         }
         
         .nav-brand span {
-            font-size: 1.4em;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1a73e8, #4285f4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.3em;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
         
         .nav-links a {
-            color: #555;
+            color: rgba(255,255,255,0.85);
             text-decoration: none;
-            margin-left: 35px;
+            margin-left: 40px;
             font-size: 0.95em;
-            font-weight: 500;
+            font-weight: 400;
             transition: color 0.3s;
+            letter-spacing: 0.5px;
         }
-        .nav-links a:hover { color: #1a73e8; }
+        .nav-links a:hover { color: #fff; }
         
-        /* 核心测评横幅 */
-        .hero-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 50px;
-            margin: 30px 50px;
-            border-radius: 20px;
+        /* Hero区域 - 全屏背景图 */
+        .hero {
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            box-shadow: 0 20px 60px rgba(26, 115, 232, 0.3);
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(10,30,60,0.85), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80') center/cover no-repeat;
+            padding: 0 20px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to top, #0a0a0a, transparent);
         }
         
         .hero-content {
-            flex: 1;
-            color: white;
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
         }
         
-        .hero-content h1 {
-            font-size: 2.2em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
-        
-        .hero-content p {
-            font-size: 1.1em;
-            opacity: 0.92;
+        .hero-tagline {
+            font-size: 1em;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 4px;
+            text-transform: uppercase;
             margin-bottom: 25px;
-            line-height: 1.7;
         }
         
-        .hero-features {
-            display: flex;
-            gap: 25px;
+        .hero-title {
+            font-size: 4em;
+            font-weight: 700;
+            line-height: 1.2;
             margin-bottom: 30px;
+            letter-spacing: 2px;
         }
         
-        .hero-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95em;
-            background: rgba(255,255,255,0.15);
-            padding: 8px 16px;
-            border-radius: 25px;
+        .hero-subtitle {
+            font-size: 1.25em;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.8;
+            margin-bottom: 50px;
+            font-weight: 300;
         }
         
         .hero-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background: white;
-            color: #1a73e8;
-            padding: 16px 40px;
-            border-radius: 30px;
-            font-size: 1.1em;
+            gap: 12px;
+            background: #fff;
+            color: #0a0a0a;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 1.05em;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            letter-spacing: 1px;
         }
         
         .hero-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(255,255,255,0.15);
         }
         
-        .hero-visual {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .hero-stats {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .stat-item {
-            text-align: center;
-            background: rgba(255,255,255,0.15);
-            padding: 20px 25px;
-            border-radius: 15px;
-        }
-        
-        .stat-item .num {
-            font-size: 2em;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .stat-item .label {
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
             font-size: 0.85em;
-            color: rgba(255,255,255,0.8);
-            margin-top: 5px;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
         }
         
-        /* 主内容区 */
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 50px 60px;
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
         }
         
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .section-title h2 {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 10px;
-        }
-        
-        .section-title p {
-            color: #666;
-            font-size: 1em;
-        }
-        
-        /* 功能卡片网格 */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 35px 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #eef0f5;
-        }
-        
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
-            border-color: transparent;
-        }
-        
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-        }
-        
-        .card-resources .card-icon { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
-        .card-economy .card-icon { background: linear-gradient(135deg, #fce4ec, #f8bbd9); }
-        .card-knowledge .card-icon { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
-        
-        .card h3 {
-            font-size: 1.25em;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #1a1a2e;
-        }
-        
-        .card p {
-            color: #666;
-            line-height: 1.7;
-            font-size: 0.95em;
-            flex: 1;
-        }
-        
-        .card-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        
-        .tag {
-            background: #f5f7fa;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            color: #555;
-        }
-        
-        .card-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 20px;
-            color: #1a73e8;
-            font-weight: 500;
-            font-size: 0.95em;
-        }
-        
-        /* 页脚 */
-        .footer {
-            background: #1a1a2e;
-            color: rgba(255,255,255,0.7);
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        .footer p { font-size: 0.9em; }
-        .footer-note { margin-top: 10px; font-size: 0.8em; opacity: 0.6; }
-        
-        /* 填报要点滚动动画 */
-        .tips-scroll-section {
-            background: linear-gradient(135deg, #1a73e815, #4285f415);
-            padding: 20px 0;
+        /* 填报要点滚动区 */
+        .tips-section {
+            background: #111;
+            padding: 25px 0;
             overflow: hidden;
-            margin: 0 50px 30px;
-            border-radius: 12px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
         
-        .tips-scroll-container {
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .tips-scroll-track {
+        .tips-track {
             display: flex;
-            animation: scroll-tips 30s linear infinite;
+            animation: scroll-tips 35s linear infinite;
             width: max-content;
         }
         
-        .tip-scroll-item {
+        .tip-item {
             flex-shrink: 0;
-            padding: 12px 40px;
+            padding: 0 50px;
             font-size: 0.95em;
-            color: #444;
+            color: rgba(255,255,255,0.5);
             white-space: nowrap;
-            border-right: 1px solid #e0e0e0;
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
         
-        .tip-scroll-item strong {
-            color: #1a73e8;
-        }
+        .tip-item strong { color: rgba(255,255,255,0.85); }
         
         @keyframes scroll-tips {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
         
-        .tips-scroll-section:hover .tips-scroll-track {
+        .tips-section:hover .tips-track {
             animation-play-state: paused;
         }
         
+        /* 服务区域 */
+        .services {
+            background: #0a0a0a;
+            padding: 100px 60px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .section-header p {
+            color: rgba(255,255,255,0.5);
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background: linear-gradient(145deg, #151515, #0d0d0d);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 45px 35px;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        
+        .service-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+        }
+        
+        .service-card h3 {
+            font-size: 1.35em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        
+        .service-card p {
+            color: rgba(255,255,255,0.55);
+            line-height: 1.8;
+            font-size: 0.95em;
+            flex: 1;
+            font-weight: 300;
+        }
+        
+        .service-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        
+        .service-tag {
+            background: rgba(255,255,255,0.06);
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+            color: #4285f4;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: gap 0.3s;
+        }
+        
+        .service-card:hover .service-link { gap: 12px; }
+        
+        /* CTA区域 */
+        .cta-section {
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            padding: 100px 60px;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            color: #1a73e8;
+            padding: 20px 50px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: #050505;
+            color: rgba(255,255,255,0.4);
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .footer p { font-size: 0.9em; }
+        .footer-note { margin-top: 10px; font-size: 0.8em; opacity: 0.6; }
+        
         /* 响应式 */
         @media (max-width: 1024px) {
-            .hero-banner {
-                flex-direction: column;
-                text-align: center;
-                margin: 20px;
-                padding: 40px 30px;
-            }
-            .hero-features { justify-content: center; flex-wrap: wrap; }
-            .cards-grid { grid-template-columns: 1fr; }
-            .main-container { padding: 30px 20px; }
+            .services-grid { grid-template-columns: 1fr; max-width: 500px; }
+            .hero-title { font-size: 2.8em; }
+            .services { padding: 60px 30px; }
         }
         
         @media (max-width: 768px) {
-            .navbar { padding: 12px 20px; }
+            .navbar { padding: 18px 25px; }
             .nav-links { display: none; }
-            .hero-content h1 { font-size: 1.6em; }
-            .hero-stats { flex-wrap: wrap; justify-content: center; }
-            .stat-item { padding: 15px 20px; }
-            .stat-item .num { font-size: 1.5em; }
+            .hero-title { font-size: 2.2em; }
+            .hero-subtitle { font-size: 1em; }
+            .section-header h2 { font-size: 1.8em; }
+            .cta-section h2 { font-size: 1.8em; }
         }
     </style>
 </head>
 <body>
     <!-- 导航栏 -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <a href="index.html" class="nav-brand">
-            🎓 <span>陪伴你的关键选择</span>
+            🎓 <span>成为更好的自己</span>
         </a>
         <div class="nav-links">
             <a href="survey.html">匹配测评</a>
@@ -351,98 +377,100 @@
         </div>
     </nav>
     
-    <!-- 核心测评横幅 -->
-    <section class="hero-banner">
+    <!-- Hero区域 -->
+    <section class="hero">
         <div class="hero-content">
-            <h1>🎯 专业·院校·城市 匹配度测评</h1>
-            <p>基于多维度特质分析的智能匹配系统，为您精准推荐最适合的专业方向、发展城市和目标院校，并生成个性化分析报告。</p>
-            <div class="hero-features">
-                <div class="hero-feature">📊 个性特质分析</div>
-                <div class="hero-feature">🎓 专业方向匹配</div>
-                <div class="hero-feature">🏙️ 城市发展建议</div>
-            </div>
-            <a href="survey.html" class="hero-btn">开始测评 <span>→</span></a>
+            <p class="hero-tagline">2026 高考志愿指南</p>
+            <h1 class="hero-title">成为更好的自己</h1>
+            <p class="hero-subtitle">我们致力于帮助每一位学子找到最适合的专业方向、发展城市与目标院校<br>以科学的方法与温暖的陪伴，助你在人生的关键选择中做出最好的决定</p>
+            <a href="survey.html" class="hero-btn">开始匹配测评 →</a>
         </div>
-        <div class="hero-visual">
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <div class="num">8min</div>
-                    <div class="label">预计用时</div>
-                </div>
-                <div class="stat-item">
-                    <div class="num">📎</div>
-                    <div class="label">可视化报告</div>
-                </div>
-            </div>
+        <div class="scroll-hint">向下滚动 ↓</div>
+    </section>
+    
+    <!-- 填报要点滚动 -->
+    <section class="tips-section">
+        <div class="tips-track">
+            <div class="tip-item">✨ <strong>分数够985优先选学校</strong>，名校光环和资源更重要</div>
+            <div class="tip-item">🏙️ <strong>大城市=更多实习机会+更广人脉+更高视野</strong></div>
+            <div class="tip-item">⚠️ <strong>今天的热门，四年后可能过剩</strong>，不要盲目追热</div>
+            <div class="tip-item">🔍 <strong>专业名称可能误导</strong>，查看课程设置和培养方案</div>
+            <div class="tip-item">🎓 <strong>很多好工作要求研究生学历</strong>，考虑未来深造</div>
+            <div class="tip-item">💡 <strong>最好的选择：能力匹配+兴趣驱动+趋势向好+现实可行</strong></div>
+            <div class="tip-item">✨ <strong>分数够985优先选学校</strong>，名校光环和资源更重要</div>
+            <div class="tip-item">🏙️ <strong>大城市=更多实习机会+更广人脉+更高视野</strong></div>
         </div>
     </section>
     
-    <!-- 填报核心要点滚动动画 -->
-    <section class="tips-scroll-section">
-        <div class="tips-scroll-container">
-            <div class="tips-scroll-track">
-                <div class="tip-scroll-item">✨ <strong>分数够985优先选学校</strong>，名校光环和资源更重要</div>
-                <div class="tip-scroll-item">🏙️ <strong>大城市=更多实习机会+更广人脉+更高视野</strong></div>
-                <div class="tip-scroll-item">⚠️ <strong>今天的热门，四年后可能过剩</strong>，不要盲目追热</div>
-                <div class="tip-scroll-item">🔍 <strong>专业名称可能误导</strong>，查看课程设置和培养方案</div>
-                <div class="tip-scroll-item">🎓 <strong>很多好工作要求研究生学历</strong>，考虑未来深造</div>
-                <div class="tip-scroll-item">💡 <strong>最好的选择：能力匹配+兴趣驱动+趋势向好+现实可行</strong></div>
-                <div class="tip-scroll-item">✨ <strong>分数够985优先选学校</strong>，名校光环和资源更重要</div>
-                <div class="tip-scroll-item">🏙️ <strong>大城市=更多实习机会+更广人脉+更高视野</strong></div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 主内容区 -->
-    <main class="main-container">
-        <div class="section-title">
+    <!-- 服务区域 -->
+    <section class="services">
+        <div class="section-header">
             <h2>全方位志愿填报支持</h2>
-            <p>提供数据、知识、工具三位一体的志愿填报解决方案</p>
+            <p>数据 · 知识 · 工具 三位一体的解决方案</p>
         </div>
         
-        <div class="cards-grid">
-            <a href="resources.html" class="card card-resources">
-                <div class="card-icon">📚</div>
+        <div class="services-grid">
+            <a href="resources.html" class="service-card">
+                <div class="service-icon">📚</div>
                 <h3>志愿填报资料库</h3>
                 <p>精选权威、可靠的志愿填报资源，包括官方政策、院校信息、专业解读、填报技巧等实用资料。</p>
-                <div class="card-tags">
-                    <span class="tag">🔗 官方链接</span>
-                    <span class="tag">📖 专业解读</span>
-                    <span class="tag">💡 填报技巧</span>
+                <div class="service-tags">
+                    <span class="service-tag">官方链接</span>
+                    <span class="service-tag">专业解读</span>
+                    <span class="service-tag">填报技巧</span>
                 </div>
-                <span class="card-link">查看资料 →</span>
+                <span class="service-link">查看资料 →</span>
             </a>
             
-            <a href="economy.html" class="card card-economy">
-                <div class="card-icon">📈</div>
+            <a href="economy.html" class="service-card">
+                <div class="service-icon">📈</div>
                 <h3>区域经济分析</h3>
                 <p>以经济学视角深度剖析全国各省市产业特色、行业发展趋势与岗位需求，助力科学选择发展城市。</p>
-                <div class="card-tags">
-                    <span class="tag">🏢 产业分布</span>
-                    <span class="tag">💼 岗位分析</span>
-                    <span class="tag">📈 权威数据</span>
+                <div class="service-tags">
+                    <span class="service-tag">产业分布</span>
+                    <span class="service-tag">岗位分析</span>
+                    <span class="service-tag">权威数据</span>
                 </div>
-                <span class="card-link">查看分析 →</span>
+                <span class="service-link">查看分析 →</span>
             </a>
             
-            <a href="knowledge.html" class="card card-knowledge">
-                <div class="card-icon">💡</div>
+            <a href="knowledge.html" class="service-card">
+                <div class="service-icon">💡</div>
                 <h3>志愿填报必备知识</h3>
                 <p>了解产业发展趋势、专业门类特点、填报技巧要点，为志愿选择提供知识储备。</p>
-                <div class="card-tags">
-                    <span class="tag">🚀 产业趋势</span>
-                    <span class="tag">🎓 专业解读</span>
-                    <span class="tag">💡 填报技巧</span>
+                <div class="service-tags">
+                    <span class="service-tag">产业趋势</span>
+                    <span class="service-tag">专业解读</span>
+                    <span class="service-tag">填报技巧</span>
                 </div>
-                <span class="card-link">开始学习 →</span>
+                <span class="service-link">开始学习 →</span>
             </a>
         </div>
-    </main>
+    </section>
+    
+    <!-- CTA区域 -->
+    <section class="cta-section">
+        <h2>发现最适合你的未来方向</h2>
+        <p>8分钟测评，获取专属的专业·院校·城市匹配分析报告</p>
+        <a href="survey.html" class="cta-btn">立即开始测评 →</a>
+    </section>
     
     <!-- 页脚 -->
     <footer class="footer">
-        <p>&copy; 2026 陪伴你的关键选择</p>
+        <p>&copy; 2026 成为更好的自己</p>
         <p class="footer-note">本站内容仅供参考，请结合实际情况综合决策</p>
     </footer>
+    
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>
