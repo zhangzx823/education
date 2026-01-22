@@ -3,936 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026高考志愿智能匹配系统 | 专业·城市·发展规划</title>
-    <link rel="stylesheet" href="assets/css/survey.css">
+    <title>2026高考志愿填报指南</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+        }
+        
+        .card-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+        
+        .card-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .card-survey .card-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .card-survey:hover .card-btn {
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .card-resources .card-btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+        }
+        
+        .card-resources:hover .card-btn {
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .feature-tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #555;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2em; }
+            .card { padding: 30px 20px; }
+        }
+    </style>
 </head>
 <body>
-    <div class="survey-container">
-        <!-- 管理员入口（隐藏） -->
-        <div class="admin-entry" id="admin-entry" onclick="toggleAdminPanel()" title="管理面板">📊</div>
-
-        <!-- 顶部标题区 -->
-        <header class="survey-header">
-            <div class="logo-section">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="45" fill="none" stroke="#1a73e8" stroke-width="3"/>
-                        <path d="M50 20 L50 50 L70 60" fill="none" stroke="#1a73e8" stroke-width="4" stroke-linecap="round"/>
-                        <circle cx="50" cy="50" r="5" fill="#1a73e8"/>
-                    </svg>
-                </div>
-                <div class="logo-text">
-                    <h1>高考志愿智能匹配系统</h1>
-                    <p>College Major & City Matching System 2026</p>
-                </div>
-            </div>
-            <div class="survey-title">
-                <h2>发现最适合你的专业与城市</h2>
-                <p class="subtitle">— 基于多维度特质分析的个性化匹配报告 —</p>
-            </div>
+    <div class="container">
+        <header class="header">
+            <h1>🎓 2026高考志愿填报指南</h1>
+            <p>科学规划，智慧选择，开启理想未来</p>
         </header>
-
-        <!-- 欢迎介绍页 -->
-        <section class="survey-intro" id="intro-section">
-            <div class="intro-card">
-                <h3>🎓 欢迎使用高考志愿智能匹配系统</h3>
-                <p>高考志愿填报是人生重要的选择之一。本系统将帮助您：</p>
-                <div class="intro-features">
-                    <div class="feature-item">
-                        <span class="feature-icon">📚</span>
-                        <div>
-                            <strong>了解产业趋势</strong>
-                            <span>掌握中国产业发展格局与专业前景</span>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <span class="feature-icon">🎯</span>
-                        <div>
-                            <strong>精准匹配分析</strong>
-                            <span>基于您的特质推荐专业与城市</span>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <span class="feature-icon">📊</span>
-                        <div>
-                            <strong>可视化报告</strong>
-                            <span>丰富图表直观呈现分析结果</span>
-                        </div>
-                    </div>
+        
+        <div class="cards">
+            <a href="survey.html" class="card card-survey">
+                <div class="card-icon">📋</div>
+                <h2>智能匹配测评</h2>
+                <p>基于多维度特质分析，为您匹配最适合的专业方向、理想城市，并生成个性化职业发展建议报告。</p>
+                <div class="features">
+                    <span class="feature-tag">🎯 专业匹配</span>
+                    <span class="feature-tag">🏙️ 城市推荐</span>
+                    <span class="feature-tag">📊 可视化报告</span>
                 </div>
-                <div class="intro-steps">
-                    <div class="step-flow">
-                        <div class="flow-item"><span>1</span>学习产业知识</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item"><span>2</span>完成测评问卷</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item"><span>3</span>获取匹配报告</div>
-                    </div>
+                <div class="card-btn" style="margin-top: 20px;">开始测评 →</div>
+            </a>
+            
+            <a href="resources.html" class="card card-resources">
+                <div class="card-icon">📚</div>
+                <h2>志愿填报资料库</h2>
+                <p>精选权威、可靠的志愿填报资源，包括官方政策、院校信息、专业解读、填报技巧等实用资料。</p>
+                <div class="features">
+                    <span class="feature-tag">🔗 官方链接</span>
+                    <span class="feature-tag">📖 专业解读</span>
+                    <span class="feature-tag">💡 填报技巧</span>
                 </div>
-                <p class="intro-note">📋 预计用时20-30分钟 | 🔒 数据严格保密 | 📈 45+题目全面评估</p>
-                <button class="btn-primary btn-large" onclick="startLearning()">开始学习与测评</button>
-            </div>
-        </section>
-
-        <!-- 知识普及模块 -->
-        <section class="knowledge-section" id="knowledge-section" style="display: none;">
-            <div class="knowledge-header">
-                <h2>📚 志愿填报必备知识</h2>
-                <p>在开始测评之前，请先了解以下重要信息，这将帮助您做出更明智的选择</p>
-                <div class="knowledge-nav">
-                    <button class="know-tab active" data-tab="industry">产业发展格局</button>
-                    <button class="know-tab" data-tab="emerging">新兴产业解读</button>
-                    <button class="know-tab" data-tab="traditional">传统产业转型</button>
-                    <button class="know-tab" data-tab="majors">专业大类介绍</button>
-                    <button class="know-tab" data-tab="tips">填报要点</button>
-                </div>
-            </div>
-
-            <!-- 产业发展格局 -->
-            <div class="knowledge-content" id="tab-industry">
-                <div class="knowledge-card">
-                    <h3>🌏 中国产业发展整体格局（2024-2035）</h3>
-                    <div class="info-box highlight">
-                        <p><strong>核心趋势：</strong>中国正处于从"制造大国"向"创造强国"转型的关键时期，高质量发展和科技自立自强成为主旋律。</p>
-                    </div>
-                    
-                    <div class="industry-overview">
-                        <div class="overview-item">
-                            <div class="overview-icon green">📈</div>
-                            <div class="overview-content">
-                                <h4>战略性新兴产业</h4>
-                                <p>占GDP比重从13%提升至20%+，年增长率15-25%</p>
-                                <div class="tag-list">
-                                    <span class="tag hot">人工智能</span>
-                                    <span class="tag hot">新能源</span>
-                                    <span class="tag hot">生物医药</span>
-                                    <span class="tag hot">芯片半导体</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="overview-item">
-                            <div class="overview-icon blue">🔄</div>
-                            <div class="overview-content">
-                                <h4>传统产业升级</h4>
-                                <p>数字化转型加速，"智能+"改造全面推进</p>
-                                <div class="tag-list">
-                                    <span class="tag">智能制造</span>
-                                    <span class="tag">工业互联网</span>
-                                    <span class="tag">绿色低碳</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="overview-item">
-                            <div class="overview-icon orange">👥</div>
-                            <div class="overview-content">
-                                <h4>服务业扩张</h4>
-                                <p>占GDP超55%，高端服务业快速发展</p>
-                                <div class="tag-list">
-                                    <span class="tag">数字经济</span>
-                                    <span class="tag">大健康</span>
-                                    <span class="tag">现代金融</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chart-container">
-                        <h4>各产业人才需求趋势预测</h4>
-                        <canvas id="industry-trend-chart"></canvas>
-                    </div>
-
-                    <div class="key-points">
-                        <h4>💡 对考生的启示</h4>
-                        <ul>
-                            <li><strong>选择成长性行业：</strong>新兴产业虽竞争激烈但机会多，薪资增长快</li>
-                            <li><strong>关注交叉领域：</strong>"专业+AI"、"专业+数据"复合型人才最受欢迎</li>
-                            <li><strong>传统不等于落后：</strong>传统行业数字化转型同样需要大量人才</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 新兴产业解读 -->
-            <div class="knowledge-content" id="tab-emerging" style="display: none;">
-                <div class="knowledge-card">
-                    <h3>🚀 七大战略性新兴产业深度解读</h3>
-                    
-                    <div class="industry-cards">
-                        <div class="ind-card">
-                            <div class="ind-header ai">
-                                <span class="ind-icon">🤖</span>
-                                <h4>人工智能</h4>
-                                <span class="ind-heat">🔥🔥🔥🔥🔥</span>
-                            </div>
-                            <div class="ind-body">
-                                <p class="ind-desc">中国AI产业规模超5000亿，年增速35%+</p>
-                                <div class="ind-stats">
-                                    <div><strong>人才缺口</strong><span class="stat-value">500万+</span></div>
-                                    <div><strong>平均薪资</strong><span class="stat-value">30-80万/年</span></div>
-                                </div>
-                                <div class="ind-majors">
-                                    <strong>相关专业：</strong>计算机科学、人工智能、数据科学、软件工程、智能科学与技术
-                                </div>
-                                <div class="ind-note">
-                                    <span class="note-label">⚠️ 注意</span> 学历要求高，名校硕士以上更具竞争力
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ind-card">
-                            <div class="ind-header energy">
-                                <span class="ind-icon">⚡</span>
-                                <h4>新能源</h4>
-                                <span class="ind-heat">🔥🔥🔥🔥🔥</span>
-                            </div>
-                            <div class="ind-body">
-                                <p class="ind-desc">光伏、储能、电动车三大赛道全球领先</p>
-                                <div class="ind-stats">
-                                    <div><strong>产业规模</strong><span class="stat-value">12万亿+</span></div>
-                                    <div><strong>平均薪资</strong><span class="stat-value">15-40万/年</span></div>
-                                </div>
-                                <div class="ind-majors">
-                                    <strong>相关专业：</strong>电气工程、能源与动力工程、材料科学、车辆工程、化学工程
-                                </div>
-                                <div class="ind-note success">
-                                    <span class="note-label">✅ 优势</span> 本科就业好，国企民企机会均衡
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ind-card">
-                            <div class="ind-header bio">
-                                <span class="ind-icon">🧬</span>
-                                <h4>生物医药</h4>
-                                <span class="ind-heat">🔥🔥🔥🔥</span>
-                            </div>
-                            <div class="ind-body">
-                                <p class="ind-desc">老龄化加速，创新药、医疗器械需求爆发</p>
-                                <div class="ind-stats">
-                                    <div><strong>年增长率</strong><span class="stat-value">15-20%</span></div>
-                                    <div><strong>平均薪资</strong><span class="stat-value">15-50万/年</span></div>
-                                </div>
-                                <div class="ind-majors">
-                                    <strong>相关专业：</strong>生物科学、药学、临床医学、生物医学工程、基础医学
-                                </div>
-                                <div class="ind-note">
-                                    <span class="note-label">⚠️ 注意</span> 研发岗普遍要求硕士以上学历
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ind-card">
-                            <div class="ind-header chip">
-                                <span class="ind-icon">💾</span>
-                                <h4>芯片半导体</h4>
-                                <span class="ind-heat">🔥🔥🔥🔥🔥</span>
-                            </div>
-                            <div class="ind-body">
-                                <p class="ind-desc">国家战略重点，举国体制攻坚"卡脖子"技术</p>
-                                <div class="ind-stats">
-                                    <div><strong>人才缺口</strong><span class="stat-value">30万+</span></div>
-                                    <div><strong>平均薪资</strong><span class="stat-value">25-60万/年</span></div>
-                                </div>
-                                <div class="ind-majors">
-                                    <strong>相关专业：</strong>微电子、集成电路、电子科学与技术、材料物理、应用物理
-                                </div>
-                                <div class="ind-note success">
-                                    <span class="note-label">✅ 优势</span> 政策扶持力度大，待遇逐年提升
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ind-card">
-                            <div class="ind-header robot">
-                                <span class="ind-icon">🦾</span>
-                                <h4>智能制造与机器人</h4>
-                                <span class="ind-heat">🔥🔥🔥🔥</span>
-                            </div>
-                            <div class="ind-body">
-                                <p class="ind-desc">工业机器人、人形机器人进入爆发期</p>
-                                <div class="ind-stats">
-                                    <div><strong>市场规模</strong><span class="stat-value">万亿级</span></div>
-                                    <div><strong>平均薪资</strong><span class="stat-value">18-45万/年</span></div>
-                                </div>
-                                <div class="ind-majors">
-                                    <strong>相关专业：</strong>机械工程、自动化、机器人工程、控制科学与工程
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ind-card">
-                            <div class="ind-header aero">
-                                <span class="ind-icon">🚀</span>
-                                <h4>航空航天</h4>
-                                <span class="ind-heat">🔥🔥🔥🔥</span>
-                            </div>
-                            <div class="ind-body">
-                                <p class="ind-desc">商业航天兴起，大飞机、卫星互联网机会多</p>
-                                <div class="ind-stats">
-                                    <div><strong>就业稳定性</strong><span class="stat-value">极高</span></div>
-                                    <div><strong>平均薪资</strong><span class="stat-value">15-35万/年</span></div>
-                                </div>
-                                <div class="ind-majors">
-                                    <strong>相关专业：</strong>航空航天工程、飞行器设计、飞行器动力工程
-                                </div>
-                                <div class="ind-note success">
-                                    <span class="note-label">✅ 优势</span> 多为国企央企，稳定性强
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ind-card">
-                            <div class="ind-header digital">
-                                <span class="ind-icon">🎮</span>
-                                <h4>数字文化与内容</h4>
-                                <span class="ind-heat">🔥🔥🔥</span>
-                            </div>
-                            <div class="ind-body">
-                                <p class="ind-desc">游戏、短视频、虚拟现实、数字人</p>
-                                <div class="ind-stats">
-                                    <div><strong>市场规模</strong><span class="stat-value">2万亿+</span></div>
-                                    <div><strong>平均薪资</strong><span class="stat-value">12-40万/年</span></div>
-                                </div>
-                                <div class="ind-majors">
-                                    <strong>相关专业：</strong>数字媒体技术、动画、游戏设计、传播学
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 传统产业转型 -->
-            <div class="knowledge-content" id="tab-traditional" style="display: none;">
-                <div class="knowledge-card">
-                    <h3>🔄 传统产业转型升级现状</h3>
-                    
-                    <div class="info-box warning">
-                        <p><strong>重要认知：</strong>传统产业≠夕阳产业。很多传统行业正在经历数字化转型，对新型人才需求旺盛。选择传统行业的优势专业，可能比挤热门更务实。</p>
-                    </div>
-
-                    <div class="traditional-grid">
-                        <div class="trad-card">
-                            <h4>🏭 制造业</h4>
-                            <div class="trad-status">
-                                <span class="status-badge transforming">转型中</span>
-                            </div>
-                            <p><strong>现状：</strong>中国是全球制造业第一大国，但面临人工成本上升、技术升级压力</p>
-                            <p><strong>趋势：</strong>智能制造、工业4.0、无人工厂</p>
-                            <p><strong>机会：</strong>传统机械+自动化/AI的复合人才稀缺</p>
-                            <div class="recommend-majors">
-                                <span>机械工程</span><span>工业工程</span><span>自动化</span>
-                            </div>
-                        </div>
-
-                        <div class="trad-card">
-                            <h4>🏗️ 建筑与房地产</h4>
-                            <div class="trad-status">
-                                <span class="status-badge declining">调整期</span>
-                            </div>
-                            <p><strong>现状：</strong>房地产行业深度调整，传统建筑业增速放缓</p>
-                            <p><strong>趋势：</strong>装配式建筑、智慧城市、绿色建筑</p>
-                            <p><strong>机会：</strong>基建仍有需求，但需要新技能加持</p>
-                            <div class="recommend-majors">
-                                <span>土木工程</span><span>建筑学</span><span>城乡规划</span>
-                            </div>
-                            <div class="trad-warning">⚠️ 传统土木就业压力大，建议辅修数字化技能</div>
-                        </div>
-
-                        <div class="trad-card">
-                            <h4>💰 金融业</h4>
-                            <div class="trad-status">
-                                <span class="status-badge transforming">转型中</span>
-                            </div>
-                            <p><strong>现状：</strong>传统银行压力大，金融科技崛起</p>
-                            <p><strong>趋势：</strong>数字金融、量化投资、监管科技</p>
-                            <p><strong>机会：</strong>金融+科技复合人才最吃香</p>
-                            <div class="recommend-majors">
-                                <span>金融科技</span><span>金融工程</span><span>数据科学</span>
-                            </div>
-                        </div>
-
-                        <div class="trad-card">
-                            <h4>🛒 零售与消费</h4>
-                            <div class="trad-status">
-                                <span class="status-badge stable">稳定</span>
-                            </div>
-                            <p><strong>现状：</strong>线下零售承压，电商和新零售持续增长</p>
-                            <p><strong>趋势：</strong>直播电商、私域运营、供应链数字化</p>
-                            <p><strong>机会：</strong>电商运营、品牌营销需求稳定</p>
-                            <div class="recommend-majors">
-                                <span>市场营销</span><span>电子商务</span><span>物流管理</span>
-                            </div>
-                        </div>
-
-                        <div class="trad-card">
-                            <h4>🏥 医疗健康</h4>
-                            <div class="trad-status">
-                                <span class="status-badge growing">增长</span>
-                            </div>
-                            <p><strong>现状：</strong>老龄化推动，医疗需求刚性增长</p>
-                            <p><strong>趋势：</strong>互联网医疗、精准医疗、康养产业</p>
-                            <p><strong>机会：</strong>医护人才长期紧缺</p>
-                            <div class="recommend-majors">
-                                <span>临床医学</span><span>护理学</span><span>康复治疗</span>
-                            </div>
-                            <div class="trad-success">✅ 就业稳定，社会地位高</div>
-                        </div>
-
-                        <div class="trad-card">
-                            <h4>📚 教育培训</h4>
-                            <div class="trad-status">
-                                <span class="status-badge transforming">转型中</span>
-                            </div>
-                            <p><strong>现状：</strong>K12学科培训受限，素质教育和职业教育兴起</p>
-                            <p><strong>趋势：</strong>AI教育、在线教育、终身学习</p>
-                            <p><strong>机会：</strong>公立学校教师仍是稳定选择</p>
-                            <div class="recommend-majors">
-                                <span>教育学</span><span>学科教育</span><span>教育技术</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="key-points">
-                        <h4>💡 选择传统行业的建议</h4>
-                        <ul>
-                            <li>选择正在<strong>数字化转型</strong>的细分领域</li>
-                            <li>培养<strong>"传统专业+新技术"</strong>的复合能力</li>
-                            <li>关注行业龙头企业和国企央企的招聘需求</li>
-                            <li>不要盲目追热门，适合自己的才是最好的</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 专业大类介绍 -->
-            <div class="knowledge-content" id="tab-majors" style="display: none;">
-                <div class="knowledge-card">
-                    <h3>🎓 中国高校13个学科门类概览</h3>
-                    
-                    <div class="major-categories">
-                        <div class="major-cat">
-                            <div class="cat-header engineering">
-                                <h4>工学</h4>
-                                <span class="cat-stat">专业最多，就业面最广</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>注重实践应用，动手能力要求高，就业导向明确</p>
-                                <p><strong>热门方向：</strong>计算机类、电子信息类、机械类、自动化类</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐⭐⭐</p>
-                                <p><strong>适合人群：</strong>数学物理好、喜欢动手实践、逻辑思维强</p>
-                            </div>
-                        </div>
-
-                        <div class="major-cat">
-                            <div class="cat-header science">
-                                <h4>理学</h4>
-                                <span class="cat-stat">基础研究，深造比例高</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>理论性强，多数需要读研深造</p>
-                                <p><strong>热门方向：</strong>数学类、物理类、化学类、生物类、统计学</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐（直接就业）⭐⭐⭐⭐⭐（深造后）</p>
-                                <p><strong>适合人群：</strong>对基础科学有热情、有耐心钻研、计划读研读博</p>
-                            </div>
-                        </div>
-
-                        <div class="major-cat">
-                            <div class="cat-header medical">
-                                <h4>医学</h4>
-                                <span class="cat-stat">学制长，专业性极强</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>本科5年，培养周期长，但就业稳定、社会地位高</p>
-                                <p><strong>热门方向：</strong>临床医学、口腔医学、医学影像、药学</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐⭐⭐</p>
-                                <p><strong>适合人群：</strong>生物化学好、有奉献精神、能承受高强度学习</p>
-                            </div>
-                        </div>
-
-                        <div class="major-cat">
-                            <div class="cat-header economics">
-                                <h4>经济学 & 管理学</h4>
-                                <span class="cat-stat">热门但竞争激烈</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>就业面广，但同质化严重，名校优势明显</p>
-                                <p><strong>热门方向：</strong>金融学、会计学、经济学、工商管理</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐⭐（名校）⭐⭐⭐（普通院校）</p>
-                                <p><strong>适合人群：</strong>数学好、沟通能力强、对商业有兴趣</p>
-                            </div>
-                        </div>
-
-                        <div class="major-cat">
-                            <div class="cat-header law">
-                                <h4>法学</h4>
-                                <span class="cat-stat">红牌专业，但顶尖人才稀缺</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>需要通过法考，门槛高但上限也高</p>
-                                <p><strong>热门方向：</strong>法学、知识产权、社会工作</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐（普通）⭐⭐⭐⭐⭐（通过法考后）</p>
-                                <p><strong>适合人群：</strong>语言表达好、逻辑清晰、记忆力强</p>
-                            </div>
-                        </div>
-
-                        <div class="major-cat">
-                            <div class="cat-header literature">
-                                <h4>文学 & 历史学 & 哲学</h4>
-                                <span class="cat-stat">就业面窄，但不可或缺</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>对口就业难，但培养的能力可迁移</p>
-                                <p><strong>热门方向：</strong>汉语言文学、新闻学、英语、历史学</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐</p>
-                                <p><strong>适合人群：</strong>文字功底好、对人文社科有热情、公务员/教师意向</p>
-                            </div>
-                        </div>
-
-                        <div class="major-cat">
-                            <div class="cat-header education">
-                                <h4>教育学</h4>
-                                <span class="cat-stat">师范类稳定回暖</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>公费师范生免学费包分配，普通师范竞争也大</p>
-                                <p><strong>热门方向：</strong>学科教育、教育技术、学前教育</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐⭐</p>
-                                <p><strong>适合人群：</strong>喜欢与人交流、有耐心、追求稳定</p>
-                            </div>
-                        </div>
-
-                        <div class="major-cat">
-                            <div class="cat-header art">
-                                <h4>艺术学</h4>
-                                <span class="cat-stat">创意产业机会多</span>
-                            </div>
-                            <div class="cat-body">
-                                <p><strong>特点：</strong>需要艺考，技能型专业，作品集重要</p>
-                                <p><strong>热门方向：</strong>视觉传达、产品设计、数字媒体艺术、动画</p>
-                                <p><strong>就业率：</strong>⭐⭐⭐⭐</p>
-                                <p><strong>适合人群：</strong>有艺术天赋、创意能力强、能接受自由职业</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 填报要点 -->
-            <div class="knowledge-content" id="tab-tips" style="display: none;">
-                <div class="knowledge-card">
-                    <h3>📝 志愿填报核心要点</h3>
-
-                    <div class="tips-grid">
-                        <div class="tip-card">
-                            <div class="tip-number">1</div>
-                            <h4>院校优先还是专业优先？</h4>
-                            <div class="tip-content">
-                                <p><strong>分数够985：</strong>优先选学校，名校光环和资源更重要</p>
-                                <p><strong>分数在211线：</strong>可考虑专业，选择学校优势学科</p>
-                                <p><strong>分数在一本线：</strong>专业更重要，选择就业好的实用专业</p>
-                            </div>
-                        </div>
-
-                        <div class="tip-card">
-                            <div class="tip-number">2</div>
-                            <h4>城市的重要性</h4>
-                            <div class="tip-content">
-                                <p>大城市=更多实习机会+更广人脉+更高眼界</p>
-                                <p>一线城市适合想闯荡的学生</p>
-                                <p>二三线城市性价比高，竞争压力小</p>
-                            </div>
-                        </div>
-
-                        <div class="tip-card">
-                            <div class="tip-number">3</div>
-                            <h4>热门专业的"陷阱"</h4>
-                            <div class="tip-content">
-                                <p>今天的热门，四年后可能过剩</p>
-                                <p>热门专业录取分数虚高</p>
-                                <p>不喜欢的热门专业不如喜欢的"冷门"</p>
-                            </div>
-                        </div>
-
-                        <div class="tip-card">
-                            <div class="tip-number">4</div>
-                            <h4>了解专业的真实内容</h4>
-                            <div class="tip-content">
-                                <p>专业名称可能误导（如信息管理≠IT）</p>
-                                <p>查看课程设置和培养方案</p>
-                                <p>咨询该专业在读学生</p>
-                            </div>
-                        </div>
-
-                        <div class="tip-card">
-                            <div class="tip-number">5</div>
-                            <h4>考虑未来深造</h4>
-                            <div class="tip-content">
-                                <p>很多好工作要求研究生学历</p>
-                                <p>本科选基础学科，研究生转应用也可</p>
-                                <p>医学、法学等专业性强的需要持续投入</p>
-                            </div>
-                        </div>
-
-                        <div class="tip-card">
-                            <div class="tip-number">6</div>
-                            <h4>家庭因素的权衡</h4>
-                            <div class="tip-content">
-                                <p>经济条件影响城市和学校选择</p>
-                                <p>是否需要毕业后照顾家庭</p>
-                                <p>家族资源在某些行业可能有帮助</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="info-box success">
-                        <h4>🌟 核心原则</h4>
-                        <p>最好的选择是：<strong>能力匹配 + 兴趣驱动 + 趋势向好 + 现实可行</strong></p>
-                        <p>不要只看眼前，要想想10年后你想成为什么样的人</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="knowledge-footer">
-                <div class="read-progress">
-                    <span>知识模块阅读进度：</span>
-                    <div class="read-indicators">
-                        <span class="read-dot active" data-tab="industry"></span>
-                        <span class="read-dot" data-tab="emerging"></span>
-                        <span class="read-dot" data-tab="traditional"></span>
-                        <span class="read-dot" data-tab="majors"></span>
-                        <span class="read-dot" data-tab="tips"></span>
-                    </div>
-                </div>
-                <button class="btn-primary btn-large" id="start-survey-btn" onclick="startSurveySection()">
-                    我已了解，开始测评 →
-                </button>
-            </div>
-        </section>
-
-        <!-- 进度指示器 -->
-        <div class="progress-wrapper" id="progress-wrapper" style="display: none;">
-            <div class="progress-info">
-                <span id="progress-text">第 1 部分 / 共 6 部分</span>
-                <span id="progress-percent">0%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-            <div class="progress-steps">
-                <div class="step active" data-step="1">基本信息</div>
-                <div class="step" data-step="2">个人特质</div>
-                <div class="step" data-step="3">学业能力</div>
-                <div class="step" data-step="4">产业认知</div>
-                <div class="step" data-step="5">城市偏好</div>
-                <div class="step" data-step="6">发展期望</div>
-            </div>
+                <div class="card-btn" style="margin-top: 20px;">查看资料 →</div>
+            </a>
         </div>
-
-        <!-- 问卷主体 -->
-        <main class="survey-main" id="survey-main" style="display: none;">
-            <form id="survey-form">
-                
-                <!-- 第一部分：基本信息 -->
-                <section class="survey-section" id="section-1">
-                    <div class="section-header">
-                        <span class="section-number">01</span>
-                        <div>
-                            <h3>基本信息</h3>
-                            <p class="section-desc">帮助我们了解您的基础情况</p>
-                        </div>
-                    </div>
-
-                    <div class="question-card">
-                        <div class="question-header">
-                            <span class="question-number">Q1</span>
-                            <span class="question-type">单选</span>
-                        </div>
-                        <p class="question-text">您的身份是？</p>
-                        <div class="options-group options-inline">
-                            <label class="option-item"><input type="radio" name="identity" value="student" required><span class="option-text">高三学生本人</span></label>
-                            <label class="option-item"><input type="radio" name="identity" value="parent"><span class="option-text">学生家长</span></label>
-                        </div>
-                    </div>
-
-                    <div class="question-card">
-                        <div class="question-header">
-                            <span class="question-number">Q2</span>
-                            <span class="question-type">单选</span>
-                        </div>
-                        <p class="question-text">学生性别？</p>
-                        <div class="options-group options-inline">
-                            <label class="option-item"><input type="radio" name="gender" value="male" required><span class="option-text">男</span></label>
-                            <label class="option-item"><input type="radio" name="gender" value="female"><span class="option-text">女</span></label>
-                        </div>
-                    </div>
-
-                    <div class="question-card">
-                        <div class="question-header">
-                            <span class="question-number">Q3</span>
-                            <span class="question-type">单选</span>
-                        </div>
-                        <p class="question-text">您目前所在的省份？</p>
-                        <div class="select-wrapper">
-                            <select name="province" required>
-                                <option value="">请选择省份</option>
-                                <option value="beijing">北京</option><option value="shanghai">上海</option>
-                                <option value="guangdong">广东</option><option value="jiangsu">江苏</option>
-                                <option value="zhejiang">浙江</option><option value="shandong">山东</option>
-                                <option value="henan">河南</option><option value="sichuan">四川</option>
-                                <option value="hubei">湖北</option><option value="hunan">湖南</option>
-                                <option value="hebei">河北</option><option value="fujian">福建</option>
-                                <option value="anhui">安徽</option><option value="liaoning">辽宁</option>
-                                <option value="shaanxi">陕西</option><option value="jiangxi">江西</option>
-                                <option value="chongqing">重庆</option><option value="guangxi">广西</option>
-                                <option value="yunnan">云南</option><option value="tianjin">天津</option>
-                                <option value="shanxi">山西</option><option value="guizhou">贵州</option>
-                                <option value="jilin">吉林</option><option value="heilongjiang">黑龙江</option>
-                                <option value="gansu">甘肃</option><option value="neimenggu">内蒙古</option>
-                                <option value="xinjiang">新疆</option><option value="hainan">海南</option>
-                                <option value="ningxia">宁夏</option><option value="qinghai">青海</option>
-                                <option value="xizang">西藏</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="question-card">
-                        <div class="question-header">
-                            <span class="question-number">Q4</span>
-                            <span class="question-type">单选</span>
-                        </div>
-                        <p class="question-text">目前预估的高考成绩水平？</p>
-                        <div class="options-group">
-                            <label class="option-item"><input type="radio" name="score_level" value="top985" required><span class="option-text">顶尖985（清北华五等，全省前1%）</span></label>
-                            <label class="option-item"><input type="radio" name="score_level" value="985"><span class="option-text">普通985（全省前3%）</span></label>
-                            <label class="option-item"><input type="radio" name="score_level" value="211"><span class="option-text">211院校（全省前10%）</span></label>
-                            <label class="option-item"><input type="radio" name="score_level" value="tier1"><span class="option-text">普通一本（全省前25%）</span></label>
-                            <label class="option-item"><input type="radio" name="score_level" value="tier2"><span class="option-text">二本院校（全省前50%）</span></label>
-                            <label class="option-item"><input type="radio" name="score_level" value="specialist"><span class="option-text">专科/高职院校</span></label>
-                        </div>
-                    </div>
-
-                    <div class="question-card">
-                        <div class="question-header">
-                            <span class="question-number">Q5</span>
-                            <span class="question-type">单选</span>
-                        </div>
-                        <p class="question-text">选科组合/文理分科情况？</p>
-                        <div class="options-group">
-                            <label class="option-item"><input type="radio" name="subject" value="phy_chem_bio" required><span class="option-text">物理+化学+生物（纯理科）</span></label>
-                            <label class="option-item"><input type="radio" name="subject" value="phy_chem_x"><span class="option-text">物理+化学+其他</span></label>
-                            <label class="option-item"><input type="radio" name="subject" value="phy_x_x"><span class="option-text">物理+非化学组合</span></label>
-                            <label class="option-item"><input type="radio" name="subject" value="his_pol_geo"><span class="option-text">历史+政治+地理（纯文科）</span></label>
-                            <label class="option-item"><input type="radio" name="subject" value="his_x_x"><span class="option-text">历史+其他组合</span></label>
-                            <label class="option-item"><input type="radio" name="subject" value="old_science"><span class="option-text">传统理科（老高考）</span></label>
-                            <label class="option-item"><input type="radio" name="subject" value="old_arts"><span class="option-text">传统文科（老高考）</span></label>
-                        </div>
-                    </div>
-
-                    <div class="question-card">
-                        <div class="question-header">
-                            <span class="question-number">Q6</span>
-                            <span class="question-type">单选</span>
-                        </div>
-                        <p class="question-text">家庭经济条件（影响城市生活成本考量）？</p>
-                        <div class="options-group">
-                            <label class="option-item"><input type="radio" name="family_income" value="high" required><span class="option-text">较为宽裕，可支持一线城市+出国留学</span></label>
-                            <label class="option-item"><input type="radio" name="family_income" value="medium"><span class="option-text">中等水平，需要适当考虑生活成本</span></label>
-                            <label class="option-item"><input type="radio" name="family_income" value="low"><span class="option-text">需要严格控制开销，优先考虑性价比</span></label>
-                        </div>
-                    </div>
-
-                    <div class="question-card">
-                        <div class="question-header">
-                            <span class="question-number">Q7</span>
-                            <span class="question-type">单选</span>
-                        </div>
-                        <p class="question-text">您了解高考志愿填报的程度？</p>
-                        <div class="options-group">
-                            <label class="option-item"><input type="radio" name="know_level" value="expert" required><span class="option-text">非常了解，已研究过政策和专业</span></label>
-                            <label class="option-item"><input type="radio" name="know_level" value="moderate"><span class="option-text">了解一些，但还有很多不清楚</span></label>
-                            <label class="option-item"><input type="radio" name="know_level" value="basic"><span class="option-text">刚开始了解，知识有限</span></label>
-                            <label class="option-item"><input type="radio" name="know_level" value="none"><span class="option-text">几乎不了解，希望得到指导</span></label>
-                        </div>
-                    </div>
-
-                    <div class="section-nav">
-                        <button type="button" class="btn-next" onclick="nextSection(1)">下一部分 →</button>
-                    </div>
-                </section>
-
-                <!-- 第二部分：个人特质 -->
-                <section class="survey-section" id="section-2" style="display: none;">
-                    <div class="section-header">
-                        <span class="section-number">02</span>
-                        <div><h3>个人特质</h3><p class="section-desc">了解您的性格特点和能力倾向</p></div>
-                    </div>
-                    <div class="question-card"><div class="question-header"><span class="question-number">Q8</span><span class="question-type multi">多选</span></div><p class="question-text">以下哪些描述符合您？（可多选，最多选5项）</p><div class="options-group options-multi"><label class="option-item"><input type="checkbox" name="traits" value="analytical"><span class="option-text">擅长逻辑分析和数理推演</span></label><label class="option-item"><input type="checkbox" name="traits" value="creative"><span class="option-text">富有创意和想象力</span></label><label class="option-item"><input type="checkbox" name="traits" value="social"><span class="option-text">善于与人沟通交流</span></label><label class="option-item"><input type="checkbox" name="traits" value="practical"><span class="option-text">喜欢动手实践操作</span></label><label class="option-item"><input type="checkbox" name="traits" value="leader"><span class="option-text">有组织领导能力</span></label><label class="option-item"><input type="checkbox" name="traits" value="research"><span class="option-text">喜欢探究事物原理</span></label><label class="option-item"><input type="checkbox" name="traits" value="artistic"><span class="option-text">有艺术审美天赋</span></label><label class="option-item"><input type="checkbox" name="traits" value="detail"><span class="option-text">做事细心严谨</span></label><label class="option-item"><input type="checkbox" name="traits" value="patient"><span class="option-text">有耐心能坐得住</span></label><label class="option-item"><input type="checkbox" name="traits" value="adventurous"><span class="option-text">喜欢挑战和冒险</span></label></div></div>
-                    <div class="question-card"><div class="question-header"><span class="question-number">Q9</span><span class="question-type">单选</span></div><p class="question-text">面对一个复杂问题时，您通常会？</p><div class="options-group"><label class="option-item"><input type="radio" name="problem_style" value="analyze" required><span class="option-text">先收集信息，理性分析后再行动</span></label><label class="option-item"><input type="radio" name="problem_style" value="intuition"><span class="option-text">相信直觉，快速决策</span></label><label class="option-item"><input type="radio" name="problem_style" value="consult"><span class="option-text">征求他人意见后综合判断</span></label><label class="option-item"><input type="radio" name="problem_style" value="trial"><span class="option-text">边做边调整，在实践中摸索</span></label></div></div>
-                    <div class="question-card"><div class="question-header"><span class="question-number">Q10</span><span class="question-type">单选</span></div><p class="question-text">您更喜欢哪种工作环境？</p><div class="options-group"><label class="option-item"><input type="radio" name="work_env" value="office" required><span class="option-text">安静独立的办公环境</span></label><label class="option-item"><input type="radio" name="work_env" value="team"><span class="option-text">活跃的团队协作氛围</span></label><label class="option-item"><input type="radio" name="work_env" value="outdoor"><span class="option-text">户外或经常外出的工作</span></label><label class="option-item"><input type="radio" name="work_env" value="flexible"><span class="option-text">灵活自由的工作方式</span></label></div></div>
-                    <div class="question-card"><div class="question-header"><span class="question-number">Q11</span><span class="question-type">单选</span></div><p class="question-text">关于压力承受能力，您认为自己？</p><div class="options-group"><label class="option-item"><input type="radio" name="stress" value="high" required><span class="option-text">抗压能力强，越有压力越有动力</span></label><label class="option-item"><input type="radio" name="stress" value="medium"><span class="option-text">能承受适度压力，需要调节</span></label><label class="option-item"><input type="radio" name="stress" value="low"><span class="option-text">倾向于稳定环境，不喜欢太大压力</span></label></div></div>
-                    <div class="question-card"><div class="question-header"><span class="question-number">Q12</span><span class="question-type multi">多选</span></div><p class="question-text">您课余时间喜欢做什么？（可多选）</p><div class="options-group options-multi"><label class="option-item"><input type="checkbox" name="hobbies" value="reading"><span class="option-text">阅读书籍/文章</span></label><label class="option-item"><input type="checkbox" name="hobbies" value="games"><span class="option-text">玩游戏/电竞</span></label><label class="option-item"><input type="checkbox" name="hobbies" value="sports"><span class="option-text">体育运动</span></label><label class="option-item"><input type="checkbox" name="hobbies" value="music"><span class="option-text">音乐/乐器</span></label><label class="option-item"><input type="checkbox" name="hobbies" value="art"><span class="option-text">绘画/设计</span></label><label class="option-item"><input type="checkbox" name="hobbies" value="coding"><span class="option-text">编程/电子制作</span></label><label class="option-item"><input type="checkbox" name="hobbies" value="social"><span class="option-text">社交/聚会</span></label><label class="option-item"><input type="checkbox" name="hobbies" value="video"><span class="option-text">看视频/追剧</span></label></div></div>
-                    <div class="section-nav"><button type="button" class="btn-prev" onclick="prevSection(2)">← 上一部分</button><button type="button" class="btn-next" onclick="nextSection(2)">下一部分 →</button></div>
-                </section>
-                <!-- 第三部分：学业能力 -->
-                                <section class="survey-section" id="section-3" style="display: none;">
-                                    <div class="section-header">
-                                        <span class="section-number">03</span>
-                                        <div><h3>学业能力</h3><p class="section-desc">评估您的学科优势和学习风格</p></div>
-                                    </div>
-                                    <div class="question-card"><div class="question-header"><span class="question-number">Q13</span><span class="question-type multi">多选</span></div><p class="question-text">您的优势学科有哪些？（可多选，选择成绩相对最好的）</p><div class="options-group options-multi"><label class="option-item"><input type="checkbox" name="strong_subjects" value="math"><span class="option-text">数学</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="chinese"><span class="option-text">语文</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="english"><span class="option-text">英语</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="physics"><span class="option-text">物理</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="chemistry"><span class="option-text">化学</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="biology"><span class="option-text">生物</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="history"><span class="option-text">历史</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="politics"><span class="option-text">政治</span></label><label class="option-item"><input type="checkbox" name="strong_subjects" value="geography"><span class="option-text">地理</span></label></div></div>
-                                    <div class="question-card"><div class="question-header"><span class="question-number">Q14</span><span class="question-type">单选</span></div><p class="question-text">对于数学的态度？</p><div class="options-group"><label class="option-item"><input type="radio" name="math_attitude" value="love" required><span class="option-text">非常喜欢，数学是强项</span></label><label class="option-item"><input type="radio" name="math_attitude" value="ok"><span class="option-text">还可以，能跟上</span></label><label class="option-item"><input type="radio" name="math_attitude" value="struggle"><span class="option-text">比较吃力，但能应付</span></label><label class="option-item"><input type="radio" name="math_attitude" value="dislike"><span class="option-text">非常头疼，希望大学避开</span></label></div></div>
-                                    <div class="question-card"><div class="question-header"><span class="question-number">Q15</span><span class="question-type">单选</span></div><p class="question-text">对于英语的态度？</p><div class="options-group"><label class="option-item"><input type="radio" name="english_attitude" value="excellent" required><span class="option-text">非常擅长，考虑出国或外语相关专业</span></label><label class="option-item"><input type="radio" name="english_attitude" value="good"><span class="option-text">比较好，阅读原版资料没问题</span></label><label class="option-item"><input type="radio" name="english_attitude" value="ok"><span class="option-text">一般水平，能应付考试</span></label><label class="option-item"><input type="radio" name="english_attitude" value="weak"><span class="option-text">相对薄弱，需要加强</span></label></div></div>
-                                    <div class="question-card"><div class="question-header"><span class="question-number">Q16</span><span class="question-type">单选</span></div><p class="question-text">您的学习方式偏向？</p><div class="options-group"><label class="option-item"><input type="radio" name="learn_style" value="self" required><span class="option-text">自学能力强，喜欢独立钻研</span></label><label class="option-item"><input type="radio" name="learn_style" value="guide"><span class="option-text">需要老师引导，跟着教学进度学</span></label><label class="option-item"><input type="radio" name="learn_style" value="discuss"><span class="option-text">喜欢讨论交流，在互动中学习</span></label><label class="option-item"><input type="radio" name="learn_style" value="practice"><span class="option-text">偏好实践，做中学效果最好</span></label></div></div>
-                                    <div class="question-card"><div class="question-header"><span class="question-number">Q17</span><span class="question-type">单选</span></div><p class="question-text">对于继续深造（读研/读博）的想法？</p><div class="options-group"><label class="option-item"><input type="radio" name="further_study" value="must" required><span class="option-text">一定会读研，甚至读博</span></label><label class="option-item"><input type="radio" name="further_study" value="likely"><span class="option-text">大概率会读研</span></label><label class="option-item"><input type="radio" name="further_study" value="maybe"><span class="option-text">看情况，不确定</span></label><label class="option-item"><input type="radio" name="further_study" value="unlikely"><span class="option-text">希望本科毕业就工作</span></label></div></div>
-                                    <div class="section-nav"><button type="button" class="btn-prev" onclick="prevSection(3)">← 上一部分</button><button type="button" class="btn-next" onclick="nextSection(3)">下一部分 →</button></div>
-                                </section>
-                                <!-- 第四部分：产业认知 -->
-                                                <section class="survey-section" id="section-4" style="display: none;">
-                                                    <div class="section-header">
-                                                        <span class="section-number">04</span>
-                                                        <div><h3>产业认知与兴趣</h3><p class="section-desc">了解您对不同行业的认知和兴趣</p></div>
-                                                    </div>
-                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q18</span><span class="question-type multi">多选</span></div><p class="question-text">以下哪些领域最吸引您？（可多选，最多5项）</p><div class="options-group options-multi"><label class="option-item"><input type="checkbox" name="interest_fields" value="ai"><span class="option-text">人工智能/大数据</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="chip"><span class="option-text">芯片/半导体</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="energy"><span class="option-text">新能源/环保</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="bio"><span class="option-text">生物医药/健康</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="finance"><span class="option-text">金融/投资</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="law"><span class="option-text">法律/政务</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="education"><span class="option-text">教育/培训</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="media"><span class="option-text">传媒/文化</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="design"><span class="option-text">设计/艺术</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="manufacture"><span class="option-text">智能制造/机器人</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="aerospace"><span class="option-text">航空航天</span></label><label class="option-item"><input type="checkbox" name="interest_fields" value="construction"><span class="option-text">建筑/城市规划</span></label></div></div>
-                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q19</span><span class="question-type">单选</span></div><p class="question-text">对于“热门专业”，您的看法是？</p><div class="options-group"><label class="option-item"><input type="radio" name="hot_major_view" value="follow" required><span class="option-text">应该追热门，就业有保障</span></label><label class="option-item"><input type="radio" name="hot_major_view" value="cautious"><span class="option-text">谨慎看待，热门可能四年后过剩</span></label><label class="option-item"><input type="radio" name="hot_major_view" value="interest"><span class="option-text">兴趣更重要，不盲目跟风</span></label><label class="option-item"><input type="radio" name="hot_major_view" value="unsure"><span class="option-text">不太了解，需要更多信息</span></label></div></div>
-                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q20</span><span class="question-type">单选</span></div><p class="question-text">您更倾向于哪类职业？</p><div class="options-group"><label class="option-item"><input type="radio" name="career_type" value="tech" required><span class="option-text">技术研发类（工程师、研究员）</span></label><label class="option-item"><input type="radio" name="career_type" value="business"><span class="option-text">商业管理类（管理者、创业者）</span></label><label class="option-item"><input type="radio" name="career_type" value="service"><span class="option-text">专业服务类（医生、律师、教师）</span></label><label class="option-item"><input type="radio" name="career_type" value="creative"><span class="option-text">创意文化类（设计师、艺术家、媒体人）</span></label><label class="option-item"><input type="radio" name="career_type" value="public"><span class="option-text">公共服务类（公务员、事业单位）</span></label></div></div>
-                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q21</span><span class="question-type">单选</span></div><p class="question-text">对于“传统行业转型”，您怎么看？</p><div class="options-group"><label class="option-item"><input type="radio" name="traditional_view" value="avoid" required><span class="option-text">尽量避开传统行业</span></label><label class="option-item"><input type="radio" name="traditional_view" value="transform"><span class="option-text">传统+新技术是好机会</span></label><label class="option-item"><input type="radio" name="traditional_view" value="stable"><span class="option-text">传统行业稳定，适合求稳的人</span></label><label class="option-item"><input type="radio" name="traditional_view" value="unsure"><span class="option-text">不太清楚，需要了解更多</span></label></div></div>
-                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q22</span><span class="question-type">单选</span></div><p class="question-text">您对国企/体制内工作的态度？</p><div class="options-group"><label class="option-item"><input type="radio" name="state_owned" value="prefer" required><span class="option-text">首选国企/体制内，稳定有保障</span></label><label class="option-item"><input type="radio" name="state_owned" value="ok"><span class="option-text">可以考虑，看具体机会</span></label><label class="option-item"><input type="radio" name="state_owned" value="private"><span class="option-text">更倾向民企/外企，发展空间大</span></label><label class="option-item"><input type="radio" name="state_owned" value="startup"><span class="option-text">想去创业公司或自己创业</span></label></div></div>
-                                                    <div class="section-nav"><button type="button" class="btn-prev" onclick="prevSection(4)">← 上一部分</button><button type="button" class="btn-next" onclick="nextSection(4)">下一部分 →</button></div>
-                                                </section>
-                                                <!-- 第五部分：城市偏好 -->
-                                                                <section class="survey-section" id="section-5" style="display: none;">
-                                                                    <div class="section-header">
-                                                                        <span class="section-number">05</span>
-                                                                        <div><h3>城市偏好</h3><p class="section-desc">了解您对未来生活城市的期望</p></div>
-                                                                    </div>
-                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q23</span><span class="question-type">单选</span></div><p class="question-text">您倾向于去哪种规模的城市读书和发展？</p><div class="options-group"><label class="option-item"><input type="radio" name="city_tier" value="mega" required><span class="option-text">超一线城市（北上广深）</span></label><label class="option-item"><input type="radio" name="city_tier" value="first"><span class="option-text">新一线城市（杭州、成都、武汉、南京等）</span></label><label class="option-item"><input type="radio" name="city_tier" value="second"><span class="option-text">二线城市（省会和发达地级市）</span></label><label class="option-item"><input type="radio" name="city_tier" value="home"><span class="option-text">离家近的城市，不想去太远</span></label><label class="option-item"><input type="radio" name="city_tier" value="any"><span class="option-text">无所谓，主要看学校和专业</span></label></div></div>
-                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q24</span><span class="question-type multi">多选</span></div><p class="question-text">选择城市时，您最看重哪些因素？（可多选，最多3项）</p><div class="options-group options-multi"><label class="option-item"><input type="checkbox" name="city_factors" value="job"><span class="option-text">就业机会多</span></label><label class="option-item"><input type="checkbox" name="city_factors" value="salary"><span class="option-text">薪资水平高</span></label><label class="option-item"><input type="checkbox" name="city_factors" value="cost"><span class="option-text">生活成本低</span></label><label class="option-item"><input type="checkbox" name="city_factors" value="hukou"><span class="option-text">落户政策友好</span></label><label class="option-item"><input type="checkbox" name="city_factors" value="climate"><span class="option-text">气候环境好</span></label><label class="option-item"><input type="checkbox" name="city_factors" value="culture"><span class="option-text">文化娱乐丰富</span></label><label class="option-item"><input type="checkbox" name="city_factors" value="home"><span class="option-text">离家近</span></label></div></div>
-                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q25</span><span class="question-type multi">多选</span></div><p class="question-text">您更倾向于哪个地区？（可多选）</p><div class="options-group options-multi"><label class="option-item"><input type="checkbox" name="region_pref" value="north"><span class="option-text">华北地区（北京、天津、河北等）</span></label><label class="option-item"><input type="checkbox" name="region_pref" value="east"><span class="option-text">华东地区（上海、江浙沪皖等）</span></label><label class="option-item"><input type="checkbox" name="region_pref" value="south"><span class="option-text">华南地区（广东、福建等）</span></label><label class="option-item"><input type="checkbox" name="region_pref" value="central"><span class="option-text">华中地区（湖北、湖南、河南等）</span></label><label class="option-item"><input type="checkbox" name="region_pref" value="west"><span class="option-text">西部地区（成都、重庆、西安等）</span></label><label class="option-item"><input type="checkbox" name="region_pref" value="northeast"><span class="option-text">东北地区</span></label></div></div>
-                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q26</span><span class="question-type">单选</span></div><p class="question-text">您能接受的最远距离（离家）？</p><div class="options-group"><label class="option-item"><input type="radio" name="distance" value="same_city" required><span class="option-text">希望在本市</span></label><label class="option-item"><input type="radio" name="distance" value="same_province"><span class="option-text">本省内即可</span></label><label class="option-item"><input type="radio" name="distance" value="nearby"><span class="option-text">周边省份可以接受</span></label><label class="option-item"><input type="radio" name="distance" value="anywhere"><span class="option-text">全国哪里都行</span></label></div></div>
-                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q27</span><span class="question-type">单选</span></div><p class="question-text">毕业后您计划在哪里发展？</p><div class="options-group"><label class="option-item"><input type="radio" name="future_location" value="study_city" required><span class="option-text">在读书的城市发展</span></label><label class="option-item"><input type="radio" name="future_location" value="hometown"><span class="option-text">回家乡发展</span></label><label class="option-item"><input type="radio" name="future_location" value="big_city"><span class="option-text">去一线大城市闯荡</span></label><label class="option-item"><input type="radio" name="future_location" value="flexible"><span class="option-text">看机会，灵活选择</span></label><label class="option-item"><input type="radio" name="future_location" value="abroad"><span class="option-text">考虑出国发展</span></label></div></div>
-                                                                    <div class="section-nav"><button type="button" class="btn-prev" onclick="prevSection(5)">← 上一部分</button><button type="button" class="btn-next" onclick="nextSection(5)">下一部分 →</button></div>
-                                                                </section>
-                                                                <!-- 第六部分：发展期望 -->
-                                                                                <section class="survey-section" id="section-6" style="display: none;">
-                                                                                    <div class="section-header">
-                                                                                        <span class="section-number">06</span>
-                                                                                        <div><h3>发展期望</h3><p class="section-desc">您对未来的规划和期望</p></div>
-                                                                                    </div>
-                                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q28</span><span class="question-type">单选</span></div><p class="question-text">您对薪资的期望（毕业5年后）？</p><div class="options-group"><label class="option-item"><input type="radio" name="salary_expect" value="very_high" required><span class="option-text">年薪50万以上，愿意付出更多努力</span></label><label class="option-item"><input type="radio" name="salary_expect" value="high"><span class="option-text">年薪30-50万，追求高薪</span></label><label class="option-item"><input type="radio" name="salary_expect" value="medium"><span class="option-text">年薪15-30万，体面生活即可</span></label><label class="option-item"><input type="radio" name="salary_expect" value="stable"><span class="option-text">收入稳定即可，不追求高薪</span></label></div></div>
-                                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q29</span><span class="question-type">单选</span></div><p class="question-text">工作与生活的平衡，您的态度是？</p><div class="options-group"><label class="option-item"><input type="radio" name="work_life" value="work" required><span class="option-text">事业为重，可以接受996</span></label><label class="option-item"><input type="radio" name="work_life" value="balance"><span class="option-text">追求平衡，工作生活两不误</span></label><label class="option-item"><input type="radio" name="work_life" value="life"><span class="option-text">生活优先，不愿意过度加班</span></label></div></div>
-                                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q30</span><span class="question-type">单选</span></div><p class="question-text">对于职业发展路径，您更倾向于？</p><div class="options-group"><label class="option-item"><input type="radio" name="career_path" value="specialist" required><span class="option-text">深耕专业领域，成为专家</span></label><label class="option-item"><input type="radio" name="career_path" value="manager"><span class="option-text">走管理路线，带团队做决策</span></label><label class="option-item"><input type="radio" name="career_path" value="entrepreneur"><span class="option-text">自主创业，打造自己的事业</span></label><label class="option-item"><input type="radio" name="career_path" value="flexible"><span class="option-text">灵活发展，顺势而为</span></label></div></div>
-                                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q31</span><span class="question-type">单选</span></div><p class="question-text">您对“铁饭碗”（稳定但发展受限的工作）怎么看？</p><div class="options-group"><label class="option-item"><input type="radio" name="iron_bowl" value="prefer" required><span class="option-text">非常向往，稳定最重要</span></label><label class="option-item"><input type="radio" name="iron_bowl" value="ok"><span class="option-text">可以考虑，作为备选</span></label><label class="option-item"><input type="radio" name="iron_bowl" value="dislike"><span class="option-text">不太喜欢，更追求发展空间</span></label><label class="option-item"><input type="radio" name="iron_bowl" value="reject"><span class="option-text">不考虑，宁愿冒险也要挑战</span></label></div></div>
-                                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q32</span><span class="question-type">单选</span></div><p class="question-text">您是否有留学/出国发展的计划？</p><div class="options-group"><label class="option-item"><input type="radio" name="abroad" value="yes" required><span class="option-text">计划出国留学深造</span></label><label class="option-item"><input type="radio" name="abroad" value="maybe"><span class="option-text">有这个想法，还在考虑</span></label><label class="option-item"><input type="radio" name="abroad" value="no"><span class="option-text">没有计划，打算国内发展</span></label></div></div>
-                                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q33</span><span class="question-type">单选</span></div><p class="question-text">您是否愿意转专业或跨领域发展？</p><div class="options-group"><label class="option-item"><input type="radio" name="cross_field" value="yes" required><span class="option-text">愿意，保持开放心态</span></label><label class="option-item"><input type="radio" name="cross_field" value="related"><span class="option-text">可以，但希望在相关领域</span></label><label class="option-item"><input type="radio" name="cross_field" value="no"><span class="option-text">不太愿意，希望专注一个方向</span></label></div></div>
-                                                                                    <div class="question-card"><div class="question-header"><span class="question-number">Q34</span><span class="question-type">单选</span></div><p class="question-text">完成问卷后，您最期待了解什么？</p><div class="options-group"><label class="option-item"><input type="radio" name="expect" value="major" required><span class="option-text">最适合我的专业推荐</span></label><label class="option-item"><input type="radio" name="expect" value="city"><span class="option-text">最适合我的城市推荐</span></label><label class="option-item"><input type="radio" name="expect" value="career"><span class="option-text">未来职业发展方向</span></label><label class="option-item"><input type="radio" name="expect" value="all"><span class="option-text">全面了解以上所有内容</span></label></div></div>
-                                                                                    <div class="section-nav"><button type="button" class="btn-prev" onclick="prevSection(6)">← 上一部分</button><button type="button" class="btn-submit" onclick="submitSurvey()">🎯 提交并生成报告</button></div>
-                                                                                </section>
-
-            </form>
-        </main>
-
-        <!-- 分析中页面 -->
-        <section class="analyzing-section" id="analyzing-section" style="display: none;">
-            <div class="analyzing-card">
-                <div class="analyzing-animation">
-                    <div class="circle-loader"></div>
-                </div>
-                <h2>正在生成您的专属报告...</h2>
-                <p class="analyzing-text" id="analyzing-text">分析个人特质画像</p>
-                <div class="analyzing-steps">
-                    <div class="a-step done" id="a-step-1">✓ 分析个人特质</div>
-                    <div class="a-step" id="a-step-2">○ 计算城市匹配度</div>
-                    <div class="a-step" id="a-step-3">○ 匹配专业方向</div>
-                    <div class="a-step" id="a-step-4">○ 生成职业建议</div>
-                    <div class="a-step" id="a-step-5">○ 绘制可视化图表</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 匹配报告页面 -->
-        <section class="report-section" id="report-section" style="display: none;">
-            <!-- 报告内容将在report.html中详细定义 -->
-        </section>
-
-        <!-- 管理统计面板 -->
-        <section class="admin-panel" id="admin-panel" style="display: none;">
-            <div class="admin-header">
-                <h2>📊 问卷统计面板</h2>
-                <button class="btn-close" onclick="toggleAdminPanel()">×</button>
-            </div>
-            <div class="admin-content">
-                <div class="stat-cards">
-                    <div class="stat-card">
-                        <div class="stat-icon">👥</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="stat-total">0</div>
-                            <div class="stat-label">总填写人数</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">✅</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="stat-complete">0</div>
-                            <div class="stat-label">完成人数</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">📈</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="stat-rate">0%</div>
-                            <div class="stat-label">完成率</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🕐</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="stat-today">0</div>
-                            <div class="stat-label">今日新增</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-row">
-                    <div class="chart-box">
-                        <h4>地区分布</h4>
-                        <canvas id="admin-region-chart"></canvas>
-                    </div>
-                    <div class="chart-box">
-                        <h4>成绩层次分布</h4>
-                        <canvas id="admin-score-chart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-row">
-                    <div class="chart-box">
-                        <h4>每日填写趋势</h4>
-                        <canvas id="admin-trend-chart"></canvas>
-                    </div>
-                    <div class="chart-box">
-                        <h4>热门专业倾向TOP10</h4>
-                        <canvas id="admin-major-chart"></canvas>
-                    </div>
-                </div>
-
-                <div class="admin-actions">
-                    <button class="btn-secondary" onclick="exportData()">导出数据</button>
-                    <button class="btn-secondary" onclick="refreshStats()">刷新统计</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 页脚 -->
-        <footer class="survey-footer">
-            <div class="footer-content">
-                <p>&copy; 2026 高考志愿智能匹配系统</p>
-                <p class="footer-note">本报告仅供参考，请结合实际情况综合决策</p>
-            </div>
+        
+        <footer class="footer">
+            <p>&copy; 2026 高考志愿填报指南 | 本站内容仅供参考，请结合实际情况综合决策</p>
         </footer>
     </div>
-
-    <script src="assets/js/survey.js"></script>
 </body>
 </html>
