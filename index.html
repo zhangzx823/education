@@ -14,207 +14,381 @@
         
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f7fa;
             min-height: 100vh;
-            padding: 20px;
+            color: #1a1a2e;
         }
         
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        /* 导航栏 - 咨询风格 */
+        .navbar {
+            background: #fff;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
-        .header {
-            text-align: center;
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1a1a2e;
+        }
+        
+        .nav-brand span {
+            font-size: 1.4em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #555;
+            text-decoration: none;
+            margin-left: 35px;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #667eea; }
+        
+        /* 核心测评横幅 */
+        .hero-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 50px;
+            margin: 30px 50px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+        
+        .hero-content {
+            flex: 1;
             color: white;
-            padding: 60px 20px;
         }
         
-        .header h1 {
-            font-size: 2.8em;
+        .hero-content h1 {
+            font-size: 2.2em;
+            font-weight: 700;
             margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            line-height: 1.3;
         }
         
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+        .hero-content p {
+            font-size: 1.1em;
+            opacity: 0.92;
+            margin-bottom: 25px;
+            line-height: 1.7;
         }
         
-        .cards {
+        .hero-features {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 25px;
+        }
+        
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .hero-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255,255,255,0.15);
+            padding: 20px 25px;
+            border-radius: 15px;
+        }
+        
+        .stat-item .num {
+            font-size: 2em;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .stat-item .label {
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.8);
+            margin-top: 5px;
+        }
+        
+        /* 主内容区 */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 50px 60px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        
+        .section-title p {
+            color: #666;
+            font-size: 1em;
+        }
+        
+        /* 功能卡片网格 */
+        .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-top: 40px;
         }
         
         .card {
             background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
-            display: block;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eef0f5;
         }
         
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            border-color: transparent;
         }
         
         .card-icon {
-            font-size: 4em;
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
             margin-bottom: 20px;
         }
         
-        .card h2 {
-            color: #333;
-            font-size: 1.5em;
-            margin-bottom: 15px;
+        .card-resources .card-icon { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+        .card-economy .card-icon { background: linear-gradient(135deg, #fce4ec, #f8bbd9); }
+        .card-knowledge .card-icon { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+        
+        .card h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a2e;
         }
         
         .card p {
             color: #666;
-            line-height: 1.8;
-            margin-bottom: 25px;
+            line-height: 1.7;
+            font-size: 0.95em;
+            flex: 1;
         }
         
-        .card-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .card-survey .card-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        
-        .card-survey:hover .card-btn {
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-        
-        .card-resources .card-btn {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            color: white;
-        }
-        
-        .card-resources:hover .card-btn {
-            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
-        }
-        
-        .card-economy .card-btn {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
-        }
-        
-        .card-economy:hover .card-btn {
-            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
-        }
-        
-        .card-knowledge .card-btn {
-            background: linear-gradient(135deg, #ff6b6b, #ffa500);
-            color: white;
-        }
-        
-        .card-knowledge:hover .card-btn {
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
-        }
-        
-        .features {
+        .card-tags {
             display: flex;
-            justify-content: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            margin-top: 15px;
+            margin-top: 20px;
         }
         
-        .feature-tag {
-            background: #f0f0f0;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.85em;
+        .tag {
+            background: #f5f7fa;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
             color: #555;
         }
         
-        .footer {
-            text-align: center;
-            color: white;
-            padding: 40px 20px;
-            opacity: 0.8;
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 20px;
+            color: #667eea;
+            font-weight: 500;
+            font-size: 0.95em;
         }
         
-        @media (max-width: 600px) {
-            .header h1 { font-size: 2em; }
-            .card { padding: 30px 20px; }
+        /* 页脚 */
+        .footer {
+            background: #1a1a2e;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .footer p { font-size: 0.9em; }
+        .footer-note { margin-top: 10px; font-size: 0.8em; opacity: 0.6; }
+        
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+                margin: 20px;
+                padding: 40px 30px;
+            }
+            .hero-features { justify-content: center; flex-wrap: wrap; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .main-container { padding: 30px 20px; }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 20px; }
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 1.6em; }
+            .hero-stats { flex-wrap: wrap; justify-content: center; }
+            .stat-item { padding: 15px 20px; }
+            .stat-item .num { font-size: 1.5em; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>🎓 2026高考志愿填报指南</h1>
-            <p>科学规划，智慧选择，开启理想未来</p>
-        </header>
-        
-        <div class="cards">
-            <a href="survey.html" class="card card-survey">
-                <div class="card-icon">📋</div>
-                <h2>智能匹配测评</h2>
-                <p>基于多维度特质分析，为您匹配最适合的专业方向、理想城市，并生成个性化职业发展建议报告。</p>
-                <div class="features">
-                    <span class="feature-tag">🎯 专业匹配</span>
-                    <span class="feature-tag">🏙️ 城市推荐</span>
-                    <span class="feature-tag">📊 可视化报告</span>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            🎓 <span>2026高考志愿指南</span>
+        </a>
+        <div class="nav-links">
+            <a href="survey.html">匹配测评</a>
+            <a href="resources.html">资料库</a>
+            <a href="economy.html">经济分析</a>
+            <a href="knowledge.html">知识学习</a>
+        </div>
+    </nav>
+    
+    <!-- 核心测评横幅 -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>🎯 专业·院校·城市 匹配度测评</h1>
+            <p>基于多维度特质分析的智能匹配系统，为您精准推荐最适合的专业方向、发展城市和目标院校，并生成个性化分析报告。</p>
+            <div class="hero-features">
+                <div class="hero-feature">📊 个性特质分析</div>
+                <div class="hero-feature">🎓 专业方向匹配</div>
+                <div class="hero-feature">🏙️ 城市发展建议</div>
+            </div>
+            <a href="survey.html" class="hero-btn">开始测评 <span>→</span></a>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="num">34</div>
+                    <div class="label">测评题目</div>
                 </div>
-                <div class="card-btn" style="margin-top: 20px;">开始测评 →</div>
-            </a>
-            
+                <div class="stat-item">
+                    <div class="num">8min</div>
+                    <div class="label">预计用时</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">AI</div>
+                    <div class="label">智能分析</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主内容区 -->
+    <main class="main-container">
+        <div class="section-title">
+            <h2>全方位志愿填报支持</h2>
+            <p>提供数据、知识、工具三位一体的志愿填报解决方案</p>
+        </div>
+        
+        <div class="cards-grid">
             <a href="resources.html" class="card card-resources">
                 <div class="card-icon">📚</div>
-                <h2>志愿填报资料库</h2>
+                <h3>志愿填报资料库</h3>
                 <p>精选权威、可靠的志愿填报资源，包括官方政策、院校信息、专业解读、填报技巧等实用资料。</p>
-                <div class="features">
-                    <span class="feature-tag">🔗 官方链接</span>
-                    <span class="feature-tag">📖 专业解读</span>
-                    <span class="feature-tag">💡 填报技巧</span>
+                <div class="card-tags">
+                    <span class="tag">🔗 官方链接</span>
+                    <span class="tag">📖 专业解读</span>
+                    <span class="tag">💡 填报技巧</span>
                 </div>
-                <div class="card-btn" style="margin-top: 20px;">查看资料 →</div>
+                <span class="card-link">查看资料 →</span>
             </a>
             
             <a href="economy.html" class="card card-economy">
-                <div class="card-icon">📊</div>
-                <h2>区域经济分析</h2>
+                <div class="card-icon">📈</div>
+                <h3>区域经济分析</h3>
                 <p>以经济学视角深度剖析全国各省市产业特色、行业发展趋势与岗位需求，助力科学选择发展城市。</p>
-                <div class="features">
-                    <span class="feature-tag">🏢 产业分布</span>
-                    <span class="feature-tag">💼 岗位分析</span>
-                    <span class="feature-tag">📈 权威数据</span>
+                <div class="card-tags">
+                    <span class="tag">🏢 产业分布</span>
+                    <span class="tag">💼 岗位分析</span>
+                    <span class="tag">📈 权威数据</span>
                 </div>
-                <div class="card-btn" style="margin-top: 20px;">查看分析 →</div>
+                <span class="card-link">查看分析 →</span>
             </a>
             
             <a href="knowledge.html" class="card card-knowledge">
-                <div class="card-icon">📚</div>
-                <h2>志愿填报必备知识</h2>
+                <div class="card-icon">💡</div>
+                <h3>志愿填报必备知识</h3>
                 <p>了解产业发展趋势、专业门类特点、填报技巧要点，为志愿选择提供知识储备。</p>
-                <div class="features">
-                    <span class="feature-tag">🚀 产业趋势</span>
-                    <span class="feature-tag">🎓 专业解读</span>
-                    <span class="feature-tag">💡 填报技巧</span>
+                <div class="card-tags">
+                    <span class="tag">🚀 产业趋势</span>
+                    <span class="tag">🎓 专业解读</span>
+                    <span class="tag">💡 填报技巧</span>
                 </div>
-                <div class="card-btn" style="margin-top: 20px;">开始学习 →</div>
+                <span class="card-link">开始学习 →</span>
             </a>
         </div>
-        
-        <footer class="footer">
-            <p>&copy; 2026 高考志愿填报指南 | 本站内容仅供参考，请结合实际情况综合决策</p>
-        </footer>
-    </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>&copy; 2026 高考志愿填报指南</p>
+        <p class="footer-note">本站内容仅供参考，请结合实际情况综合决策</p>
+    </footer>
 </body>
 </html>

@@ -1108,6 +1108,209 @@ body {
 .survey-footer p { font-size: 0.85rem; margin-bottom: 8px; }
 .footer-note { font-size: 0.8rem; opacity: 0.7; }
 
+/* ==================== 增强报告样式 ==================== */
+.highlight-card {
+    border: 2px solid var(--primary-color);
+    background: linear-gradient(135deg, #f8faff, #fff);
+}
+
+.match-overview {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.overview-summary { padding: 20px; }
+.overview-summary > p { color: var(--text-secondary); margin-bottom: 15px; }
+
+.top-match {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.match-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-radius: var(--radius-md);
+    color: white;
+}
+.match-label { font-size: 0.8rem; opacity: 0.9; }
+.match-value { font-size: 1.3rem; font-weight: 700; margin: 5px 0; }
+.match-score { font-size: 1.1rem; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 20px; }
+
+.match-connector { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; }
+
+.logic-explain {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 25px;
+}
+.logic-explain h4 { margin-bottom: 15px; color: var(--primary-color); }
+
+.logic-flow { display: flex; flex-direction: column; gap: 15px; }
+
+.logic-step {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+.logic-step .step-num {
+    min-width: 28px;
+    height: 28px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.logic-step .step-content strong { display: block; font-size: 0.95rem; margin-bottom: 4px; }
+.logic-step .step-content p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* 专业详细列表 */
+.major-detail-list { display: flex; flex-direction: column; gap: 15px; }
+.major-detail-item {
+    display: flex;
+    gap: 15px;
+    padding: 18px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+.major-detail-item:hover { background: var(--primary-light); }
+
+.major-rank-badge {
+    min-width: 36px;
+    height: 36px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+.major-rank-badge.rank-1 { background: linear-gradient(135deg, #ffd700, #ffa500); }
+.major-rank-badge.rank-2 { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); }
+.major-rank-badge.rank-3 { background: linear-gradient(135deg, #cd7f32, #b87333); }
+
+.major-main { flex: 1; }
+.major-name-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.major-name { font-weight: 600; font-size: 1.05rem; }
+.major-category-tag {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    background: var(--primary-light);
+    color: var(--primary-color);
+    border-radius: 4px;
+}
+.major-score-badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-left: auto;
+}
+
+.major-reasons, .city-reasons { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.reasons-label { font-size: 0.8rem; color: var(--text-secondary); }
+.reason-tag {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    background: #e3f2fd;
+    color: #1565c0;
+    border-radius: 4px;
+}
+
+/* 城市详细列表 */
+.city-detail-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.city-detail-item {
+    display: flex;
+    gap: 15px;
+    padding: 18px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+.city-rank-badge {
+    min-width: 36px;
+    height: 36px;
+    background: var(--secondary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+.city-rank-badge.rank-1 { background: linear-gradient(135deg, #ffd700, #ffa500); }
+.city-rank-badge.rank-2 { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); }
+.city-rank-badge.rank-3 { background: linear-gradient(135deg, #cd7f32, #b87333); }
+
+.city-main { flex: 1; }
+.city-name-line { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.city-name { font-weight: 600; font-size: 1.05rem; }
+.city-score-badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+.city-tags { margin-bottom: 8px; }
+.city-ind-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+/* 院校推荐 */
+.school-intro {
+    background: var(--primary-light);
+    padding: 15px 20px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+}
+.school-intro p { font-size: 0.9rem; color: var(--text-secondary); }
+
+.school-list { display: flex; flex-direction: column; gap: 15px; }
+.school-item {
+    padding: 18px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--primary-color);
+}
+.school-info { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.school-name { font-weight: 600; font-size: 1.05rem; }
+.school-level {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    background: #fff3e0;
+    color: #e65100;
+    border-radius: 4px;
+}
+.school-location { font-size: 0.85rem; color: var(--text-secondary); }
+.school-major { margin-bottom: 8px; }
+.major-strength { font-size: 0.85rem; color: var(--primary-color); }
+.school-reason { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
+.school-note {
+    margin-top: 15px;
+    padding: 12px 15px;
+    background: #fff8e1;
+    border-radius: var(--radius-sm);
+}
+.school-note p { font-size: 0.85rem; color: #f57c00; }
+
 /* ==================== Toast ==================== */
 #toast {
     position: fixed;

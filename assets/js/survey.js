@@ -456,108 +456,169 @@ function showAnalyzingPage() {
 // ==================== 匹配算法 ====================
 function calculateCityMatch(responses) {
     const scores = {};
-    const factors = responses.city_factor || [];
-    const citySize = responses.city_size;
-    const income = responses.family_income;
-    const settle = responses.settle_plan;
-    const location = responses.city_location;
+    const matchDetails = {}; // 存储匹配细节
+    const factors = responses.city_factors || []; // 修复字段名
+    const cityTier = responses.city_tier; // 修复字段名
+    const regionPref = responses.region_pref || []; // 修复字段名
+    const futureLocation = responses.future_location;
+    const distance = responses.distance;
+    const workLife = responses.work_life;
+    const salaryExpect = responses.salary_expect;
     
     Object.entries(CITIES).forEach(([key, city]) => {
-        let score = 50;
+        let score = 40;
+        const reasons = [];
         
         // 城市规模匹配
-        if (citySize === 'mega' && city.tier === 'mega') score += 15;
-        else if (citySize === 'large' && (city.tier === 'large' || city.tier === 'mega')) score += 12;
-        else if (citySize === 'medium' && city.tier !== 'mega') score += 10;
-        else if (citySize === 'any') score += 8;
+        if (cityTier === 'mega' && city.tier === 'mega') {
+            score += 18; reasons.push('符合您对超一线城市的偏好');
+        } else if (cityTier === 'first' && city.tier === 'large') {
+            score += 16; reasons.push('符合您对新一线城市的偏好');
+        } else if (cityTier === 'second' && city.tier === 'medium') {
+            score += 14; reasons.push('符合您对二线城市的偏好');
+        } else if (cityTier === 'any') {
+            score += 10; reasons.push('城市规模匹配度较好');
+        }
         
-        // 因素权重
-        if (factors.includes('job')) score += city.jobScore * 0.3;
-        if (factors.includes('salary')) score += city.salaryScore * 0.25;
-        if (factors.includes('cost')) score += city.costScore * 0.2;
-        if (factors.includes('hukou')) score += city.hukouScore * 0.15;
-        if (factors.includes('climate')) score += city.climateScore * 0.1;
-        if (factors.includes('culture')) score += city.cultureScore * 0.1;
+        // 区域偏好匹配
+        const regionMap = { north: 'north', east: 'east', south: 'south', central: 'central', west: 'west', northeast: 'north' };
+        if (regionPref.length > 0) {
+            if (regionPref.includes(city.region) || regionPref.some(r => regionMap[r] === city.region)) {
+                score += 15; reasons.push('位于您偏好的地区');
+            }
+        }
         
-        // 经济条件
-        if (income === 'low' && city.costScore < 50) score -= 15;
-        if (income === 'high' && city.tier === 'mega') score += 10;
+        // 城市因素权重
+        if (factors.includes('job')) { score += city.jobScore * 0.25; if (city.jobScore > 70) reasons.push('就业机会丰富'); }
+        if (factors.includes('salary')) { score += city.salaryScore * 0.22; if (city.salaryScore > 70) reasons.push('薪资水平较高'); }
+        if (factors.includes('cost')) { score += city.costScore * 0.18; if (city.costScore > 60) reasons.push('生活成本相对低'); }
+        if (factors.includes('hukou')) { score += city.hukouScore * 0.15; if (city.hukouScore > 65) reasons.push('落户政策友好'); }
+        if (factors.includes('climate')) { score += city.climateScore * 0.1; if (city.climateScore > 70) reasons.push('气候环境宜居'); }
+        if (factors.includes('culture')) { score += city.cultureScore * 0.1; if (city.cultureScore > 75) reasons.push('文化娱乐丰富'); }
         
-        // 地理偏好
-        if (location === 'coastal' && ['east', 'south'].includes(city.region)) score += 10;
+        // 薪资期望匹配
+        if (salaryExpect === 'very_high' || salaryExpect === 'high') {
+            if (city.tier === 'mega') { score += 12; reasons.push('高薪机会更多'); }
+        } else if (salaryExpect === 'stable') {
+            if (city.costScore > 60) { score += 8; reasons.push('性价比高'); }
+        }
         
-        // 发展意向
-        if (settle === 'tier1' && city.tier === 'mega') score += 12;
+        // 工作生活平衡
+        if (workLife === 'life' && city.tier !== 'mega') {
+            score += 8; reasons.push('生活节奏相对较慢');
+        }
         
-        scores[key] = Math.min(99, Math.max(50, Math.round(score)));
+        scores[key] = Math.min(99, Math.max(35, Math.round(score)));
+        matchDetails[key] = reasons.slice(0, 4);
     });
     
     return Object.entries(scores)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5)
-        .map(([key, score]) => ({ key, ...CITIES[key], score }));
+        .map(([key, score]) => ({ key, ...CITIES[key], score, reasons: matchDetails[key] }));
 }
 
 function calculateMajorMatch(responses) {
     const scores = {};
+    const matchDetails = {};
     const personality = responses.personality || [];
     const interests = responses.interest || [];
     const strongSubjects = responses.strong_subject || [];
-    const futureIndustry = responses.future_industry || [];
+    const interestFields = responses.interest_fields || []; // 产业兴趣
+    const careerType = responses.career_type; // 职业类型
     const subject = responses.subject || '';
     const furtherStudy = responses.further_study;
-    const careerDir = responses.career_dir;
+    const mathAttitude = responses.math_attitude;
     
     const canScience = ['phy_chem_bio', 'phy_chem_x', 'phy_x_x', 'old_science'].includes(subject);
     
     Object.entries(MAJORS).forEach(([key, major]) => {
-        let score = 40;
+        let score = 35;
+        const reasons = [];
         
         // 选科限制
         if (['工学', '理学', '医学'].includes(major.category) && !canScience) {
             score -= 25;
+            reasons.push('※ 选科可能不符合要求');
         }
         
         // 性格匹配
+        let personalityMatch = 0;
         major.traits.forEach(trait => {
-            if (personality.includes(trait)) score += 12;
+            if (personality.includes(trait)) {
+                personalityMatch++;
+                score += 10;
+            }
         });
+        if (personalityMatch > 0) reasons.push(`性格特质匹配(${personalityMatch}项)`);
         
         // 兴趣匹配
+        let interestMatch = 0;
         major.interests.forEach(int => {
-            if (interests.includes(int)) score += 10;
+            if (interests.includes(int)) {
+                interestMatch++;
+                score += 8;
+            }
         });
+        if (interestMatch > 0) reasons.push(`兴趣方向匹配(${interestMatch}项)`);
         
         // 学科优势
+        let subjectMatch = 0;
         major.subjects.forEach(subj => {
-            if (strongSubjects.includes(subj)) score += 8;
+            if (strongSubjects.includes(subj)) {
+                subjectMatch++;
+                score += 7;
+            }
         });
+        if (subjectMatch > 0) reasons.push(`学科优势匹配(${subjectMatch}项)`);
         
-        // 产业兴趣
-        major.industries.forEach(ind => {
-            if (futureIndustry.includes(ind)) score += 6;
+        // 产业兴趣匹配
+        const fieldMap = { ai: ['ai'], chip: ['chip'], energy: ['new_energy', 'ev'], bio: ['biotech', 'healthcare'], 
+            finance: ['fintech'], law: [], education: [], media: ['digital'], design: ['digital'], 
+            manufacture: ['robot'], aerospace: ['aerospace'], construction: [] };
+        let fieldMatch = 0;
+        interestFields.forEach(field => {
+            if (fieldMap[field] && major.industries.some(ind => fieldMap[field].includes(ind))) {
+                fieldMatch++;
+                score += 6;
+            }
         });
+        if (fieldMatch > 0) reasons.push(`产业兴趣匹配`);
+        
+        // 职业类型匹配
+        if (careerType === 'tech' && major.category === '工学') { score += 10; reasons.push('符合技术研发方向'); }
+        if (careerType === 'service' && ['医学', '法学', '教育学'].includes(major.category)) { score += 10; reasons.push('符合专业服务方向'); }
+        if (careerType === 'business' && ['经济学', '管理学'].includes(major.category)) { score += 10; reasons.push('符合商业管理方向'); }
+        if (careerType === 'creative' && ['艺术学', '文学'].includes(major.category)) { score += 10; reasons.push('符合创意文化方向'); }
+        if (careerType === 'public' && ['法学', '管理学'].includes(major.category)) { score += 8; reasons.push('符合公共服务方向'); }
         
         // 深造规划
-        if (furtherStudy === 'must' && ['理学', '医学'].includes(major.category)) score += 8;
-        if (furtherStudy === 'work' && major.category === '工学') score += 5;
+        if (furtherStudy === 'must' && ['理学', '医学'].includes(major.category)) {
+            score += 8; reasons.push('适合深造发展');
+        }
+        if (furtherStudy === 'unlikely' && major.category === '工学') {
+            score += 5; reasons.push('本科就业较好');
+        }
         
-        // 就业方向
-        if (careerDir === 'civil' && ['法学', '管理学', '文学'].includes(major.category)) score += 8;
-        if (careerDir === 'academic' && ['理学', '医学'].includes(major.category)) score += 10;
-        if (careerDir === 'big_corp' && major.category === '工学') score += 8;
-        if (careerDir === 'professional' && ['临床医学', '法学', '会计学'].includes(major.name)) score += 12;
+        // 数学态度
+        if (mathAttitude === 'love' && major.subjects.includes('math')) {
+            score += 6; reasons.push('数学能力匹配');
+        }
+        if (mathAttitude === 'dislike' && major.subjects.includes('math')) {
+            score -= 8;
+        }
         
         // 热度加成
-        score += major.heat * 2;
+        score += major.heat * 1.5;
         
-        scores[key] = Math.min(99, Math.max(30, Math.round(score)));
+        scores[key] = Math.min(99, Math.max(25, Math.round(score)));
+        matchDetails[key] = reasons.slice(0, 4);
     });
     
     return Object.entries(scores)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
-        .map(([key, score]) => ({ key, ...MAJORS[key], score }));
+        .map(([key, score]) => ({ key, ...MAJORS[key], score, reasons: matchDetails[key] }));
 }
 
 function analyzeProfile(responses) {
@@ -640,13 +701,67 @@ function generateReport(responses) {
 
 function generateReportHTML(profile, cities, majors, responses) {
     const time = new Date().toLocaleString('zh-CN');
+    const topCity = cities[0];
+    const topMajor = majors[0];
+    
+    // 生成院校推荐（基于专业+城市）
+    const schools = generateSchoolRecommendations(topMajor, cities, responses);
     
     return `
     <div class="report-container">
         <div class="report-header">
-            <h2>🎯 您的专属匹配分析报告</h2>
+            <h2>🎯 专业·院校·城市 匹配分析报告</h2>
             <p>基于您的特质、偏好与发展期望生成</p>
             <div class="report-time">生成时间：${time}</div>
+        </div>
+        
+        <!-- 综合匹配概览 -->
+        <div class="report-card highlight-card">
+            <div class="card-header"><h3>💡 综合匹配概览</h3></div>
+            <div class="match-overview">
+                <div class="overview-summary">
+                    <p>根据您的测评结果，我们为您推荐：</p>
+                    <div class="top-match">
+                        <div class="match-item">
+                            <span class="match-label">最佳专业</span>
+                            <span class="match-value">${topMajor.name}</span>
+                            <span class="match-score">${topMajor.score}%</span>
+                        </div>
+                        <div class="match-connector">→</div>
+                        <div class="match-item">
+                            <span class="match-label">最佳城市</span>
+                            <span class="match-value">${topCity.name}</span>
+                            <span class="match-score">${topCity.score}%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="logic-explain">
+                    <h4>🔍 匹配逻辑说明</h4>
+                    <div class="logic-flow">
+                        <div class="logic-step">
+                            <span class="step-num">1</span>
+                            <div class="step-content">
+                                <strong>性格特质分析</strong>
+                                <p>您的核心特质为「${profile.tags.join('/')}型」，${profile.summary.slice(0, 50)}...</p>
+                            </div>
+                        </div>
+                        <div class="logic-step">
+                            <span class="step-num">2</span>
+                            <div class="step-content">
+                                <strong>专业方向匹配</strong>
+                                <p>基于性格+兴趣+学科优势，「${topMajor.name}」匹配度最高（${topMajor.reasons.slice(0,2).join('、')}）</p>
+                            </div>
+                        </div>
+                        <div class="logic-step">
+                            <span class="step-num">3</span>
+                            <div class="step-content">
+                                <strong>城市发展匹配</strong>
+                                <p>结合您的城市偏好和${topMajor.name}产业分布，「${topCity.name}」最为适合（${topCity.reasons.slice(0,2).join('、')}）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- 个人特质画像 -->
@@ -667,51 +782,88 @@ function generateReportHTML(profile, cities, majors, responses) {
             </div>
         </div>
         
-        <!-- 城市匹配 -->
+        <!-- 专业匹配（含分析逻辑） -->
         <div class="report-card">
             <div class="card-header">
-                <h3>🏙️ 城市匹配推荐 TOP 5</h3>
-                <p class="card-subtitle">根据您的偏好与发展期望匹配</p>
+                <h3>🎓 专业匹配推荐 TOP 5</h3>
+                <p class="card-subtitle">根据您的特质、兴趣与能力匹配</p>
             </div>
-            <div class="city-chart-container"><canvas id="city-chart" height="200"></canvas></div>
-            <div class="city-list">
-                ${cities.map((city, i) => `
-                <div class="city-item">
-                    <div class="city-rank rank-${i+1}">${i+1}</div>
-                    <div class="city-info">
-                        <div class="city-name">${city.name}</div>
-                        <div class="city-tags">
-                            ${city.industries.slice(0,3).map(ind => `<span class="city-tag">${getIndustryName(ind)}</span>`).join('')}
+            <div class="major-chart-container"><canvas id="major-chart" height="200"></canvas></div>
+            <div class="major-detail-list">
+                ${majors.slice(0, 5).map((major, i) => `
+                <div class="major-detail-item">
+                    <div class="major-rank-badge rank-${i+1}">${i+1}</div>
+                    <div class="major-main">
+                        <div class="major-name-line">
+                            <span class="major-name">${major.name}</span>
+                            <span class="major-category-tag">${major.category}</span>
+                            <span class="major-score-badge">${major.score}%</span>
                         </div>
-                    </div>
-                    <div class="city-score">
-                        <div class="score-value">${city.score}</div>
-                        <div class="score-label">匹配度</div>
-                        <div class="score-bar"><div class="score-fill" style="width:${city.score}%"></div></div>
+                        <div class="major-reasons">
+                            <span class="reasons-label">匹配原因：</span>
+                            ${major.reasons.map(r => `<span class="reason-tag">${r}</span>`).join('')}
+                        </div>
                     </div>
                 </div>
                 `).join('')}
             </div>
         </div>
         
-        <!-- 专业匹配 -->
+        <!-- 城市匹配（含分析逻辑） -->
         <div class="report-card">
             <div class="card-header">
-                <h3>🎓 专业匹配推荐 TOP 10</h3>
-                <p class="card-subtitle">根据您的特质、兴趣与能力匹配</p>
+                <h3>🏙️ 城市匹配推荐 TOP 5</h3>
+                <p class="card-subtitle">结合您的偏好与专业发展方向匹配</p>
             </div>
-            <div class="major-chart-container"><canvas id="major-chart" height="250"></canvas></div>
-            <div class="major-list">
-                ${majors.map((major, i) => `
-                <div class="major-item">
-                    <div class="major-rank">${i+1}</div>
-                    <div class="major-info">
-                        <div class="major-name">${major.name}</div>
-                        <div class="major-category">${major.category}</div>
+            <div class="city-chart-container"><canvas id="city-chart" height="180"></canvas></div>
+            <div class="city-detail-list">
+                ${cities.map((city, i) => `
+                <div class="city-detail-item">
+                    <div class="city-rank-badge rank-${i+1}">${i+1}</div>
+                    <div class="city-main">
+                        <div class="city-name-line">
+                            <span class="city-name">${city.name}</span>
+                            <span class="city-score-badge">${city.score}%</span>
+                        </div>
+                        <div class="city-tags">
+                            ${city.industries.slice(0,3).map(ind => `<span class="city-ind-tag">${getIndustryName(ind)}</span>`).join('')}
+                        </div>
+                        <div class="city-reasons">
+                            <span class="reasons-label">推荐原因：</span>
+                            ${city.reasons.map(r => `<span class="reason-tag">${r}</span>`).join('')}
+                        </div>
                     </div>
-                    <div class="major-match">${major.score}%</div>
                 </div>
                 `).join('')}
+            </div>
+        </div>
+        
+        <!-- 院校推荐（关联专业+城市） -->
+        <div class="report-card">
+            <div class="card-header">
+                <h3>🏛️ 院校推荐参考</h3>
+                <p class="card-subtitle">基于「${topMajor.name}」专业与推荐城市综合匹配</p>
+            </div>
+            <div class="school-intro">
+                <p>💡 <strong>推荐逻辑：</strong>以下院校在「${topMajor.name}」专业领域实力较强，且位于或邻近您的推荐城市，毕业后可直接在当地发展</p>
+            </div>
+            <div class="school-list">
+                ${schools.map(school => `
+                <div class="school-item">
+                    <div class="school-info">
+                        <span class="school-name">${school.name}</span>
+                        <span class="school-level">${school.level}</span>
+                        <span class="school-location">📍 ${school.city}</span>
+                    </div>
+                    <div class="school-major">
+                        <span class="major-strength">🎯 ${topMajor.name}学科评估：${school.rank}</span>
+                    </div>
+                    <div class="school-reason">${school.reason}</div>
+                </div>
+                `).join('')}
+            </div>
+            <div class="school-note">
+                <p>⚠️ 以上为参考建议，实际填报请结合您的高考分数、报考条件、当年招生计划综合决策</p>
             </div>
         </div>
         
@@ -735,10 +887,70 @@ function generateReportHTML(profile, cities, majors, responses) {
         <div class="report-actions">
             <button class="btn-secondary" onclick="restartSurvey()">重新测评</button>
             <button class="btn-primary" onclick="window.print()">打印/保存报告</button>
-            <button class="btn-primary" onclick="shareReport()">分享报告</button>
         </div>
     </div>
     `;
+}
+
+// 生成院校推荐
+function generateSchoolRecommendations(topMajor, cities, responses) {
+    const scoreLevel = responses.score_level;
+    const topCities = cities.slice(0, 3).map(c => c.name);
+    
+    // 根据专业和城市生成院校推荐
+    const schoolDB = {
+        '计算机科学与技术': [
+            { name: '清华大学', city: '北京', level: '985', rank: 'A+', reason: '计算机学科全国第一，人工智能领域领先' },
+            { name: '北京大学', city: '北京', level: '985', rank: 'A+', reason: '理论计算机科学实力雄厚' },
+            { name: '浙江大学', city: '杭州', level: '985', rank: 'A+', reason: '互联网产业资源丰富，就业前景好' },
+            { name: '上海交通大学', city: '上海', level: '985', rank: 'A', reason: '地处上海，金融科技就业机会多' },
+            { name: '南京大学', city: '南京', level: '985', rank: 'A', reason: '计算机学科实力强，江苏就业资源丰富' },
+            { name: '南京邮电大学', city: '南京', level: '双一流', rank: 'B+', reason: '信息类特色校，通信行业认可度高' },
+            { name: '华南理工大学', city: '广州', level: '985', rank: 'A', reason: '华南地区就业极佳，互联网大厂招聘多' }
+        ],
+        '软件工程': [
+            { name: '北京航空航天大学', city: '北京', level: '985', rank: 'A+', reason: '软件工程全国顶尖，就业率高' },
+            { name: '华东师范大学', city: '上海', level: '985', rank: 'A', reason: '上海地区就业便利，教育技术特色' },
+            { name: '大连理工大学', city: '大连', level: '985', rank: 'A', reason: '软件学院全国知名，日企合作资源多' }
+        ],
+        '人工智能': [
+            { name: '中国科学技术大学', city: '合肥', level: '985', rank: 'A+', reason: 'AI研究全国领先，中科院资源' },
+            { name: '西安电子科技大学', city: '西安', level: '双一流', rank: 'A', reason: 'AI专业开设早，学科实力强' }
+        ],
+        '临床医学': [
+            { name: '北京协和医学院', city: '北京', level: '985', rank: 'A+', reason: '医学界最高学府，就业前景极佳' },
+            { name: '复旦大学', city: '上海', level: '985', rank: 'A', reason: '上海医学院实力强，附属医院多' },
+            { name: '中山大学', city: '广州', level: '985', rank: 'A', reason: '华南医学领导者，就业前景好' }
+        ],
+        '金融学': [
+            { name: '上海财经大学', city: '上海', level: '双一流', rank: 'A', reason: '金融专业顶尖，上海金融中心就业极佳' },
+            { name: '中央财经大学', city: '北京', level: '双一流', rank: 'A', reason: '财经类顶尖高校，银行证券就业率高' },
+            { name: '西南财经大学', city: '成都', level: '双一流', rank: 'A-', reason: '西部金融领导者，性价比高' }
+        ],
+        '法学': [
+            { name: '中国政法大学', city: '北京', level: '双一流', rank: 'A+', reason: '法学第一学府，法律行业认可度最高' },
+            { name: '华东政法大学', city: '上海', level: '双一流', rank: 'A', reason: '上海法律市场巨大，就业资源丰富' }
+        ]
+    };
+    
+    // 默认推荐
+    const defaultSchools = [
+        { name: '清华大学', city: '北京', level: '985', rank: 'A+', reason: '综合实力全国顶尖，各专业均强' },
+        { name: '复旦大学', city: '上海', level: '985', rank: 'A', reason: '综合性名校，上海就业资源丰富' },
+        { name: '武汉大学', city: '武汉', level: '985', rank: 'A', reason: '学科门类齐全，性价比高' },
+        { name: '中山大学', city: '广州', level: '985', rank: 'A', reason: '华南顶级学府，广东就业极佳' }
+    ];
+    
+    let schools = schoolDB[topMajor.name] || defaultSchools;
+    
+    // 根据推荐城市进行排序优先
+    schools = schools.sort((a, b) => {
+        const aInTop = topCities.includes(a.city) ? 1 : 0;
+        const bInTop = topCities.includes(b.city) ? 1 : 0;
+        return bInTop - aInTop;
+    });
+    
+    return schools.slice(0, 4);
 }
 
 function getIndustryName(key) {
@@ -879,14 +1091,15 @@ function drawMajorChart(majors) {
     const canvas = document.getElementById('major-chart');
     if (!canvas) return;
     
+    const top5 = majors.slice(0, 5);
     new Chart(canvas, {
         type: 'bar',
         data: {
-            labels: majors.map(m => m.name),
+            labels: top5.map(m => m.name),
             datasets: [{
                 label: '匹配度',
-                data: majors.map(m => m.score),
-                backgroundColor: '#34a853',
+                data: top5.map(m => m.score),
+                backgroundColor: ['#ffd700', '#c0c0c0', '#cd7f32', '#34a853', '#34a853'],
                 borderRadius: 6
             }]
         },
