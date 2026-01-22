@@ -272,6 +272,48 @@
         .footer p { font-size: 0.9em; }
         .footer-note { margin-top: 10px; font-size: 0.8em; opacity: 0.6; }
         
+        /* 填报要点滚动动画 */
+        .tips-scroll-section {
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            padding: 20px 0;
+            overflow: hidden;
+            margin: 0 50px 30px;
+            border-radius: 12px;
+        }
+        
+        .tips-scroll-container {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .tips-scroll-track {
+            display: flex;
+            animation: scroll-tips 30s linear infinite;
+            width: max-content;
+        }
+        
+        .tip-scroll-item {
+            flex-shrink: 0;
+            padding: 12px 40px;
+            font-size: 0.95em;
+            color: #444;
+            white-space: nowrap;
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        .tip-scroll-item strong {
+            color: #667eea;
+        }
+        
+        @keyframes scroll-tips {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .tips-scroll-section:hover .tips-scroll-track {
+            animation-play-state: paused;
+        }
+        
         /* 响应式 */
         @media (max-width: 1024px) {
             .hero-banner {
@@ -324,17 +366,29 @@
         <div class="hero-visual">
             <div class="hero-stats">
                 <div class="stat-item">
-                    <div class="num">34</div>
-                    <div class="label">测评题目</div>
-                </div>
-                <div class="stat-item">
                     <div class="num">8min</div>
                     <div class="label">预计用时</div>
                 </div>
                 <div class="stat-item">
-                    <div class="num">AI</div>
-                    <div class="label">智能分析</div>
+                    <div class="num">📎</div>
+                    <div class="label">可视化报告</div>
                 </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 填报核心要点滚动动画 -->
+    <section class="tips-scroll-section">
+        <div class="tips-scroll-container">
+            <div class="tips-scroll-track">
+                <div class="tip-scroll-item">✨ <strong>分数够985优先选学校</strong>，名校光环和资源更重要</div>
+                <div class="tip-scroll-item">🏙️ <strong>大城市=更多实习机会+更广人脉+更高视野</strong></div>
+                <div class="tip-scroll-item">⚠️ <strong>今天的热门，四年后可能过剩</strong>，不要盲目追热</div>
+                <div class="tip-scroll-item">🔍 <strong>专业名称可能误导</strong>，查看课程设置和培养方案</div>
+                <div class="tip-scroll-item">🎓 <strong>很多好工作要求研究生学历</strong>，考虑未来深造</div>
+                <div class="tip-scroll-item">💡 <strong>最好的选择：能力匹配+兴趣驱动+趋势向好+现实可行</strong></div>
+                <div class="tip-scroll-item">✨ <strong>分数够985优先选学校</strong>，名校光环和资源更重要</div>
+                <div class="tip-scroll-item">🏙️ <strong>大城市=更多实习机会+更广人脉+更高视野</strong></div>
             </div>
         </div>
     </section>

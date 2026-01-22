@@ -131,7 +131,7 @@ const MAJORS = {
 // ==================== 应用状态 ====================
 const SurveyApp = {
     currentSection: 1,
-    totalSections: 6,
+    totalSections: 5,
     responses: {},
     stats: { total: 0, complete: 0, today: 0, byRegion: {}, byScore: {}, byDate: [], byMajor: {} },
     
