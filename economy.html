@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>区域经济分析 - 2026高考志愿填报指南</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: #f5f7fa; min-height: 100vh; }
+        
+        .nav {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .nav-logo { color: white; font-size: 1.3em; font-weight: 700; text-decoration: none; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 25px; opacity: 0.9; transition: opacity 0.3s; }
+        .nav-links a:hover { opacity: 1; }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 50px 30px 80px;
+            text-align: center;
+        }
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
+        .header p { opacity: 0.9; max-width: 700px; margin: 0 auto; line-height: 1.7; }
+        
+        .container { max-width: 1200px; margin: -40px auto 0; padding: 0 20px 40px; position: relative; }
+        
+        .intro-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+        }
+        .intro-box h3 { color: #333; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .intro-box p { color: #666; line-height: 1.8; }
+        
+        .region-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .region-tab {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: #f0f0f0;
+            color: #666;
+        }
+        .region-tab:hover { background: #e0e0e0; }
+        .region-tab.active {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .region-content { display: none; }
+        .region-content.active { display: block; }
+        
+        .province-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .province-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .province-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .province-header {
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .province-header h3 { font-size: 1.3em; }
+        .province-header .gdp { font-size: 0.9em; opacity: 0.9; }
+        
+        .province-body { padding: 20px; }
+        
+        .industry-section { margin-bottom: 20px; }
+        .industry-section h4 {
+            color: #333;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .industry-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .ind-tag {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .ind-tag.pillar { background: #fff3e0; color: #e65100; }
+        .ind-tag.emerging { background: #e8f5e9; color: #2e7d32; }
+        .ind-tag.growing { background: #e3f2fd; color: #1565c0; }
+        
+        .jobs-section { margin-top: 15px; }
+        .jobs-section h4 {
+            color: #333;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+        .job-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .job-item {
+            background: #f8f9fa;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            color: #555;
+        }
+        
+        .data-source {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.8em;
+            color: #888;
+        }
+        
+        /* 区域颜色 */
+        .region-north .province-header { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .region-east .province-header { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .region-south .province-header { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .region-central .province-header { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .region-west .province-header { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .region-northeast .province-header { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
+        
+        .sources-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .sources-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .source-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .source-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+        .source-item:hover { background: #e8f5e9; transform: translateX(5px); }
+        .source-icon { font-size: 1.5em; margin-right: 12px; }
+        .source-info h4 { color: #333; font-size: 0.95em; margin-bottom: 3px; }
+        .source-info p { color: #888; font-size: 0.8em; }
+        
+        .footer { text-align: center; padding: 30px; color: #888; font-size: 0.9em; }
+        .footer a { color: #f5576c; }
+        
+        @media (max-width: 600px) {
+            .nav { padding: 12px 15px; }
+            .nav-links a { margin-left: 15px; font-size: 0.9em; }
+            .header h1 { font-size: 1.6em; }
+            .province-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">🎓 高考志愿指南</a>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="survey.html">智能测评</a>
+            <a href="resources.html">资料库</a>
+            <a href="economy.html" style="opacity:1;font-weight:500;">经济分析</a>
+        </div>
+    </nav>
+    
+    <header class="header">
+        <h1>📊 区域经济与产业分析</h1>
+        <p>基于国家统计局、各省统计年鉴及权威研究报告，从经济学视角深度剖析全国各省市产业特色与人才需求，为您的城市选择提供数据支撑。</p>
+    </header>
+    
+    <div class="container">
+        <div class="intro-box">
+            <h3>📈 经济学家视角：区域发展格局</h3>
+            <p>中国经济呈现明显的区域分化特征。<strong>长三角</strong>以高端制造和数字经济领跑，<strong>珠三角</strong>外贸与科技创新并重，<strong>京津冀</strong>政治文化与科技研发中心地位稳固，<strong>成渝</strong>经济圈加速崛起成为西部增长极。选择发展城市，不仅要看当前机会，更要关注产业升级方向和人才政策。以下分析基于2023-2024年最新数据，助您做出更理性的选择。</p>
+        </div>
+        
+        <div class="region-tabs">
+            <button class="region-tab active" onclick="showRegion('east')">华东地区</button>
+            <button class="region-tab" onclick="showRegion('south')">华南地区</button>
+            <button class="region-tab" onclick="showRegion('north')">华北地区</button>
+            <button class="region-tab" onclick="showRegion('central')">华中地区</button>
+            <button class="region-tab" onclick="showRegion('west')">西部地区</button>
+            <button class="region-tab" onclick="showRegion('northeast')">东北地区</button>
+        </div>
+        
+        <!-- 华东地区 -->
+        <div class="region-content active" id="region-east">
+            <div class="province-grid">
+                <div class="province-card region-east">
+                    <div class="province-header">
+                        <div><h3>上海市</h3><span>直辖市</span></div>
+                        <div class="gdp">GDP: 4.72万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">金融服务</span>
+                                <span class="ind-tag pillar">国际贸易</span>
+                                <span class="ind-tag pillar">高端制造</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">集成电路</span>
+                                <span class="ind-tag emerging">生物医药</span>
+                                <span class="ind-tag emerging">人工智能</span>
+                                <span class="ind-tag growing">在线新经济</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">金融分析师</span>
+                                <span class="job-item">芯片设计工程师</span>
+                                <span class="job-item">算法工程师</span>
+                                <span class="job-item">临床研究员</span>
+                                <span class="job-item">供应链管理</span>
+                                <span class="job-item">跨境电商运营</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：上海市统计局、上海市经信委</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-east">
+                    <div class="province-header">
+                        <div><h3>江苏省</h3><span>制造强省</span></div>
+                        <div class="gdp">GDP: 12.82万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">电子信息</span>
+                                <span class="ind-tag pillar">化工新材料</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">新能源</span>
+                                <span class="ind-tag emerging">生物医药</span>
+                                <span class="ind-tag emerging">集成电路</span>
+                                <span class="ind-tag growing">智能制造</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">工艺工程师</span>
+                                <span class="job-item">质量管理</span>
+                                <span class="job-item">光伏研发</span>
+                                <span class="job-item">药品注册</span>
+                                <span class="job-item">自动化工程师</span>
+                                <span class="job-item">外贸业务</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：江苏省统计局、江苏省发改委</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-east">
+                    <div class="province-header">
+                        <div><h3>浙江省</h3><span>数字经济大省</span></div>
+                        <div class="gdp">GDP: 8.26万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">数字经济</span>
+                                <span class="ind-tag pillar">民营制造</span>
+                                <span class="ind-tag pillar">跨境电商</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">云计算大数据</span>
+                                <span class="ind-tag emerging">新能源汽车</span>
+                                <span class="ind-tag emerging">高端装备</span>
+                                <span class="ind-tag growing">直播电商</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">软件开发</span>
+                                <span class="job-item">产品经理</span>
+                                <span class="job-item">电商运营</span>
+                                <span class="job-item">数据分析师</span>
+                                <span class="job-item">直播运营</span>
+                                <span class="job-item">供应链专员</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：浙江省统计局、浙江省数字经济发展中心</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-east">
+                    <div class="province-header">
+                        <div><h3>山东省</h3><span>工业大省</span></div>
+                        <div class="gdp">GDP: 9.21万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">化工能源</span>
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">农副食品</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">海洋经济</span>
+                                <span class="ind-tag emerging">新材料</span>
+                                <span class="ind-tag growing">工业互联网</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">化工工程师</span>
+                                <span class="job-item">机械设计</span>
+                                <span class="job-item">食品研发</span>
+                                <span class="job-item">海洋技术</span>
+                                <span class="job-item">安全工程师</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：山东省统计局</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 华南地区 -->
+        <div class="region-content" id="region-south">
+            <div class="province-grid">
+                <div class="province-card region-south">
+                    <div class="province-header">
+                        <div><h3>广东省</h3><span>经济第一大省</span></div>
+                        <div class="gdp">GDP: 13.57万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">电子信息</span>
+                                <span class="ind-tag pillar">先进制造</span>
+                                <span class="ind-tag pillar">现代服务业</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">新能源汽车</span>
+                                <span class="ind-tag emerging">人工智能</span>
+                                <span class="ind-tag emerging">半导体</span>
+                                <span class="ind-tag growing">低空经济</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">硬件工程师</span>
+                                <span class="job-item">嵌入式开发</span>
+                                <span class="job-item">新能源研发</span>
+                                <span class="job-item">跨境电商</span>
+                                <span class="job-item">产品设计</span>
+                                <span class="job-item">供应链管理</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：广东省统计局、粤港澳大湾区发展规划</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-south">
+                    <div class="province-header">
+                        <div><h3>深圳市</h3><span>创新之都</span></div>
+                        <div class="gdp">GDP: 3.46万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">高新技术</span>
+                                <span class="ind-tag pillar">金融服务</span>
+                                <span class="ind-tag pillar">现代物流</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业（20+8产业集群）</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">网络与通信</span>
+                                <span class="ind-tag emerging">智能终端</span>
+                                <span class="ind-tag emerging">新能源</span>
+                                <span class="ind-tag emerging">生物医药</span>
+                                <span class="ind-tag growing">脑科学</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">算法工程师</span>
+                                <span class="job-item">芯片研发</span>
+                                <span class="job-item">产品经理</span>
+                                <span class="job-item">投资分析</span>
+                                <span class="job-item">电池研发</span>
+                                <span class="job-item">医疗器械</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：深圳市统计局、深圳市工信局</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-south">
+                    <div class="province-header">
+                        <div><h3>福建省</h3><span>民营经济大省</span></div>
+                        <div class="gdp">GDP: 5.43万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">电子信息</span>
+                                <span class="ind-tag pillar">纺织鞋服</span>
+                                <span class="ind-tag pillar">石化工业</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">新能源电池</span>
+                                <span class="ind-tag emerging">新材料</span>
+                                <span class="ind-tag growing">海洋经济</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">电池研发</span>
+                                <span class="job-item">服装设计</span>
+                                <span class="job-item">外贸业务</span>
+                                <span class="job-item">品牌运营</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：福建省统计局</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 华北地区 -->
+        <div class="region-content" id="region-north">
+            <div class="province-grid">
+                <div class="province-card region-north">
+                    <div class="province-header">
+                        <div><h3>北京市</h3><span>首都·科技创新中心</span></div>
+                        <div class="gdp">GDP: 4.38万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">科技服务</span>
+                                <span class="ind-tag pillar">金融</span>
+                                <span class="ind-tag pillar">信息服务</span>
+                                <span class="ind-tag pillar">文化创意</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">人工智能</span>
+                                <span class="ind-tag emerging">量子信息</span>
+                                <span class="ind-tag emerging">生命科学</span>
+                                <span class="ind-tag growing">商业航天</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">AI研究员</span>
+                                <span class="job-item">投资经理</span>
+                                <span class="job-item">产品运营</span>
+                                <span class="job-item">内容创作</span>
+                                <span class="job-item">科研人员</span>
+                                <span class="job-item">政策研究</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：北京市统计局、中关村科技园区管委会</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-north">
+                    <div class="province-header">
+                        <div><h3>天津市</h3><span>北方工业重镇</span></div>
+                        <div class="gdp">GDP: 1.67万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">石油化工</span>
+                                <span class="ind-tag pillar">港口物流</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">航空航天</span>
+                                <span class="ind-tag emerging">新能源</span>
+                                <span class="ind-tag emerging">生物制药</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">航空工程师</span>
+                                <span class="job-item">物流管理</span>
+                                <span class="job-item">机械工程师</span>
+                                <span class="job-item">化工研发</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：天津市统计局</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-north">
+                    <div class="province-header">
+                        <div><h3>河北省</h3><span>京津冀协同发展</span></div>
+                        <div class="gdp">GDP: 4.39万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">钢铁</span>
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">医药</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">大数据(雄安)</span>
+                                <span class="ind-tag emerging">生物医药</span>
+                                <span class="ind-tag growing">新能源</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">数据中心运维</span>
+                                <span class="job-item">医药研发</span>
+                                <span class="job-item">智能制造</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：河北省统计局</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 华中地区 -->
+        <div class="region-content" id="region-central">
+            <div class="province-grid">
+                <div class="province-card region-central">
+                    <div class="province-header">
+                        <div><h3>湖北省</h3><span>中部崛起核心</span></div>
+                        <div class="gdp">GDP: 5.58万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">汽车制造</span>
+                                <span class="ind-tag pillar">钢铁</span>
+                                <span class="ind-tag pillar">光电子信息</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">光芯屏端网</span>
+                                <span class="ind-tag emerging">生物医药</span>
+                                <span class="ind-tag emerging">新能源汽车</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">光电工程师</span>
+                                <span class="job-item">汽车研发</span>
+                                <span class="job-item">软件开发</span>
+                                <span class="job-item">生物技术</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：湖北省统计局、武汉东湖高新区</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-central">
+                    <div class="province-header">
+                        <div><h3>湖南省</h3><span>智能制造高地</span></div>
+                        <div class="gdp">GDP: 5.00万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">工程机械</span>
+                                <span class="ind-tag pillar">轨道交通</span>
+                                <span class="ind-tag pillar">文化传媒</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">新材料</span>
+                                <span class="ind-tag emerging">电子信息</span>
+                                <span class="ind-tag growing">北斗应用</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">机械工程师</span>
+                                <span class="job-item">轨道交通技术</span>
+                                <span class="job-item">内容策划</span>
+                                <span class="job-item">材料研发</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：湖南省统计局</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-central">
+                    <div class="province-header">
+                        <div><h3>河南省</h3><span>人口经济大省</span></div>
+                        <div class="gdp">GDP: 5.91万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">食品加工</span>
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">电子信息</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">新能源汽车</span>
+                                <span class="ind-tag emerging">现代物流</span>
+                                <span class="ind-tag growing">数字经济</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">食品研发</span>
+                                <span class="job-item">物流管理</span>
+                                <span class="job-item">电商运营</span>
+                                <span class="job-item">生产管理</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：河南省统计局</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 西部地区 -->
+        <div class="region-content" id="region-west">
+            <div class="province-grid">
+                <div class="province-card region-west">
+                    <div class="province-header">
+                        <div><h3>四川省</h3><span>西部经济中心</span></div>
+                        <div class="gdp">GDP: 6.01万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">电子信息</span>
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">食品饮料</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">人工智能</span>
+                                <span class="ind-tag emerging">航空航天</span>
+                                <span class="ind-tag emerging">清洁能源</span>
+                                <span class="ind-tag growing">游戏动漫</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">软件开发</span>
+                                <span class="job-item">游戏策划</span>
+                                <span class="job-item">航空工程</span>
+                                <span class="job-item">新能源研发</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：四川省统计局、成都高新区</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-west">
+                    <div class="province-header">
+                        <div><h3>重庆市</h3><span>制造业重镇</span></div>
+                        <div class="gdp">GDP: 3.01万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">汽车制造</span>
+                                <span class="ind-tag pillar">电子信息</span>
+                                <span class="ind-tag pillar">装备制造</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">智能网联汽车</span>
+                                <span class="ind-tag emerging">集成电路</span>
+                                <span class="ind-tag growing">大数据智能化</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">汽车电子工程师</span>
+                                <span class="job-item">智能制造</span>
+                                <span class="job-item">数据工程师</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：重庆市统计局</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-west">
+                    <div class="province-header">
+                        <div><h3>陕西省</h3><span>科教与军工重地</span></div>
+                        <div class="gdp">GDP: 3.39万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">能源化工</span>
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">航空航天</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">半导体</span>
+                                <span class="ind-tag emerging">新能源汽车</span>
+                                <span class="ind-tag growing">硬科技</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">航天工程师</span>
+                                <span class="job-item">芯片设计</span>
+                                <span class="job-item">科研人员</span>
+                                <span class="job-item">军工技术</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：陕西省统计局、西安高新区</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 东北地区 -->
+        <div class="region-content" id="region-northeast">
+            <div class="province-grid">
+                <div class="province-card region-northeast">
+                    <div class="province-header">
+                        <div><h3>辽宁省</h3><span>老工业基地振兴</span></div>
+                        <div class="gdp">GDP: 3.03万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">装备制造</span>
+                                <span class="ind-tag pillar">石油化工</span>
+                                <span class="ind-tag pillar">钢铁</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">高端装备</span>
+                                <span class="ind-tag emerging">机器人</span>
+                                <span class="ind-tag growing">新材料</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">机械工程师</span>
+                                <span class="job-item">机器人研发</span>
+                                <span class="job-item">船舶设计</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：辽宁省统计局</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-northeast">
+                    <div class="province-header">
+                        <div><h3>吉林省</h3><span>汽车与农业大省</span></div>
+                        <div class="gdp">GDP: 1.36万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">汽车制造</span>
+                                <span class="ind-tag pillar">石化</span>
+                                <span class="ind-tag pillar">农产品加工</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">新能源汽车</span>
+                                <span class="ind-tag emerging">卫星通信</span>
+                                <span class="ind-tag growing">医药健康</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">汽车工程师</span>
+                                <span class="job-item">卫星研发</span>
+                                <span class="job-item">农业技术</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：吉林省统计局</div>
+                    </div>
+                </div>
+                
+                <div class="province-card region-northeast">
+                    <div class="province-header">
+                        <div><h3>黑龙江省</h3><span>农业与能源大省</span></div>
+                        <div class="gdp">GDP: 1.59万亿 (2023)</div>
+                    </div>
+                    <div class="province-body">
+                        <div class="industry-section">
+                            <h4>🏭 支柱产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag pillar">现代农业</span>
+                                <span class="ind-tag pillar">能源</span>
+                                <span class="ind-tag pillar">装备制造</span>
+                            </div>
+                        </div>
+                        <div class="industry-section">
+                            <h4>🚀 新兴产业</h4>
+                            <div class="industry-tags">
+                                <span class="ind-tag emerging">航空航天</span>
+                                <span class="ind-tag emerging">生物经济</span>
+                                <span class="ind-tag growing">冰雪经济</span>
+                            </div>
+                        </div>
+                        <div class="jobs-section">
+                            <h4>💼 主要岗位需求</h4>
+                            <div class="job-list">
+                                <span class="job-item">农业科技</span>
+                                <span class="job-item">航空工程</span>
+                                <span class="job-item">旅游管理</span>
+                            </div>
+                        </div>
+                        <div class="data-source">数据来源：黑龙江省统计局</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 权威数据来源 -->
+        <div class="sources-section">
+            <h3>📚 权威数据来源</h3>
+            <div class="source-list">
+                <a href="https://www.stats.gov.cn/" target="_blank" class="source-item">
+                    <span class="source-icon">🏛️</span>
+                    <div class="source-info">
+                        <h4>国家统计局</h4>
+                        <p>GDP、产业结构、就业数据等官方统计</p>
+                    </div>
+                </a>
+                <a href="https://www.ndrc.gov.cn/" target="_blank" class="source-item">
+                    <span class="source-icon">📋</span>
+                    <div class="source-info">
+                        <h4>国家发展改革委</h4>
+                        <p>产业政策、区域发展规划</p>
+                    </div>
+                </a>
+                <a href="https://www.miit.gov.cn/" target="_blank" class="source-item">
+                    <span class="source-icon">🏭</span>
+                    <div class="source-info">
+                        <h4>工业和信息化部</h4>
+                        <p>制造业、信息产业发展报告</p>
+                    </div>
+                </a>
+                <a href="http://www.mohrss.gov.cn/" target="_blank" class="source-item">
+                    <span class="source-icon">👔</span>
+                    <div class="source-info">
+                        <h4>人力资源和社会保障部</h4>
+                        <p>就业形势、人才需求分析</p>
+                    </div>
+                </a>
+                <a href="https://www.cingta.com/" target="_blank" class="source-item">
+                    <span class="source-icon">📊</span>
+                    <div class="source-info">
+                        <h4>中国信通院</h4>
+                        <p>数字经济、ICT产业研究报告</p>
+                    </div>
+                </a>
+                <a href="https://www.mckinsey.com.cn/" target="_blank" class="source-item">
+                    <span class="source-icon">📈</span>
+                    <div class="source-info">
+                        <h4>麦肯锡中国</h4>
+                        <p>行业趋势、人才市场研究</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 高考志愿填报指南 | <a href="index.html">返回首页</a> | 数据更新至2024年</p>
+    </footer>
+    
+    <script>
+        function showRegion(region) {
+            document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.region-content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector(`.region-tab[onclick="showRegion('${region}')"]`).classList.add('active');
+            document.getElementById(`region-${region}`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
