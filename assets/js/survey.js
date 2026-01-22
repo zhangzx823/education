@@ -308,6 +308,15 @@ function startSurveySection() {
     updateProgress(1);
 }
 
+function startSurveyDirect() {
+    document.getElementById('intro-section').style.display = 'none';
+    document.getElementById('knowledge-section').style.display = 'none';
+    document.getElementById('progress-wrapper').style.display = 'block';
+    document.getElementById('survey-main').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress(1);
+}
+
 function startSurvey() {
     startLearning();
 }

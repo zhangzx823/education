@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>志愿填报必备知识 - 2026高考志愿填报指南</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: #f5f7fa; min-height: 100vh; }
+        
+        .nav { background: linear-gradient(135deg, #ff6b6b, #ffa500); padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-logo { color: white; font-size: 1.2em; font-weight: 700; text-decoration: none; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; opacity: 0.9; }
+        .nav-links a:hover, .nav-links a.active { opacity: 1; font-weight: 500; }
+        
+        .header { background: linear-gradient(135deg, #ff6b6b, #ffa500); color: white; padding: 50px 25px 80px; text-align: center; }
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
+        .header p { opacity: 0.9; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+        
+        .container { max-width: 1200px; margin: -40px auto 30px; padding: 0 20px; }
+        
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 3px 15px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .tab { padding: 10px 18px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; font-weight: 500; background: #f0f0f0; color: #666; transition: all 0.3s; }
+        .tab:hover { background: #e0e0e0; }
+        .tab.active { background: linear-gradient(135deg, #ff6b6b, #ffa500); color: white; }
+        
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        
+        .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.06); }
+        .card h3 { color: #333; margin-bottom: 20px; font-size: 1.3em; }
+        
+        .info-box { padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .info-box.highlight { background: #fff3e0; border-left: 4px solid #ff9800; }
+        .info-box.warning { background: #fff8e1; border-left: 4px solid #ffc107; }
+        .info-box.success { background: #e8f5e9; border-left: 4px solid #4caf50; }
+        .info-box p { color: #555; line-height: 1.7; }
+        
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .overview-item { display: flex; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px; }
+        .overview-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; }
+        .overview-icon.green { background: #e8f5e9; }
+        .overview-icon.blue { background: #e3f2fd; }
+        .overview-icon.orange { background: #fff3e0; }
+        .overview-content h4 { color: #333; margin-bottom: 5px; }
+        .overview-content p { color: #666; font-size: 0.9em; margin-bottom: 8px; }
+        
+        .tag-list { display: flex; flex-wrap: wrap; gap: 5px; }
+        .tag { padding: 3px 10px; border-radius: 10px; font-size: 0.8em; background: #e0e0e0; color: #555; }
+        .tag.hot { background: #ffebee; color: #c62828; }
+        
+        .ind-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .ind-card { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .ind-header { padding: 15px; color: white; display: flex; align-items: center; gap: 10px; }
+        .ind-header.ai { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .ind-header.energy { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .ind-header.bio { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .ind-header.chip { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .ind-header.robot { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .ind-header.aero { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
+        .ind-header.digital { background: linear-gradient(135deg, #ff6b6b, #ffa500); }
+        .ind-icon { font-size: 1.5em; }
+        .ind-header h4 { flex: 1; }
+        .ind-body { padding: 15px; background: white; }
+        .ind-desc { color: #666; margin-bottom: 10px; font-size: 0.9em; }
+        .ind-stats { display: flex; gap: 15px; margin-bottom: 10px; }
+        .ind-stats div { font-size: 0.85em; color: #888; }
+        .stat-value { color: #333; font-weight: 600; margin-left: 5px; }
+        .ind-majors { font-size: 0.85em; color: #555; margin-bottom: 8px; }
+        .ind-note { padding: 8px 12px; border-radius: 8px; font-size: 0.8em; background: #fff3e0; color: #e65100; }
+        .ind-note.success { background: #e8f5e9; color: #2e7d32; }
+        .note-label { font-weight: 600; margin-right: 5px; }
+        
+        .trad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .trad-card { background: #f8f9fa; border-radius: 12px; padding: 20px; }
+        .trad-card h4 { color: #333; margin-bottom: 10px; }
+        .trad-status { margin-bottom: 10px; }
+        .status-badge { padding: 3px 10px; border-radius: 10px; font-size: 0.75em; }
+        .status-badge.transforming { background: #e3f2fd; color: #1565c0; }
+        .status-badge.declining { background: #ffebee; color: #c62828; }
+        .status-badge.stable { background: #f3e5f5; color: #7b1fa2; }
+        .status-badge.growing { background: #e8f5e9; color: #2e7d32; }
+        .trad-card p { color: #666; font-size: 0.9em; margin-bottom: 8px; line-height: 1.6; }
+        .recommend-majors { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+        .recommend-majors span { background: #e0e0e0; padding: 3px 10px; border-radius: 10px; font-size: 0.8em; color: #555; }
+        .trad-warning { color: #e65100; font-size: 0.85em; margin-top: 10px; }
+        .trad-success { color: #2e7d32; font-size: 0.85em; margin-top: 10px; }
+        
+        .major-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .major-cat { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .cat-header { padding: 12px 15px; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .cat-header.engineering { background: #1565c0; }
+        .cat-header.science { background: #7b1fa2; }
+        .cat-header.medical { background: #c62828; }
+        .cat-header.economics { background: #00838f; }
+        .cat-header.law { background: #4527a0; }
+        .cat-header.literature { background: #6d4c41; }
+        .cat-header.education { background: #2e7d32; }
+        .cat-header.art { background: #d84315; }
+        .cat-header h4 { font-size: 1em; }
+        .cat-stat { font-size: 0.75em; opacity: 0.9; }
+        .cat-body { padding: 15px; background: white; }
+        .cat-body p { color: #666; font-size: 0.85em; margin-bottom: 6px; line-height: 1.6; }
+        
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .tip-card { background: #f8f9fa; border-radius: 12px; padding: 20px; position: relative; }
+        .tip-number { position: absolute; top: -10px; left: 15px; width: 30px; height: 30px; background: linear-gradient(135deg, #ff6b6b, #ffa500); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .tip-card h4 { color: #333; margin-bottom: 10px; padding-top: 10px; }
+        .tip-content p { color: #666; font-size: 0.9em; margin-bottom: 6px; line-height: 1.6; }
+        
+        .key-points { background: #e3f2fd; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        .key-points h4 { color: #1565c0; margin-bottom: 10px; }
+        .key-points ul { margin-left: 20px; color: #555; line-height: 1.8; }
+        
+        .chart-container { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 10px; }
+        .chart-container h4 { color: #333; margin-bottom: 15px; text-align: center; }
+        
+        .cta-section { text-align: center; padding: 30px; background: white; border-radius: 12px; margin-top: 20px; }
+        .cta-section h3 { color: #333; margin-bottom: 10px; }
+        .cta-section p { color: #666; margin-bottom: 20px; }
+        .btn-primary { display: inline-block; padding: 15px 40px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 30px; font-size: 1.1em; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.3s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+        
+        .footer { text-align: center; padding: 25px; color: #888; font-size: 0.85em; }
+        .footer a { color: #ff6b6b; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .tabs { justify-content: center; }
+            .tab { font-size: 0.8em; padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">🎓 高考志愿指南</a>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="survey.html">智能测评</a>
+            <a href="resources.html">资料库</a>
+            <a href="economy.html">经济分析</a>
+            <a href="knowledge.html" class="active">必备知识</a>
+        </div>
+    </nav>
+    
+    <header class="header">
+        <h1>📚 志愿填报必备知识</h1>
+        <p>了解产业趋势、专业特点和填报技巧，做出更明智的志愿选择</p>
+    </header>
+    
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('industry')">产业发展格局</button>
+            <button class="tab" onclick="showTab('emerging')">新兴产业解读</button>
+            <button class="tab" onclick="showTab('traditional')">传统产业转型</button>
+            <button class="tab" onclick="showTab('majors')">专业大类介绍</button>
+            <button class="tab" onclick="showTab('tips')">填报核心要点</button>
+        </div>
+        
+        <!-- 产业发展格局 -->
+        <div class="content-section active" id="tab-industry">
+            <div class="card">
+                <h3>🌏 中国产业发展整体格局（2024-2035）</h3>
+                <div class="info-box highlight">
+                    <p><strong>核心趋势：</strong>中国正处于从"制造大国"向"创造强国"转型的关键时期，高质量发展和科技自立自强成为主旋律。</p>
+                </div>
+                
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <div class="overview-icon green">📈</div>
+                        <div class="overview-content">
+                            <h4>战略性新兴产业</h4>
+                            <p>占GDP比重从13%提升至20%+，年增长率15-25%</p>
+                            <div class="tag-list">
+                                <span class="tag hot">人工智能</span>
+                                <span class="tag hot">新能源</span>
+                                <span class="tag hot">生物医药</span>
+                                <span class="tag hot">芯片半导体</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-icon blue">🔄</div>
+                        <div class="overview-content">
+                            <h4>传统产业升级</h4>
+                            <p>数字化转型加速，"智能+"改造全面推进</p>
+                            <div class="tag-list">
+                                <span class="tag">智能制造</span>
+                                <span class="tag">工业互联网</span>
+                                <span class="tag">绿色低碳</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-icon orange">👥</div>
+                        <div class="overview-content">
+                            <h4>服务业扩张</h4>
+                            <p>占GDP超55%，高端服务业快速发展</p>
+                            <div class="tag-list">
+                                <span class="tag">数字经济</span>
+                                <span class="tag">大健康</span>
+                                <span class="tag">现代金融</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>各产业人才需求趋势预测</h4>
+                    <canvas id="industry-chart" height="200"></canvas>
+                </div>
+                
+                <div class="key-points">
+                    <h4>💡 对考生的启示</h4>
+                    <ul>
+                        <li><strong>选择成长性行业：</strong>新兴产业虽竞争激烈但机会多，薪资增长快</li>
+                        <li><strong>关注交叉领域：</strong>"专业+AI"、"专业+数据"复合型人才最受欢迎</li>
+                        <li><strong>传统不等于落后：</strong>传统行业数字化转型同样需要大量人才</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 新兴产业解读 -->
+        <div class="content-section" id="tab-emerging">
+            <div class="card">
+                <h3>🚀 七大战略性新兴产业深度解读</h3>
+                <div class="ind-cards">
+                    <div class="ind-card">
+                        <div class="ind-header ai"><span class="ind-icon">🤖</span><h4>人工智能</h4><span>🔥🔥🔥🔥🔥</span></div>
+                        <div class="ind-body">
+                            <p class="ind-desc">中国AI产业规模超5000亿，年增速35%+</p>
+                            <div class="ind-stats"><div><strong>人才缺口</strong><span class="stat-value">500万+</span></div><div><strong>薪资</strong><span class="stat-value">30-80万/年</span></div></div>
+                            <div class="ind-majors"><strong>相关专业：</strong>计算机科学、人工智能、数据科学、软件工程</div>
+                            <div class="ind-note"><span class="note-label">⚠️</span>学历要求高，名校硕士以上更具竞争力</div>
+                        </div>
+                    </div>
+                    <div class="ind-card">
+                        <div class="ind-header energy"><span class="ind-icon">⚡</span><h4>新能源</h4><span>🔥🔥🔥🔥🔥</span></div>
+                        <div class="ind-body">
+                            <p class="ind-desc">光伏、储能、电动车三大赛道全球领先</p>
+                            <div class="ind-stats"><div><strong>产业规模</strong><span class="stat-value">12万亿+</span></div><div><strong>薪资</strong><span class="stat-value">15-40万/年</span></div></div>
+                            <div class="ind-majors"><strong>相关专业：</strong>电气工程、能源与动力工程、材料科学、车辆工程</div>
+                            <div class="ind-note success"><span class="note-label">✅</span>本科就业好，国企民企机会均衡</div>
+                        </div>
+                    </div>
+                    <div class="ind-card">
+                        <div class="ind-header bio"><span class="ind-icon">🧬</span><h4>生物医药</h4><span>🔥🔥🔥🔥</span></div>
+                        <div class="ind-body">
+                            <p class="ind-desc">老龄化加速，创新药、医疗器械需求爆发</p>
+                            <div class="ind-stats"><div><strong>年增长率</strong><span class="stat-value">15-20%</span></div><div><strong>薪资</strong><span class="stat-value">15-50万/年</span></div></div>
+                            <div class="ind-majors"><strong>相关专业：</strong>生物科学、药学、临床医学、生物医学工程</div>
+                            <div class="ind-note"><span class="note-label">⚠️</span>研发岗普遍要求硕士以上学历</div>
+                        </div>
+                    </div>
+                    <div class="ind-card">
+                        <div class="ind-header chip"><span class="ind-icon">💾</span><h4>芯片半导体</h4><span>🔥🔥🔥🔥🔥</span></div>
+                        <div class="ind-body">
+                            <p class="ind-desc">国家战略重点，举国体制攻坚"卡脖子"技术</p>
+                            <div class="ind-stats"><div><strong>人才缺口</strong><span class="stat-value">30万+</span></div><div><strong>薪资</strong><span class="stat-value">25-60万/年</span></div></div>
+                            <div class="ind-majors"><strong>相关专业：</strong>微电子、集成电路、电子科学与技术、材料物理</div>
+                            <div class="ind-note success"><span class="note-label">✅</span>政策扶持力度大，待遇逐年提升</div>
+                        </div>
+                    </div>
+                    <div class="ind-card">
+                        <div class="ind-header robot"><span class="ind-icon">🦾</span><h4>智能制造与机器人</h4><span>🔥🔥🔥🔥</span></div>
+                        <div class="ind-body">
+                            <p class="ind-desc">工业机器人、人形机器人进入爆发期</p>
+                            <div class="ind-stats"><div><strong>市场规模</strong><span class="stat-value">万亿级</span></div><div><strong>薪资</strong><span class="stat-value">18-45万/年</span></div></div>
+                            <div class="ind-majors"><strong>相关专业：</strong>机械工程、自动化、机器人工程、控制科学与工程</div>
+                        </div>
+                    </div>
+                    <div class="ind-card">
+                        <div class="ind-header aero"><span class="ind-icon">🚀</span><h4>航空航天</h4><span>🔥🔥🔥🔥</span></div>
+                        <div class="ind-body">
+                            <p class="ind-desc">商业航天兴起，大飞机、卫星互联网机会多</p>
+                            <div class="ind-stats"><div><strong>就业稳定性</strong><span class="stat-value">极高</span></div><div><strong>薪资</strong><span class="stat-value">15-35万/年</span></div></div>
+                            <div class="ind-majors"><strong>相关专业：</strong>航空航天工程、飞行器设计、飞行器动力工程</div>
+                            <div class="ind-note success"><span class="note-label">✅</span>多为国企央企，稳定性强</div>
+                        </div>
+                    </div>
+                    <div class="ind-card">
+                        <div class="ind-header digital"><span class="ind-icon">🎮</span><h4>数字文化与内容</h4><span>🔥🔥🔥</span></div>
+                        <div class="ind-body">
+                            <p class="ind-desc">游戏、短视频、虚拟现实、数字人</p>
+                            <div class="ind-stats"><div><strong>市场规模</strong><span class="stat-value">2万亿+</span></div><div><strong>薪资</strong><span class="stat-value">12-40万/年</span></div></div>
+                            <div class="ind-majors"><strong>相关专业：</strong>数字媒体技术、动画、游戏设计、传播学</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 传统产业转型 -->
+        <div class="content-section" id="tab-traditional">
+            <div class="card">
+                <h3>🔄 传统产业转型升级现状</h3>
+                <div class="info-box warning">
+                    <p><strong>重要认知：</strong>传统产业≠夕阳产业。很多传统行业正在经历数字化转型，对新型人才需求旺盛。选择传统行业的优势专业，可能比挤热门更务实。</p>
+                </div>
+                
+                <div class="trad-grid">
+                    <div class="trad-card">
+                        <h4>🏭 制造业</h4>
+                        <div class="trad-status"><span class="status-badge transforming">转型中</span></div>
+                        <p><strong>现状：</strong>中国是全球制造业第一大国，但面临人工成本上升、技术升级压力</p>
+                        <p><strong>趋势：</strong>智能制造、工业4.0、无人工厂</p>
+                        <p><strong>机会：</strong>传统机械+自动化/AI的复合人才稀缺</p>
+                        <div class="recommend-majors"><span>机械工程</span><span>工业工程</span><span>自动化</span></div>
+                    </div>
+                    <div class="trad-card">
+                        <h4>🏗️ 建筑与房地产</h4>
+                        <div class="trad-status"><span class="status-badge declining">调整期</span></div>
+                        <p><strong>现状：</strong>房地产行业深度调整，传统建筑业增速放缓</p>
+                        <p><strong>趋势：</strong>装配式建筑、智慧城市、绿色建筑</p>
+                        <p><strong>机会：</strong>基建仍有需求，但需要新技能加持</p>
+                        <div class="recommend-majors"><span>土木工程</span><span>建筑学</span><span>城乡规划</span></div>
+                        <div class="trad-warning">⚠️ 传统土木就业压力大，建议辅修数字化技能</div>
+                    </div>
+                    <div class="trad-card">
+                        <h4>💰 金融业</h4>
+                        <div class="trad-status"><span class="status-badge transforming">转型中</span></div>
+                        <p><strong>现状：</strong>传统银行压力大，金融科技崛起</p>
+                        <p><strong>趋势：</strong>数字金融、量化投资、监管科技</p>
+                        <p><strong>机会：</strong>金融+科技复合人才最吃香</p>
+                        <div class="recommend-majors"><span>金融科技</span><span>金融工程</span><span>数据科学</span></div>
+                    </div>
+                    <div class="trad-card">
+                        <h4>🛒 零售与消费</h4>
+                        <div class="trad-status"><span class="status-badge stable">稳定</span></div>
+                        <p><strong>现状：</strong>线下零售承压，电商和新零售持续增长</p>
+                        <p><strong>趋势：</strong>直播电商、私域运营、供应链数字化</p>
+                        <p><strong>机会：</strong>电商运营、品牌营销需求稳定</p>
+                        <div class="recommend-majors"><span>市场营销</span><span>电子商务</span><span>物流管理</span></div>
+                    </div>
+                    <div class="trad-card">
+                        <h4>🏥 医疗健康</h4>
+                        <div class="trad-status"><span class="status-badge growing">增长</span></div>
+                        <p><strong>现状：</strong>老龄化推动，医疗需求刚性增长</p>
+                        <p><strong>趋势：</strong>互联网医疗、精准医疗、康养产业</p>
+                        <p><strong>机会：</strong>医护人才长期紧缺</p>
+                        <div class="recommend-majors"><span>临床医学</span><span>护理学</span><span>康复治疗</span></div>
+                        <div class="trad-success">✅ 就业稳定，社会地位高</div>
+                    </div>
+                    <div class="trad-card">
+                        <h4>📚 教育培训</h4>
+                        <div class="trad-status"><span class="status-badge transforming">转型中</span></div>
+                        <p><strong>现状：</strong>K12学科培训受限，素质教育和职业教育兴起</p>
+                        <p><strong>趋势：</strong>AI教育、在线教育、终身学习</p>
+                        <p><strong>机会：</strong>公立学校教师仍是稳定选择</p>
+                        <div class="recommend-majors"><span>教育学</span><span>学科教育</span><span>教育技术</span></div>
+                    </div>
+                </div>
+                
+                <div class="key-points">
+                    <h4>💡 选择传统行业的建议</h4>
+                    <ul>
+                        <li>选择正在<strong>数字化转型</strong>的细分领域</li>
+                        <li>培养<strong>"传统专业+新技术"</strong>的复合能力</li>
+                        <li>关注行业龙头企业和国企央企的招聘需求</li>
+                        <li>不要盲目追热门，适合自己的才是最好的</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 专业大类介绍 -->
+        <div class="content-section" id="tab-majors">
+            <div class="card">
+                <h3>🎓 中国高校13个学科门类概览</h3>
+                <div class="major-cats">
+                    <div class="major-cat">
+                        <div class="cat-header engineering"><h4>工学</h4><span class="cat-stat">专业最多，就业面最广</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>注重实践应用，动手能力要求高</p>
+                            <p><strong>热门：</strong>计算机类、电子信息类、机械类、自动化类</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐⭐⭐</p>
+                            <p><strong>适合：</strong>数学物理好、喜欢动手实践</p>
+                        </div>
+                    </div>
+                    <div class="major-cat">
+                        <div class="cat-header science"><h4>理学</h4><span class="cat-stat">基础研究，深造比例高</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>理论性强，多数需要读研深造</p>
+                            <p><strong>热门：</strong>数学类、物理类、化学类、统计学</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐（直接就业）⭐⭐⭐⭐⭐（深造后）</p>
+                            <p><strong>适合：</strong>对基础科学有热情、计划读研读博</p>
+                        </div>
+                    </div>
+                    <div class="major-cat">
+                        <div class="cat-header medical"><h4>医学</h4><span class="cat-stat">学制长，专业性极强</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>本科5年，培养周期长，就业稳定</p>
+                            <p><strong>热门：</strong>临床医学、口腔医学、医学影像、药学</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐⭐⭐</p>
+                            <p><strong>适合：</strong>生物化学好、有奉献精神</p>
+                        </div>
+                    </div>
+                    <div class="major-cat">
+                        <div class="cat-header economics"><h4>经济学 & 管理学</h4><span class="cat-stat">热门但竞争激烈</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>就业面广，但同质化严重</p>
+                            <p><strong>热门：</strong>金融学、会计学、经济学、工商管理</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐⭐（名校）⭐⭐⭐（普通院校）</p>
+                            <p><strong>适合：</strong>数学好、沟通能力强</p>
+                        </div>
+                    </div>
+                    <div class="major-cat">
+                        <div class="cat-header law"><h4>法学</h4><span class="cat-stat">需法考，门槛高上限高</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>需要通过法考，门槛高但上限也高</p>
+                            <p><strong>热门：</strong>法学、知识产权、社会工作</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐（普通）⭐⭐⭐⭐⭐（通过法考后）</p>
+                            <p><strong>适合：</strong>语言表达好、逻辑清晰、记忆力强</p>
+                        </div>
+                    </div>
+                    <div class="major-cat">
+                        <div class="cat-header literature"><h4>文学 & 历史学 & 哲学</h4><span class="cat-stat">就业面窄但不可或缺</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>对口就业难，但培养的能力可迁移</p>
+                            <p><strong>热门：</strong>汉语言文学、新闻学、英语</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐</p>
+                            <p><strong>适合：</strong>文字功底好、公务员/教师意向</p>
+                        </div>
+                    </div>
+                    <div class="major-cat">
+                        <div class="cat-header education"><h4>教育学</h4><span class="cat-stat">师范类稳定回暖</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>公费师范生免学费包分配</p>
+                            <p><strong>热门：</strong>学科教育、教育技术、学前教育</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐⭐</p>
+                            <p><strong>适合：</strong>喜欢与人交流、有耐心、追求稳定</p>
+                        </div>
+                    </div>
+                    <div class="major-cat">
+                        <div class="cat-header art"><h4>艺术学</h4><span class="cat-stat">创意产业机会多</span></div>
+                        <div class="cat-body">
+                            <p><strong>特点：</strong>需要艺考，技能型专业</p>
+                            <p><strong>热门：</strong>视觉传达、产品设计、数字媒体艺术</p>
+                            <p><strong>就业率：</strong>⭐⭐⭐⭐</p>
+                            <p><strong>适合：</strong>有艺术天赋、创意能力强</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 填报要点 -->
+        <div class="content-section" id="tab-tips">
+            <div class="card">
+                <h3>📝 志愿填报核心要点</h3>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-number">1</div>
+                        <h4>院校优先还是专业优先？</h4>
+                        <div class="tip-content">
+                            <p><strong>分数够985：</strong>优先选学校，名校光环和资源更重要</p>
+                            <p><strong>分数在211线：</strong>可考虑专业，选择学校优势学科</p>
+                            <p><strong>分数在一本线：</strong>专业更重要，选择就业好的实用专业</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-number">2</div>
+                        <h4>城市的重要性</h4>
+                        <div class="tip-content">
+                            <p>大城市=更多实习机会+更广人脉+更高眼界</p>
+                            <p>一线城市适合想闯荡的学生</p>
+                            <p>二三线城市性价比高，竞争压力小</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-number">3</div>
+                        <h4>热门专业的"陷阱"</h4>
+                        <div class="tip-content">
+                            <p>今天的热门，四年后可能过剩</p>
+                            <p>热门专业录取分数虚高</p>
+                            <p>不喜欢的热门专业不如喜欢的"冷门"</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-number">4</div>
+                        <h4>了解专业的真实内容</h4>
+                        <div class="tip-content">
+                            <p>专业名称可能误导（如信息管理≠IT）</p>
+                            <p>查看课程设置和培养方案</p>
+                            <p>咨询该专业在读学生</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-number">5</div>
+                        <h4>考虑未来深造</h4>
+                        <div class="tip-content">
+                            <p>很多好工作要求研究生学历</p>
+                            <p>本科选基础学科，研究生转应用也可</p>
+                            <p>医学、法学等专业性强的需要持续投入</p>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-number">6</div>
+                        <h4>家庭因素的权衡</h4>
+                        <div class="tip-content">
+                            <p>经济条件影响城市和学校选择</p>
+                            <p>是否需要毕业后照顾家庭</p>
+                            <p>家族资源在某些行业可能有帮助</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box success">
+                    <h4>🌟 核心原则</h4>
+                    <p>最好的选择是：<strong>能力匹配 + 兴趣驱动 + 趋势向好 + 现实可行</strong></p>
+                    <p>不要只看眼前，要想想10年后你想成为什么样的人</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h3>了解完这些知识，开始智能测评吧！</h3>
+            <p>系统将根据您的特质，为您推荐最适合的专业和城市</p>
+            <a href="survey.html" class="btn-primary">开始智能测评 →</a>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>© 2026 高考志愿填报指南 | <a href="index.html">返回首页</a></p>
+    </footer>
+    
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+        
+        // 产业趋势图表
+        const ctx = document.getElementById('industry-chart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['人工智能', '新能源', '生物医药', '芯片半导体', '智能制造', '航空航天', '传统制造'],
+                    datasets: [{
+                        label: '人才需求增长率(%)',
+                        data: [35, 28, 22, 30, 18, 15, 5],
+                        backgroundColor: ['#667eea', '#11998e', '#f093fb', '#4facfe', '#fa709a', '#a8edea', '#999']
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } } }
+            });
+        }
+    </script>
+</body>
+</html>

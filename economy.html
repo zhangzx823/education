@@ -62,6 +62,13 @@
         .talent-policy h5 { color: #1565c0; margin-bottom: 8px; font-size: 0.9em; }
         .talent-policy ul { margin-left: 18px; color: #555; font-size: 0.85em; line-height: 1.7; }
         
+        .policy-level { margin-bottom: 12px; }
+        .policy-level:last-child { margin-bottom: 0; }
+        .policy-level-title { color: #1565c0; font-size: 0.85em; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+        .policy-level-title.province { color: #d32f2f; }
+        .policy-level-title.city { color: #1976d2; }
+        .policy-level ul { margin-left: 15px; font-size: 0.83em; }
+        
         .cities-section { margin-top: 15px; }
         .cities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
         .city-card { background: #fafafa; border-radius: 10px; padding: 15px; border-left: 3px solid #f093fb; }
@@ -196,40 +203,44 @@
                     
                     <div class="talent-policy">
                         <h5>🎯 人才引进政策</h5>
-                        <ul>
-                            <li><strong>应届落户：</strong>世界前50院校留学生可直接落户；双一流高校应届硕士可直接落户</li>
-                            <li><strong>积分落户：</strong>持居住证满7年可申请，紧缺人才可缩短年限</li>
-                            <li><strong>住房补贴：</strong>临港新片区购房最高补贴100万，租房补贴每月最高3500元</li>
-                        </ul>
+                        <div class="policy-level">
+                            <div class="policy-level-title province">🏠 市级政策</div>
+                            <ul>
+                                <li><strong>应届落户：</strong>世界前50院校留学生可直接落户；双一流高校应届硕士可直接落户</li>
+                                <li><strong>积分落户：</strong>持居住证满7年可申请，紧缺人才可缩短年限</li>
+                                <li><strong>浦江人才计划：</strong>领军人才最高200万元补贴</li>
+                            </ul>
+                        </div>
+                        <div class="policy-level">
+                            <div class="policy-level-title city">📍 区级政策</div>
+                            <ul>
+                                <li><strong>浦东新区：</strong>明珠人才计划，顶尖人才最高150万元，租房补贴每月最高500元</li>
+                                <li><strong>临港新片区：</strong>购房最高补贴100万，租房补贴每月最高3500元</li>
+                                <li><strong>松江区：</strong>G60人才补贴，硕士每月20万，博士每月30万</li>
+                                <li><strong>嘉定区：</strong>创新创业补贴最高100万，购房补贴最高60万</li>
+                            </ul>
+                        </div>
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点区域</div>
+                        <div class="section-title">📍 全市各区（16个）</div>
                         <div class="cities-grid">
-                            <div class="city-card">
-                                <h4>浦东新区</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>6.8万/㎡</strong></span>
-                                    <span>薪资: <strong>1.5万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>金融</span><span>芯片</span><span>生物医药</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>临港新片区</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>3.5万/㎡</strong></span>
-                                    <span>薪资: <strong>1.2万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>智能制造</span><span>新能源汽车</span><span>集成电路</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>张江高科</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>7.5万/㎡</strong></span>
-                                    <span>薪资: <strong>2万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>AI</span><span>生物医药</span><span>芯片研发</span></div>
-                            </div>
+                            <div class="city-card"><h4>浦东新区</h4><div class="city-info"><span>房价: <strong>6.8万/㎡</strong></span><span>薪资: <strong>1.5万/月</strong></span></div><div class="city-industries"><span>金融</span><span>芯片</span><span>生物医药</span></div></div>
+                            <div class="city-card"><h4>黄浦区</h4><div class="city-info"><span>房价: <strong>12万/㎡</strong></span><span>薪资: <strong>1.6万/月</strong></span></div><div class="city-industries"><span>金融</span><span>商贸</span><span>高端服务</span></div></div>
+                            <div class="city-card"><h4>静安区</h4><div class="city-info"><span>房价: <strong>10万/㎡</strong></span><span>薪资: <strong>1.5万/月</strong></span></div><div class="city-industries"><span>创意产业</span><span>媒体</span><span>高端零售</span></div></div>
+                            <div class="city-card"><h4>徐汇区</h4><div class="city-info"><span>房价: <strong>9万/㎡</strong></span><span>薪资: <strong>1.4万/月</strong></span></div><div class="city-industries"><span>生命健康</span><span>人工智能</span><span>科技服务</span></div></div>
+                            <div class="city-card"><h4>长宁区</h4><div class="city-info"><span>房价: <strong>8万/㎡</strong></span><span>薪资: <strong>1.3万/月</strong></span></div><div class="city-industries"><span>互联网</span><span>能源</span><span>电子商务</span></div></div>
+                            <div class="city-card"><h4>普陀区</h4><div class="city-info"><span>房价: <strong>7万/㎡</strong></span><span>薪资: <strong>1.2万/月</strong></span></div><div class="city-industries"><span>电子信息</span><span>创意产业</span></div></div>
+                            <div class="city-card"><h4>虹口区</h4><div class="city-info"><span>房价: <strong>7.5万/㎡</strong></span><span>薪资: <strong>1.2万/月</strong></span></div><div class="city-industries"><span>航运</span><span>金融</span><span>商贸</span></div></div>
+                            <div class="city-card"><h4>杨浦区</h4><div class="city-info"><span>房价: <strong>6万/㎡</strong></span><span>薪资: <strong>1.1万/月</strong></span></div><div class="city-industries"><span>智能制造</span><span>电子信息</span></div></div>
+                            <div class="city-card"><h4>宝山区</h4><div class="city-info"><span>房价: <strong>4.5万/㎡</strong></span><span>薪资: <strong>1.0万/月</strong></span></div><div class="city-industries"><span>机器人</span><span>新材料</span><span>午餐产业</span></div></div>
+                            <div class="city-card"><h4>闵行区</h4><div class="city-info"><span>房价: <strong>6万/㎡</strong></span><span>薪资: <strong>1.1万/月</strong></span></div><div class="city-industries"><span>航空航天</span><span>生物医药</span></div></div>
+                            <div class="city-card"><h4>嘉定区</h4><div class="city-info"><span>房价: <strong>4.5万/㎡</strong></span><span>薪资: <strong>1.0万/月</strong></span></div><div class="city-industries"><span>汽车</span><span>集成电路</span><span>智能传感</span></div></div>
+                            <div class="city-card"><h4>松江区</h4><div class="city-info"><span>房价: <strong>4万/㎡</strong></span><span>薪资: <strong>9500/月</strong></span></div><div class="city-industries"><span>影视</span><span>教育</span><span>G60科创</span></div></div>
+                            <div class="city-card"><h4>青浦区</h4><div class="city-info"><span>房价: <strong>3.8万/㎡</strong></span><span>薪资: <strong>9000/月</strong></span></div><div class="city-industries"><span>化工</span><span>物流</span><span>白色家电</span></div></div>
+                            <div class="city-card"><h4>奉贤区</h4><div class="city-info"><span>房价: <strong>3万/㎡</strong></span><span>薪资: <strong>8500/月</strong></span></div><div class="city-industries"><span>不锈钢</span><span>电气</span><span>生物医药</span></div></div>
+                            <div class="city-card"><h4>金山区</h4><div class="city-info"><span>房价: <strong>3.5万/㎡</strong></span><span>薪资: <strong>9000/月</strong></span></div><div class="city-industries"><span>化工</span><span>装备制造</span></div></div>
+                            <div class="city-card"><h4>崇明区</h4><div class="city-info"><span>房价: <strong>2.2万/㎡</strong></span><span>薪资: <strong>8000/月</strong></span></div><div class="city-industries"><span>农业</span><span>生态旅游</span></div></div>
                         </div>
                     </div>
                     
@@ -273,48 +284,41 @@
                     
                     <div class="talent-policy">
                         <h5>🎯 人才引进政策</h5>
-                        <ul>
-                            <li><strong>南京：</strong>本科毕业生可直接落户，硕士购房补贴3万，博士5万</li>
-                            <li><strong>苏州：</strong>本科可落户，人才乐居工程提供优惠购房，最高100万补贴</li>
-                            <li><strong>无锡：</strong>太湖人才计划，顶尖人才最高1亿元资助</li>
-                        </ul>
+                        <div class="policy-level">
+                            <div class="policy-level-title province">🏠 省级政策</div>
+                            <ul>
+                                <li><strong>双创计划：</strong>顶尖人才维度综合资助1亿元</li>
+                                <li><strong>“苏北计划”：</strong>引导人才向苏北流动，补贴标准上浮30%</li>
+                            </ul>
+                        </div>
+                        <div class="policy-level">
+                            <div class="policy-level-title city">📍 市级政策</div>
+                            <ul>
+                                <li><strong>南京：</strong>本科毕业生可直接落户，硕士购房补贴3万，博士5万，紫金山人才计划最高500万</li>
+                                <li><strong>苏州：</strong>本科可落户，人才乐居工程优惠购房最高100万补贴</li>
+                                <li><strong>无锡：</strong>太湖人才计划，顶尖人才最高1亿元资助</li>
+                                <li><strong>常州：</strong>龙城英才计划，博士每月50万补贴，安居补贴30万</li>
+                                <li><strong>南通：</strong>江海英才计划，高层次人才补贴最高200万</li>
+                            </ul>
+                        </div>
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（13个地级市）</div>
                         <div class="cities-grid">
-                            <div class="city-card">
-                                <h4>南京市（省会）</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>3.2万/㎡</strong></span>
-                                    <span>薪资: <strong>1.1万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>软件</span><span>智能电网</span><span>生物医药</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>苏州市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>2.8万/㎡</strong></span>
-                                    <span>薪资: <strong>1.0万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>集成电路</span><span>生物医药</span><span>纳米材料</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>无锡市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>1.8万/㎡</strong></span>
-                                    <span>薪资: <strong>9500/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>物联网</span><span>集成电路</span><span>新能源</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>常州市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>1.5万/㎡</strong></span>
-                                    <span>薪资: <strong>8500/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>新能源</span><span>智能制造</span><span>新材料</span></div>
-                            </div>
+                            <div class="city-card"><h4>南京市（省会）</h4><div class="city-info"><span>房价: <strong>3.2万/㎡</strong></span><span>薪资: <strong>1.1万/月</strong></span></div><div class="city-industries"><span>软件</span><span>智能电网</span><span>生物医药</span></div></div>
+                            <div class="city-card"><h4>苏州市</h4><div class="city-info"><span>房价: <strong>2.8万/㎡</strong></span><span>薪资: <strong>1.0万/月</strong></span></div><div class="city-industries"><span>集成电路</span><span>生物医药</span><span>纳米材料</span></div></div>
+                            <div class="city-card"><h4>无锡市</h4><div class="city-info"><span>房价: <strong>1.8万/㎡</strong></span><span>薪资: <strong>9500/月</strong></span></div><div class="city-industries"><span>物联网</span><span>集成电路</span><span>新能源</span></div></div>
+                            <div class="city-card"><h4>常州市</h4><div class="city-info"><span>房价: <strong>1.5万/㎡</strong></span><span>薪资: <strong>8500/月</strong></span></div><div class="city-industries"><span>新能源</span><span>智能制造</span><span>新材料</span></div></div>
+                            <div class="city-card"><h4>南通市</h4><div class="city-info"><span>房价: <strong>1.4万/㎡</strong></span><span>薪资: <strong>8000/月</strong></span></div><div class="city-industries"><span>船舶海工</span><span>新材料</span><span>家纺</span></div></div>
+                            <div class="city-card"><h4>徐州市</h4><div class="city-info"><span>房价: <strong>1.2万/㎡</strong></span><span>薪资: <strong>7500/月</strong></span></div><div class="city-industries"><span>装备制造</span><span>新能源</span><span>电子信息</span></div></div>
+                            <div class="city-card"><h4>扬州市</h4><div class="city-info"><span>房价: <strong>1.3万/㎡</strong></span><span>薪资: <strong>7500/月</strong></span></div><div class="city-industries"><span>旅游</span><span>新光电</span><span>食品</span></div></div>
+                            <div class="city-card"><h4>泰州市</h4><div class="city-info"><span>房价: <strong>1.1万/㎡</strong></span><span>薪资: <strong>7000/月</strong></span></div><div class="city-industries"><span>医药</span><span>船舶</span><span>化工</span></div></div>
+                            <div class="city-card"><h4>盐城市</h4><div class="city-info"><span>房价: <strong>0.95万/㎡</strong></span><span>薪资: <strong>6800/月</strong></span></div><div class="city-industries"><span>新能源</span><span>钢铁</span><span>汽车</span></div></div>
+                            <div class="city-card"><h4>淮安市</h4><div class="city-info"><span>房价: <strong>0.8万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>电子</span><span>化工</span><span>食品</span></div></div>
+                            <div class="city-card"><h4>连云港市</h4><div class="city-info"><span>房价: <strong>0.75万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>港口</span><span>化工</span><span>电子</span></div></div>
+                            <div class="city-card"><h4>宿迁市</h4><div class="city-info"><span>房价: <strong>0.7万/㎡</strong></span><span>薪资: <strong>6200/月</strong></span></div><div class="city-industries"><span>纺织</span><span>电子</span><span>食品</span></div></div>
+                            <div class="city-card"><h4>镇江市</h4><div class="city-info"><span>房价: <strong>1.1万/㎡</strong></span><span>薪资: <strong>7500/月</strong></span></div><div class="city-industries"><span>船舶</span><span>新材料</span><span>旅游</span></div></div>
                         </div>
                     </div>
                     <div class="data-source">数据来源：江苏省统计局、各市人社局、中国房价行情网</div>
@@ -357,48 +361,38 @@
                     
                     <div class="talent-policy">
                         <h5>🎯 人才引进政策</h5>
-                        <ul>
-                            <li><strong>杭州：</strong>本科可落户，应届硕士补贴3万，博士5万，租房补贴每年1万（3年）</li>
-                            <li><strong>宁波：</strong>高层次人才购房补贴最高60万，安家补贴最高200万</li>
-                            <li><strong>全省：</strong>鲲鹏计划给予顶尖人才最高1亿元综合资助</li>
-                        </ul>
+                        <div class="policy-level">
+                            <div class="policy-level-title province">🏠 省级政策</div>
+                            <ul>
+                                <li><strong>鲲鹏计划：</strong>顶尖人才最高1亿元综合资助</li>
+                                <li><strong>新时代浙商回归：</strong>创业补贴、科研资助、子女入学等综合支持</li>
+                            </ul>
+                        </div>
+                        <div class="policy-level">
+                            <div class="policy-level-title city">📍 市级政策</div>
+                            <ul>
+                                <li><strong>杭州：</strong>本科可落户，应届硕士补贴3万，博士5万，租房补贴每年1万（3年）</li>
+                                <li><strong>宁波：</strong>高层次人才购房补贴最高60万，安家补贴最高200万</li>
+                                <li><strong>温州：</strong>人才新政40条，顶尖人才最高2000万</li>
+                                <li><strong>嘉兴：</strong>创新嘉兴·精英引领计划，领军人才500万资助</li>
+                            </ul>
+                        </div>
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（11个地级市）</div>
                         <div class="cities-grid">
-                            <div class="city-card">
-                                <h4>杭州市（省会）</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>4.1万/㎡</strong></span>
-                                    <span>薪资: <strong>1.3万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>互联网</span><span>电商</span><span>云计算</span><span>AI</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>宁波市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>2.3万/㎡</strong></span>
-                                    <span>薪资: <strong>9800/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>港口物流</span><span>汽车零部件</span><span>智能制造</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>温州市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>2.0万/㎡</strong></span>
-                                    <span>薪资: <strong>8200/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>鞋服</span><span>电气</span><span>泵阀</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>嘉兴市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>1.8万/㎡</strong></span>
-                                    <span>薪资: <strong>8500/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>光伏</span><span>集成电路</span><span>新材料</span></div>
-                            </div>
+                            <div class="city-card"><h4>杭州市（省会）</h4><div class="city-info"><span>房价: <strong>4.1万/㎡</strong></span><span>薪资: <strong>1.3万/月</strong></span></div><div class="city-industries"><span>互联网</span><span>电商</span><span>云计算</span><span>AI</span></div></div>
+                            <div class="city-card"><h4>宁波市</h4><div class="city-info"><span>房价: <strong>2.3万/㎡</strong></span><span>薪资: <strong>9800/月</strong></span></div><div class="city-industries"><span>港口物流</span><span>汽车零部件</span><span>智能制造</span></div></div>
+                            <div class="city-card"><h4>温州市</h4><div class="city-info"><span>房价: <strong>2.0万/㎡</strong></span><span>薪资: <strong>8200/月</strong></span></div><div class="city-industries"><span>鞋服</span><span>电气</span><span>泵阀</span></div></div>
+                            <div class="city-card"><h4>嘉兴市</h4><div class="city-info"><span>房价: <strong>1.8万/㎡</strong></span><span>薪资: <strong>8500/月</strong></span></div><div class="city-industries"><span>纳米新材料</span><span>智能家居</span></div></div>
+                            <div class="city-card"><h4>绍兴市</h4><div class="city-info"><span>房价: <strong>1.5万/㎡</strong></span><span>薪资: <strong>8000/月</strong></span></div><div class="city-industries"><span>纺织</span><span>化工</span><span>黄酒</span></div></div>
+                            <div class="city-card"><h4>湖州市</h4><div class="city-info"><span>房价: <strong>1.3万/㎡</strong></span><span>薪资: <strong>7800/月</strong></span></div><div class="city-industries"><span>家具</span><span>电池</span><span>绿色金融</span></div></div>
+                            <div class="city-card"><h4>金华市</h4><div class="city-info"><span>房价: <strong>1.6万/㎡</strong></span><span>薪资: <strong>7500/月</strong></span></div><div class="city-industries"><span>影视</span><span>网络经济</span><span>新能源</span></div></div>
+                            <div class="city-card"><h4>台州市</h4><div class="city-info"><span>房价: <strong>1.4万/㎡</strong></span><span>薪资: <strong>7500/月</strong></span></div><div class="city-industries"><span>汽摩配件</span><span>医药化工</span></div></div>
+                            <div class="city-card"><h4>衢州市</h4><div class="city-info"><span>房价: <strong>1.0万/㎡</strong></span><span>薪资: <strong>6800/月</strong></span></div><div class="city-industries"><span>化工</span><span>新材料</span><span>旅游</span></div></div>
+                            <div class="city-card"><h4>丽水市</h4><div class="city-info"><span>房价: <strong>1.2万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>生态旅游</span><span>新能源</span></div></div>
+                            <div class="city-card"><h4>舟山市</h4><div class="city-info"><span>房价: <strong>1.8万/㎡</strong></span><span>薪资: <strong>8500/月</strong></span></div><div class="city-industries"><span>港口</span><span>船舶</span><span>海洋经济</span></div></div>
                         </div>
                     </div>
                     <div class="data-source">数据来源：浙江省统计局、各市人社局、浙江省人才工作领导小组办公室</div>
@@ -737,64 +731,50 @@
                     
                     <div class="talent-policy">
                         <h5>🎯 人才引进政策</h5>
-                        <ul>
-                            <li><strong>深圳：</strong>本科可落户，新引进人才租房补贴本科1.5万，硕士2.5万，博士3万</li>
-                            <li><strong>广州：</strong>本科可落户，黄埔区人才购房补贴最高500万</li>
-                            <li><strong>东莞：</strong>本科补贴1万，硕士3万，博士6万</li>
-                        </ul>
+                        <div class="policy-level">
+                            <div class="policy-level-title province">🏠 省级政策</div>
+                            <ul>
+                                <li><strong>珠江人才计划：</strong>顶尖人才最高600万元资助</li>
+                                <li><strong>广东特支计划：</strong>创新创业团队最高8000万元</li>
+                                <li><strong>湾区人才绿卡：</strong>高层次人才享受行政审批、子女入学等便利</li>
+                            </ul>
+                        </div>
+                        <div class="policy-level">
+                            <div class="policy-level-title city">📍 市级政策</div>
+                            <ul>
+                                <li><strong>深圳：</strong>本科可落户，新引进人才租房补贴本科1.5万，硕士2.5万，博士3万</li>
+                                <li><strong>广州：</strong>本科可落户，黄埔区人才购房补贴最高500万</li>
+                                <li><strong>东莞：</strong>本科补贴1万，硕士3万，博士6万，创业资助最高1000万</li>
+                                <li><strong>佛山：</strong>本科补贴1万，硕士2万，博士4万</li>
+                                <li><strong>珠海：</strong>硕士购房补贴6万，博士25万</li>
+                            </ul>
+                        </div>
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（21个地级市）</div>
                         <div class="cities-grid">
-                            <div class="city-card">
-                                <h4>深圳市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>7.2万/㎡</strong></span>
-                                    <span>薪资: <strong>1.35万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>科技</span><span>金融</span><span>新能源</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>广州市（省会）</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>4.2万/㎡</strong></span>
-                                    <span>薪资: <strong>1.05万/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>汽车</span><span>电商</span><span>生物医药</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>东莞市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>2.2万/㎡</strong></span>
-                                    <span>薪资: <strong>8500/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>电子制造</span><span>智能装备</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>佛山市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>1.5万/㎡</strong></span>
-                                    <span>薪资: <strong>8200/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>家电</span><span>陶瓷</span><span>机器人</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>珠海市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>2.5万/㎡</strong></span>
-                                    <span>薪资: <strong>9200/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>芯片</span><span>航空</span><span>生物医药</span></div>
-                            </div>
-                            <div class="city-card">
-                                <h4>惠州市</h4>
-                                <div class="city-info">
-                                    <span>房价: <strong>1.2万/㎡</strong></span>
-                                    <span>薪资: <strong>7500/月</strong></span>
-                                </div>
-                                <div class="city-industries"><span>电子</span><span>石化</span><span>新能源</span></div>
-                            </div>
+                            <div class="city-card"><h4>广州市（省会）</h4><div class="city-info"><span>房价: <strong>4.2万/㎡</strong></span><span>薪资: <strong>1.05万/月</strong></span></div><div class="city-industries"><span>汽车</span><span>电商</span><span>生物医药</span></div></div>
+                            <div class="city-card"><h4>深圳市</h4><div class="city-info"><span>房价: <strong>7.2万/㎡</strong></span><span>薪资: <strong>1.35万/月</strong></span></div><div class="city-industries"><span>科技</span><span>金融</span><span>新能源</span></div></div>
+                            <div class="city-card"><h4>东莞市</h4><div class="city-info"><span>房价: <strong>2.2万/㎡</strong></span><span>薪资: <strong>8500/月</strong></span></div><div class="city-industries"><span>电子制造</span><span>智能装备</span></div></div>
+                            <div class="city-card"><h4>佛山市</h4><div class="city-info"><span>房价: <strong>1.5万/㎡</strong></span><span>薪资: <strong>8200/月</strong></span></div><div class="city-industries"><span>家电</span><span>陶瓷</span><span>机器人</span></div></div>
+                            <div class="city-card"><h4>珠海市</h4><div class="city-info"><span>房价: <strong>2.5万/㎡</strong></span><span>薪资: <strong>9200/月</strong></span></div><div class="city-industries"><span>芯片</span><span>航空</span><span>生物医药</span></div></div>
+                            <div class="city-card"><h4>惠州市</h4><div class="city-info"><span>房价: <strong>1.2万/㎡</strong></span><span>薪资: <strong>7500/月</strong></span></div><div class="city-industries"><span>电子</span><span>石化</span><span>新能源</span></div></div>
+                            <div class="city-card"><h4>中山市</h4><div class="city-info"><span>房价: <strong>1.2万/㎡</strong></span><span>薪资: <strong>7800/月</strong></span></div><div class="city-industries"><span>灯饮</span><span>家电</span><span>电子</span></div></div>
+                            <div class="city-card"><h4>江门市</h4><div class="city-info"><span>房价: <strong>0.9万/㎡</strong></span><span>薪资: <strong>7000/月</strong></span></div><div class="city-industries"><span>摩托</span><span>造纸</span><span>食品</span></div></div>
+                            <div class="city-card"><h4>肇庆市</h4><div class="city-info"><span>房价: <strong>0.75万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>新能源</span><span>金属加工</span></div></div>
+                            <div class="city-card"><h4>汕头市</h4><div class="city-info"><span>房价: <strong>0.8万/㎡</strong></span><span>薪资: <strong>6200/月</strong></span></div><div class="city-industries"><span>玩具</span><span>纺织</span><span>化工</span></div></div>
+                            <div class="city-card"><h4>潮州市</h4><div class="city-info"><span>房价: <strong>0.65万/㎡</strong></span><span>薪资: <strong>5800/月</strong></span></div><div class="city-industries"><span>陶瓷</span><span>食品</span><span>服装</span></div></div>
+                            <div class="city-card"><h4>揭阳市</h4><div class="city-info"><span>房价: <strong>0.55万/㎡</strong></span><span>薪资: <strong>5500/月</strong></span></div><div class="city-industries"><span>塑料</span><span>五金</span></div></div>
+                            <div class="city-card"><h4>湛江市</h4><div class="city-info"><span>房价: <strong>1.0万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>港口</span><span>钢铁</span><span>石化</span></div></div>
+                            <div class="city-card"><h4>茂名市</h4><div class="city-info"><span>房价: <strong>0.7万/㎡</strong></span><span>薪资: <strong>6000/月</strong></span></div><div class="city-industries"><span>石化</span><span>农业</span></div></div>
+                            <div class="city-card"><h4>梅州市</h4><div class="city-info"><span>房价: <strong>0.6万/㎡</strong></span><span>薪资: <strong>5500/月</strong></span></div><div class="city-industries"><span>电子</span><span>纺织</span><span>旅游</span></div></div>
+                            <div class="city-card"><h4>清远市</h4><div class="city-info"><span>房价: <strong>0.55万/㎡</strong></span><span>薪资: <strong>5500/月</strong></span></div><div class="city-industries"><span>陶瓷</span><span>水泥</span></div></div>
+                            <div class="city-card"><h4>韶关市</h4><div class="city-info"><span>房价: <strong>0.55万/㎡</strong></span><span>薪资: <strong>5800/月</strong></span></div><div class="city-industries"><span>有色金属</span><span>钢铁</span></div></div>
+                            <div class="city-card"><h4>河源市</h4><div class="city-info"><span>房价: <strong>0.5万/㎡</strong></span><span>薪资: <strong>5200/月</strong></span></div><div class="city-industries"><span>电子</span><span>旅游</span></div></div>
+                            <div class="city-card"><h4>阳江市</h4><div class="city-info"><span>房价: <strong>0.65万/㎡</strong></span><span>薪资: <strong>5800/月</strong></span></div><div class="city-industries"><span>刀剃</span><span>食品</span><span>旅游</span></div></div>
+                            <div class="city-card"><h4>汕尾市</h4><div class="city-info"><span>房价: <strong>0.5万/㎡</strong></span><span>薪资: <strong>5500/月</strong></span></div><div class="city-industries"><span>电子</span><span>电气</span></div></div>
+                            <div class="city-card"><h4>云浮市</h4><div class="city-info"><span>房价: <strong>0.6万/㎡</strong></span><span>薪资: <strong>5500/月</strong></span></div><div class="city-industries"><span>石材</span><span>纺织</span><span>旅游</span></div></div>
                         </div>
                     </div>
                     <div class="data-source">数据来源：广东省统计局、各市人社局、粤港澳大湾区发展规划纲要</div>
