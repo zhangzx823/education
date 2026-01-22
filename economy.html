@@ -7,202 +7,96 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans SC', sans-serif; background: #f5f7fa; min-height: 100vh; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: #f5f7fa; min-height: 100vh; font-size: 14px; }
         
-        .nav {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-        .nav-logo { color: white; font-size: 1.3em; font-weight: 700; text-decoration: none; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 25px; opacity: 0.9; transition: opacity 0.3s; }
+        .nav { background: linear-gradient(135deg, #f093fb, #f5576c); padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-logo { color: white; font-size: 1.2em; font-weight: 700; text-decoration: none; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; opacity: 0.9; }
         .nav-links a:hover { opacity: 1; }
         
-        .header {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
-            padding: 50px 30px 80px;
-            text-align: center;
-        }
-        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
-        .header p { opacity: 0.9; max-width: 700px; margin: 0 auto; line-height: 1.7; }
+        .header { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 40px 25px 70px; text-align: center; }
+        .header h1 { font-size: 2em; margin-bottom: 10px; }
+        .header p { opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
         
-        .container { max-width: 1200px; margin: -40px auto 0; padding: 0 20px 40px; position: relative; }
+        .container { max-width: 1400px; margin: -30px auto 0; padding: 0 15px 30px; }
         
-        .intro-box {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.08);
-        }
-        .intro-box h3 { color: #333; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .intro-box p { color: #666; line-height: 1.8; }
+        .intro-box { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.06); }
+        .intro-box h3 { color: #333; margin-bottom: 10px; font-size: 1.1em; }
+        .intro-box p { color: #666; line-height: 1.7; font-size: 0.95em; }
         
-        .region-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
-        .region-tab {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.95em;
-            font-weight: 500;
-            transition: all 0.3s;
-            background: #f0f0f0;
-            color: #666;
-        }
+        .region-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; background: white; padding: 15px; border-radius: 12px; }
+        .region-tab { padding: 10px 18px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; font-weight: 500; background: #f0f0f0; color: #666; transition: all 0.3s; }
         .region-tab:hover { background: #e0e0e0; }
-        .region-tab.active {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
-        }
+        .region-tab.active { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
         
         .region-content { display: none; }
         .region-content.active { display: block; }
         
-        .province-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-        }
+        .province-card { background: white; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 3px 15px rgba(0,0,0,0.05); overflow: hidden; }
+        .province-header { padding: 15px 20px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .province-header h3 { font-size: 1.15em; display: flex; align-items: center; gap: 8px; }
+        .province-header .toggle { font-size: 1.2em; transition: transform 0.3s; }
+        .province-header.expanded .toggle { transform: rotate(180deg); }
+        .province-meta { display: flex; gap: 15px; font-size: 0.85em; opacity: 0.9; }
         
-        .province-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-        }
-        .province-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-        }
+        .province-body { padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+        .province-body.expanded { padding: 20px; max-height: 5000px; }
         
-        .province-header {
-            padding: 20px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .province-header h3 { font-size: 1.3em; }
-        .province-header .gdp { font-size: 0.9em; opacity: 0.9; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .info-item { background: #f8f9fa; padding: 12px; border-radius: 8px; }
+        .info-item h5 { color: #888; font-size: 0.8em; margin-bottom: 5px; }
+        .info-item .value { color: #333; font-size: 1.1em; font-weight: 600; }
+        .info-item .sub { color: #888; font-size: 0.75em; margin-top: 3px; }
         
-        .province-body { padding: 20px; }
+        .section-title { font-size: 0.95em; color: #333; margin: 15px 0 10px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
         
-        .industry-section { margin-bottom: 20px; }
-        .industry-section h4 {
-            color: #333;
-            font-size: 0.95em;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .industry-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .ind-tag {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 500;
-        }
+        .industry-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+        .ind-tag { padding: 5px 12px; border-radius: 15px; font-size: 0.8em; }
         .ind-tag.pillar { background: #fff3e0; color: #e65100; }
         .ind-tag.emerging { background: #e8f5e9; color: #2e7d32; }
-        .ind-tag.growing { background: #e3f2fd; color: #1565c0; }
         
-        .jobs-section { margin-top: 15px; }
-        .jobs-section h4 {
-            color: #333;
-            font-size: 0.95em;
-            margin-bottom: 10px;
-        }
-        .job-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .job-item {
-            background: #f8f9fa;
-            padding: 5px 12px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            color: #555;
-        }
+        .job-list { display: flex; flex-wrap: wrap; gap: 5px; }
+        .job-item { background: #f0f0f0; padding: 4px 10px; border-radius: 10px; font-size: 0.8em; color: #555; }
         
-        .data-source {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-            font-size: 0.8em;
-            color: #888;
-        }
+        .talent-policy { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-top: 10px; }
+        .talent-policy h5 { color: #1565c0; margin-bottom: 8px; font-size: 0.9em; }
+        .talent-policy ul { margin-left: 18px; color: #555; font-size: 0.85em; line-height: 1.7; }
         
-        /* 区域颜色 */
-        .region-north .province-header { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .cities-section { margin-top: 15px; }
+        .cities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+        .city-card { background: #fafafa; border-radius: 10px; padding: 15px; border-left: 3px solid #f093fb; }
+        .city-card h4 { color: #333; font-size: 1em; margin-bottom: 10px; }
+        .city-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85em; }
+        .city-info span { color: #666; }
+        .city-info strong { color: #333; }
+        .city-industries { margin-top: 8px; }
+        .city-industries span { background: #f0f0f0; padding: 2px 8px; border-radius: 8px; font-size: 0.75em; margin-right: 4px; color: #666; }
+        
+        .data-source { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #ddd; font-size: 0.75em; color: #999; }
+        
         .region-east .province-header { background: linear-gradient(135deg, #11998e, #38ef7d); }
         .region-south .province-header { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .region-north .province-header { background: linear-gradient(135deg, #667eea, #764ba2); }
         .region-central .province-header { background: linear-gradient(135deg, #fa709a, #fee140); }
         .region-west .province-header { background: linear-gradient(135deg, #4facfe, #00f2fe); }
         .region-northeast .province-header { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
         
-        .sources-section {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
-        .sources-section h3 {
-            color: #333;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .source-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .source-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s;
-        }
-        .source-item:hover { background: #e8f5e9; transform: translateX(5px); }
-        .source-icon { font-size: 1.5em; margin-right: 12px; }
-        .source-info h4 { color: #333; font-size: 0.95em; margin-bottom: 3px; }
-        .source-info p { color: #888; font-size: 0.8em; }
+        .sources-section { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; }
+        .sources-section h3 { color: #333; margin-bottom: 15px; font-size: 1.1em; }
+        .source-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        .source-item { display: flex; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: inherit; }
+        .source-item:hover { background: #e8f5e9; }
+        .source-icon { font-size: 1.3em; margin-right: 10px; }
+        .source-info h4 { color: #333; font-size: 0.9em; }
+        .source-info p { color: #888; font-size: 0.75em; }
         
-        .footer { text-align: center; padding: 30px; color: #888; font-size: 0.9em; }
+        .footer { text-align: center; padding: 25px; color: #888; font-size: 0.85em; }
         .footer a { color: #f5576c; }
         
-        @media (max-width: 600px) {
-            .nav { padding: 12px 15px; }
-            .nav-links a { margin-left: 15px; font-size: 0.9em; }
-            .header h1 { font-size: 1.6em; }
-            .province-grid { grid-template-columns: 1fr; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5em; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
+            .cities-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -219,797 +113,1666 @@
     
     <header class="header">
         <h1>📊 区域经济与产业分析</h1>
-        <p>基于国家统计局、各省统计年鉴及权威研究报告，从经济学视角深度剖析全国各省市产业特色与人才需求，为您的城市选择提供数据支撑。</p>
+        <p>基于国家统计局、各省市统计局及权威研究机构数据，全面呈现31个省级行政区及主要城市的产业特色、薪资水平、房价及人才政策，为您的城市选择提供数据支撑。</p>
     </header>
     
     <div class="container">
         <div class="intro-box">
-            <h3>📈 经济学家视角：区域发展格局</h3>
-            <p>中国经济呈现明显的区域分化特征。<strong>长三角</strong>以高端制造和数字经济领跑，<strong>珠三角</strong>外贸与科技创新并重，<strong>京津冀</strong>政治文化与科技研发中心地位稳固，<strong>成渝</strong>经济圈加速崛起成为西部增长极。选择发展城市，不仅要看当前机会，更要关注产业升级方向和人才政策。以下分析基于2023-2024年最新数据，助您做出更理性的选择。</p>
+            <h3>📈 数据说明</h3>
+            <p><strong>薪资数据：</strong>来源于国家统计局城镇非私营单位就业人员年平均工资（2023年）及各地人社局发布数据。<strong>房价数据：</strong>来源于中国房价行情网及各地住建局监测数据（2024年）。<strong>人才政策：</strong>整理自各地人才工作领导小组办公室及人社局官方发布。GDP数据来源于各省市2023年统计公报。</p>
         </div>
         
         <div class="region-tabs">
-            <button class="region-tab active" onclick="showRegion('east')">华东地区</button>
-            <button class="region-tab" onclick="showRegion('south')">华南地区</button>
-            <button class="region-tab" onclick="showRegion('north')">华北地区</button>
-            <button class="region-tab" onclick="showRegion('central')">华中地区</button>
-            <button class="region-tab" onclick="showRegion('west')">西部地区</button>
-            <button class="region-tab" onclick="showRegion('northeast')">东北地区</button>
+            <button class="region-tab active" onclick="showRegion('east')">华东地区(7省市)</button>
+            <button class="region-tab" onclick="showRegion('south')">华南地区(3省区)</button>
+            <button class="region-tab" onclick="showRegion('north')">华北地区(5省市区)</button>
+            <button class="region-tab" onclick="showRegion('central')">华中地区(3省)</button>
+            <button class="region-tab" onclick="showRegion('west')">西部地区(12省市区)</button>
+            <button class="region-tab" onclick="showRegion('northeast')">东北地区(3省)</button>
         </div>
         
         <!-- 华东地区 -->
         <div class="region-content active" id="region-east">
-            <div class="province-grid">
-                <div class="province-card region-east">
-                    <div class="province-header">
-                        <div><h3>上海市</h3><span>直辖市</span></div>
-                        <div class="gdp">GDP: 4.72万亿 (2023)</div>
-                    </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">金融服务</span>
-                                <span class="ind-tag pillar">国际贸易</span>
-                                <span class="ind-tag pillar">高端制造</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">集成电路</span>
-                                <span class="ind-tag emerging">生物医药</span>
-                                <span class="ind-tag emerging">人工智能</span>
-                                <span class="ind-tag growing">在线新经济</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">金融分析师</span>
-                                <span class="job-item">芯片设计工程师</span>
-                                <span class="job-item">算法工程师</span>
-                                <span class="job-item">临床研究员</span>
-                                <span class="job-item">供应链管理</span>
-                                <span class="job-item">跨境电商运营</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：上海市统计局、上海市经信委</div>
+            
+            <!-- 上海 -->
+            <div class="province-card region-east">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏙️</span> 上海市 <small>直辖市·国际金融中心</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 4.72万亿</span>
+                        <span>人口: 2487万</span>
+                        <span class="toggle">▼</span>
                     </div>
                 </div>
-                
-                <div class="province-card region-east">
-                    <div class="province-header">
-                        <div><h3>江苏省</h3><span>制造强省</span></div>
-                        <div class="gdp">GDP: 12.82万亿 (2023)</div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h5>💰 平均薪资</h5>
+                            <div class="value">¥12,183/月</div>
+                            <div class="sub">城镇非私营: 19.1万/年</div>
+                        </div>
+                        <div class="info-item">
+                            <h5>🏠 平均房价</h5>
+                            <div class="value">¥51,834/㎡</div>
+                            <div class="sub">内环均价超10万/㎡</div>
+                        </div>
+                        <div class="info-item">
+                            <h5>📈 GDP增速</h5>
+                            <div class="value">5.0%</div>
+                            <div class="sub">2023年增速</div>
+                        </div>
+                        <div class="info-item">
+                            <h5>👥 人才缺口</h5>
+                            <div class="value">金融/芯片/AI</div>
+                            <div class="sub">高端人才紧缺</div>
+                        </div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">电子信息</span>
-                                <span class="ind-tag pillar">化工新材料</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">新能源</span>
-                                <span class="ind-tag emerging">生物医药</span>
-                                <span class="ind-tag emerging">集成电路</span>
-                                <span class="ind-tag growing">智能制造</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">工艺工程师</span>
-                                <span class="job-item">质量管理</span>
-                                <span class="job-item">光伏研发</span>
-                                <span class="job-item">药品注册</span>
-                                <span class="job-item">自动化工程师</span>
-                                <span class="job-item">外贸业务</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：江苏省统计局、江苏省发改委</div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">金融服务</span>
+                        <span class="ind-tag pillar">国际贸易</span>
+                        <span class="ind-tag pillar">高端制造</span>
+                        <span class="ind-tag pillar">航运物流</span>
                     </div>
-                </div>
-                
-                <div class="province-card region-east">
-                    <div class="province-header">
-                        <div><h3>浙江省</h3><span>数字经济大省</span></div>
-                        <div class="gdp">GDP: 8.26万亿 (2023)</div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">集成电路</span>
+                        <span class="ind-tag emerging">生物医药</span>
+                        <span class="ind-tag emerging">人工智能</span>
+                        <span class="ind-tag emerging">在线新经济</span>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">数字经济</span>
-                                <span class="ind-tag pillar">民营制造</span>
-                                <span class="ind-tag pillar">跨境电商</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">云计算大数据</span>
-                                <span class="ind-tag emerging">新能源汽车</span>
-                                <span class="ind-tag emerging">高端装备</span>
-                                <span class="ind-tag growing">直播电商</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">软件开发</span>
-                                <span class="job-item">产品经理</span>
-                                <span class="job-item">电商运营</span>
-                                <span class="job-item">数据分析师</span>
-                                <span class="job-item">直播运营</span>
-                                <span class="job-item">供应链专员</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：浙江省统计局、浙江省数字经济发展中心</div>
+                    
+                    <div class="section-title">💼 热门岗位</div>
+                    <div class="job-list">
+                        <span class="job-item">金融分析师</span>
+                        <span class="job-item">芯片设计</span>
+                        <span class="job-item">算法工程师</span>
+                        <span class="job-item">临床研究</span>
+                        <span class="job-item">供应链管理</span>
+                        <span class="job-item">跨境电商</span>
                     </div>
-                </div>
-                
-                <div class="province-card region-east">
-                    <div class="province-header">
-                        <div><h3>山东省</h3><span>工业大省</span></div>
-                        <div class="gdp">GDP: 9.21万亿 (2023)</div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>应届落户：</strong>世界前50院校留学生可直接落户；双一流高校应届硕士可直接落户</li>
+                            <li><strong>积分落户：</strong>持居住证满7年可申请，紧缺人才可缩短年限</li>
+                            <li><strong>住房补贴：</strong>临港新片区购房最高补贴100万，租房补贴每月最高3500元</li>
+                        </ul>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">化工能源</span>
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">农副食品</span>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点区域</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>浦东新区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>6.8万/㎡</strong></span>
+                                    <span>薪资: <strong>1.5万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>金融</span><span>芯片</span><span>生物医药</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>临港新片区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3.5万/㎡</strong></span>
+                                    <span>薪资: <strong>1.2万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>智能制造</span><span>新能源汽车</span><span>集成电路</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>张江高科</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>7.5万/㎡</strong></span>
+                                    <span>薪资: <strong>2万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>AI</span><span>生物医药</span><span>芯片研发</span></div>
                             </div>
                         </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">海洋经济</span>
-                                <span class="ind-tag emerging">新材料</span>
-                                <span class="ind-tag growing">工业互联网</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">化工工程师</span>
-                                <span class="job-item">机械设计</span>
-                                <span class="job-item">食品研发</span>
-                                <span class="job-item">海洋技术</span>
-                                <span class="job-item">安全工程师</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：山东省统计局</div>
                     </div>
+                    
+                    <div class="data-source">数据来源：上海市统计局《2023年上海市国民经济和社会发展统计公报》、上海市人社局、中国房价行情网</div>
                 </div>
             </div>
+            
+            <!-- 江苏 -->
+            <div class="province-card region-east">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏭</span> 江苏省 <small>制造强省·经济大省</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 12.82万亿</span>
+                        <span>人口: 8526万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥9,516/月</div><div class="sub">城镇非私营: 12.5万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥15,823/㎡</div><div class="sub">苏南高于苏北</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">5.8%</div><div class="sub">全国第二大经济省</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">先进制造/集成电路</div><div class="sub">高技能人才紧缺</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">装备制造</span>
+                        <span class="ind-tag pillar">电子信息</span>
+                        <span class="ind-tag pillar">化工新材料</span>
+                        <span class="ind-tag pillar">纺织服装</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">新能源</span>
+                        <span class="ind-tag emerging">生物医药</span>
+                        <span class="ind-tag emerging">集成电路</span>
+                        <span class="ind-tag emerging">智能制造</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>南京：</strong>本科毕业生可直接落户，硕士购房补贴3万，博士5万</li>
+                            <li><strong>苏州：</strong>本科可落户，人才乐居工程提供优惠购房，最高100万补贴</li>
+                            <li><strong>无锡：</strong>太湖人才计划，顶尖人才最高1亿元资助</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>南京市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3.2万/㎡</strong></span>
+                                    <span>薪资: <strong>1.1万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>软件</span><span>智能电网</span><span>生物医药</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>苏州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.8万/㎡</strong></span>
+                                    <span>薪资: <strong>1.0万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>集成电路</span><span>生物医药</span><span>纳米材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>无锡市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.8万/㎡</strong></span>
+                                    <span>薪资: <strong>9500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>物联网</span><span>集成电路</span><span>新能源</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>常州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.5万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>新能源</span><span>智能制造</span><span>新材料</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：江苏省统计局、各市人社局、中国房价行情网</div>
+                </div>
+            </div>
+            
+            <!-- 浙江 -->
+            <div class="province-card region-east">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>💻</span> 浙江省 <small>数字经济大省</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 8.26万亿</span>
+                        <span>人口: 6577万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥10,742/月</div><div class="sub">城镇非私营: 14.0万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥22,156/㎡</div><div class="sub">杭州均价4万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">6.0%</div><div class="sub">全国第四</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">互联网/电商</div><div class="sub">数字人才需求大</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">数字经济</span>
+                        <span class="ind-tag pillar">民营制造</span>
+                        <span class="ind-tag pillar">跨境电商</span>
+                        <span class="ind-tag pillar">现代服务业</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">云计算大数据</span>
+                        <span class="ind-tag emerging">新能源汽车</span>
+                        <span class="ind-tag emerging">高端装备</span>
+                        <span class="ind-tag emerging">直播电商</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>杭州：</strong>本科可落户，应届硕士补贴3万，博士5万，租房补贴每年1万（3年）</li>
+                            <li><strong>宁波：</strong>高层次人才购房补贴最高60万，安家补贴最高200万</li>
+                            <li><strong>全省：</strong>鲲鹏计划给予顶尖人才最高1亿元综合资助</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>杭州市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>4.1万/㎡</strong></span>
+                                    <span>薪资: <strong>1.3万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>互联网</span><span>电商</span><span>云计算</span><span>AI</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>宁波市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.3万/㎡</strong></span>
+                                    <span>薪资: <strong>9800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>港口物流</span><span>汽车零部件</span><span>智能制造</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>温州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.0万/㎡</strong></span>
+                                    <span>薪资: <strong>8200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>鞋服</span><span>电气</span><span>泵阀</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>嘉兴市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.8万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>光伏</span><span>集成电路</span><span>新材料</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：浙江省统计局、各市人社局、浙江省人才工作领导小组办公室</div>
+                </div>
+            </div>
+            
+            <!-- 山东 -->
+            <div class="province-card region-east">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏗️</span> 山东省 <small>工业大省·农业强省</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 9.21万亿</span>
+                        <span>人口: 10123万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥7,652/月</div><div class="sub">城镇非私营: 10.2万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥11,235/㎡</div><div class="sub">青岛济南较高</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">6.0%</div><div class="sub">全国第三</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">高端制造/海洋</div><div class="sub">技能人才紧缺</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">化工能源</span>
+                        <span class="ind-tag pillar">装备制造</span>
+                        <span class="ind-tag pillar">农副食品</span>
+                        <span class="ind-tag pillar">纺织服装</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">海洋经济</span>
+                        <span class="ind-tag emerging">新材料</span>
+                        <span class="ind-tag emerging">工业互联网</span>
+                        <span class="ind-tag emerging">新能源</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>济南：</strong>本科可落户，泉城人才补贴本科每月700元，硕士1000元，博士1500元</li>
+                            <li><strong>青岛：</strong>住房补贴本科500元/月，硕士800元/月，博士1200元/月</li>
+                            <li><strong>全省：</strong>泰山产业领军人才工程，最高500万元资助</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>济南市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.6万/㎡</strong></span>
+                                    <span>薪资: <strong>8200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>软件</span><span>智能制造</span><span>生物医药</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>青岛市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.1万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>家电</span><span>海洋装备</span><span>轨道交通</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>烟台市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.0万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>汽车</span><span>黄金</span><span>海洋装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>潍坊市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>农机</span><span>动力装备</span><span>食品加工</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：山东省统计局、各市人社局、山东省人才工作领导小组办公室</div>
+                </div>
+            </div>
+            
+            <!-- 安徽 -->
+            <div class="province-card region-east">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🔬</span> 安徽省 <small>科技创新省份</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 4.71万亿</span>
+                        <span>人口: 6127万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥7,125/月</div><div class="sub">城镇非私营: 9.8万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥10,562/㎡</div><div class="sub">合肥较高</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">5.8%</div><div class="sub">增速位居前列</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">集成电路/新能源</div><div class="sub">科技人才需求大</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">汽车制造</span>
+                        <span class="ind-tag pillar">家电</span>
+                        <span class="ind-tag pillar">装备制造</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">集成电路</span>
+                        <span class="ind-tag emerging">新能源汽车</span>
+                        <span class="ind-tag emerging">人工智能</span>
+                        <span class="ind-tag emerging">量子信息</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>合肥：</strong>本科可落户，租房补贴3年，博士补贴20万，购房最高补贴100万</li>
+                            <li><strong>芜湖：</strong>紫云英人才计划，顶尖人才最高1000万资助</li>
+                            <li><strong>全省：</strong>皖江人才计划，给予创业启动资金支持</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>合肥市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.8万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>集成电路</span><span>新能源汽车</span><span>人工智能</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>芜湖市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.1万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>汽车</span><span>机器人</span><span>航空</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：安徽省统计局、合肥市人社局</div>
+                </div>
+            </div>
+            
+            <!-- 福建 -->
+            <div class="province-card region-east">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌊</span> 福建省 <small>民营经济大省</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 5.43万亿</span>
+                        <span>人口: 4188万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥8,236/月</div><div class="sub">城镇非私营: 11.2万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥18,562/㎡</div><div class="sub">厦门均价4万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">4.5%</div><div class="sub">稳步增长</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">新能源/电子信息</div><div class="sub">技术人才紧缺</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">电子信息</span>
+                        <span class="ind-tag pillar">纺织鞋服</span>
+                        <span class="ind-tag pillar">石化工业</span>
+                        <span class="ind-tag pillar">机械装备</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">新能源电池</span>
+                        <span class="ind-tag emerging">新材料</span>
+                        <span class="ind-tag emerging">海洋经济</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>厦门：</strong>本科可落户，新引进人才生活补贴本科3万，硕士5万，博士8万</li>
+                            <li><strong>福州：</strong>榕城英才卡，最高200万购房补贴</li>
+                            <li><strong>泉州：</strong>桐江学者计划，科研启动经费最高500万</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>福州市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.5万/㎡</strong></span>
+                                    <span>薪资: <strong>8200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>软件</span><span>大数据</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>厦门市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>4.5万/㎡</strong></span>
+                                    <span>薪资: <strong>9500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>电子</span><span>软件</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>泉州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.3万/㎡</strong></span>
+                                    <span>薪资: <strong>7500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>鞋服</span><span>石化</span><span>机械</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：福建省统计局、各市人社局</div>
+                </div>
+            </div>
+            
+            <!-- 江西 -->
+            <div class="province-card region-east">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌿</span> 江西省 <small>生态大省·中部崛起</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 3.22万亿</span>
+                        <span>人口: 4528万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥6,523/月</div><div class="sub">城镇非私营: 9.1万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥9,125/㎡</div><div class="sub">南昌略高</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">4.1%</div><div class="sub">稳步发展</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">电子/有色金属</div><div class="sub">专业技术人才</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">有色金属</span>
+                        <span class="ind-tag pillar">电子信息</span>
+                        <span class="ind-tag pillar">航空制造</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">锂电新能源</span>
+                        <span class="ind-tag emerging">电子信息</span>
+                        <span class="ind-tag emerging">VR产业</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>南昌：</strong>大学毕业生落户零门槛，生活补贴本科1000元/月</li>
+                            <li><strong>全省：</strong>双千计划引进高层次人才，最高600万资助</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>南昌市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.3万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>VR</span><span>航空</span><span>电子</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>赣州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>稀土</span><span>电子</span><span>纺织</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：江西省统计局、南昌市人社局</div>
+                </div>
+            </div>
+            
         </div>
         
         <!-- 华南地区 -->
         <div class="region-content" id="region-south">
-            <div class="province-grid">
-                <div class="province-card region-south">
-                    <div class="province-header">
-                        <div><h3>广东省</h3><span>经济第一大省</span></div>
-                        <div class="gdp">GDP: 13.57万亿 (2023)</div>
-                    </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">电子信息</span>
-                                <span class="ind-tag pillar">先进制造</span>
-                                <span class="ind-tag pillar">现代服务业</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">新能源汽车</span>
-                                <span class="ind-tag emerging">人工智能</span>
-                                <span class="ind-tag emerging">半导体</span>
-                                <span class="ind-tag growing">低空经济</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">硬件工程师</span>
-                                <span class="job-item">嵌入式开发</span>
-                                <span class="job-item">新能源研发</span>
-                                <span class="job-item">跨境电商</span>
-                                <span class="job-item">产品设计</span>
-                                <span class="job-item">供应链管理</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：广东省统计局、粤港澳大湾区发展规划</div>
+            
+            <!-- 广东 -->
+            <div class="province-card region-south">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌟</span> 广东省 <small>经济第一大省</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 13.57万亿</span>
+                        <span>人口: 12706万</span>
+                        <span class="toggle">▼</span>
                     </div>
                 </div>
-                
-                <div class="province-card region-south">
-                    <div class="province-header">
-                        <div><h3>深圳市</h3><span>创新之都</span></div>
-                        <div class="gdp">GDP: 3.46万亿 (2023)</div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥10,326/月</div><div class="sub">城镇非私营: 13.6万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥18,965/㎡</div><div class="sub">深圳均价7万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">4.8%</div><div class="sub">全国第一</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">芯片/新能源</div><div class="sub">高端人才紧缺</div></div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">高新技术</span>
-                                <span class="ind-tag pillar">金融服务</span>
-                                <span class="ind-tag pillar">现代物流</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业（20+8产业集群）</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">网络与通信</span>
-                                <span class="ind-tag emerging">智能终端</span>
-                                <span class="ind-tag emerging">新能源</span>
-                                <span class="ind-tag emerging">生物医药</span>
-                                <span class="ind-tag growing">脑科学</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">算法工程师</span>
-                                <span class="job-item">芯片研发</span>
-                                <span class="job-item">产品经理</span>
-                                <span class="job-item">投资分析</span>
-                                <span class="job-item">电池研发</span>
-                                <span class="job-item">医疗器械</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：深圳市统计局、深圳市工信局</div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">电子信息</span>
+                        <span class="ind-tag pillar">先进制造</span>
+                        <span class="ind-tag pillar">现代服务业</span>
+                        <span class="ind-tag pillar">外贸出口</span>
                     </div>
-                </div>
-                
-                <div class="province-card region-south">
-                    <div class="province-header">
-                        <div><h3>福建省</h3><span>民营经济大省</span></div>
-                        <div class="gdp">GDP: 5.43万亿 (2023)</div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">新能源汽车</span>
+                        <span class="ind-tag emerging">人工智能</span>
+                        <span class="ind-tag emerging">半导体</span>
+                        <span class="ind-tag emerging">低空经济</span>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">电子信息</span>
-                                <span class="ind-tag pillar">纺织鞋服</span>
-                                <span class="ind-tag pillar">石化工业</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">新能源电池</span>
-                                <span class="ind-tag emerging">新材料</span>
-                                <span class="ind-tag growing">海洋经济</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">电池研发</span>
-                                <span class="job-item">服装设计</span>
-                                <span class="job-item">外贸业务</span>
-                                <span class="job-item">品牌运营</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：福建省统计局</div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>深圳：</strong>本科可落户，新引进人才租房补贴本科1.5万，硕士2.5万，博士3万</li>
+                            <li><strong>广州：</strong>本科可落户，黄埔区人才购房补贴最高500万</li>
+                            <li><strong>东莞：</strong>本科补贴1万，硕士3万，博士6万</li>
+                        </ul>
                     </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>深圳市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>7.2万/㎡</strong></span>
+                                    <span>薪资: <strong>1.35万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>科技</span><span>金融</span><span>新能源</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>广州市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>4.2万/㎡</strong></span>
+                                    <span>薪资: <strong>1.05万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>汽车</span><span>电商</span><span>生物医药</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>东莞市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.2万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>电子制造</span><span>智能装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>佛山市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.5万/㎡</strong></span>
+                                    <span>薪资: <strong>8200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>家电</span><span>陶瓷</span><span>机器人</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>珠海市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.5万/㎡</strong></span>
+                                    <span>薪资: <strong>9200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>芯片</span><span>航空</span><span>生物医药</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>惠州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.2万/㎡</strong></span>
+                                    <span>薪资: <strong>7500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>电子</span><span>石化</span><span>新能源</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：广东省统计局、各市人社局、粤港澳大湾区发展规划纲要</div>
                 </div>
             </div>
+            
+            <!-- 广西 -->
+            <div class="province-card region-south">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌴</span> 广西壮族自治区 <small>面向东盟门户</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 2.72万亿</span>
+                        <span>人口: 5037万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥6,125/月</div><div class="sub">城镇非私营: 8.9万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥8,562/㎡</div><div class="sub">南宁较高</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">4.1%</div><div class="sub">稳步增长</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">汽车/有色金属</div><div class="sub">产业升级需人才</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">汽车制造</span>
+                        <span class="ind-tag pillar">有色金属</span>
+                        <span class="ind-tag pillar">糖业</span>
+                        <span class="ind-tag pillar">旅游</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">新能源汽车</span>
+                        <span class="ind-tag emerging">电子信息</span>
+                        <span class="ind-tag emerging">新材料</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>南宁：</strong>本科落户无门槛，人才公寓租金优惠</li>
+                            <li><strong>全区：</strong>八桂学者计划，最高资助300万</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>南宁市（首府）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.2万/㎡</strong></span>
+                                    <span>薪资: <strong>6800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>电子</span><span>生物医药</span><span>跨境贸易</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>柳州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>汽车</span><span>钢铁</span><span>工程机械</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>桂林市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>电子</span><span>橡胶</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：广西统计局、各市人社局</div>
+                </div>
+            </div>
+            
+            <!-- 海南 -->
+            <div class="province-card region-south">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏝️</span> 海南省 <small>自由贸易港</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 0.74万亿</span>
+                        <span>人口: 1027万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥7,236/月</div><div class="sub">城镇非私营: 10.5万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥16,852/㎡</div><div class="sub">三亚均价3万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">9.2%</div><div class="sub">全国领先</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">现代服务/金融</div><div class="sub">自贸港人才急需</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">旅游服务</span>
+                        <span class="ind-tag pillar">热带农业</span>
+                        <span class="ind-tag pillar">房地产</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">免税购物</span>
+                        <span class="ind-tag emerging">现代金融</span>
+                        <span class="ind-tag emerging">航天产业</span>
+                        <span class="ind-tag emerging">数字经济</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>全省：</strong>百万人才进海南计划，本科以上学历可落户</li>
+                            <li><strong>海口：</strong>住房补贴本科1.8万，硕士3.6万，博士6万</li>
+                            <li><strong>三亚：</strong>崖州湾人才购房最高补贴200万</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>海口市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.6万/㎡</strong></span>
+                                    <span>薪资: <strong>7500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>贸易</span><span>金融</span><span>会展</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>三亚市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3.2万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>免税</span><span>航天</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：海南省统计局、海南自由贸易港政策文件</div>
+                </div>
+            </div>
+            
         </div>
         
         <!-- 华北地区 -->
         <div class="region-content" id="region-north">
-            <div class="province-grid">
-                <div class="province-card region-north">
-                    <div class="province-header">
-                        <div><h3>北京市</h3><span>首都·科技创新中心</span></div>
-                        <div class="gdp">GDP: 4.38万亿 (2023)</div>
-                    </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">科技服务</span>
-                                <span class="ind-tag pillar">金融</span>
-                                <span class="ind-tag pillar">信息服务</span>
-                                <span class="ind-tag pillar">文化创意</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">人工智能</span>
-                                <span class="ind-tag emerging">量子信息</span>
-                                <span class="ind-tag emerging">生命科学</span>
-                                <span class="ind-tag growing">商业航天</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">AI研究员</span>
-                                <span class="job-item">投资经理</span>
-                                <span class="job-item">产品运营</span>
-                                <span class="job-item">内容创作</span>
-                                <span class="job-item">科研人员</span>
-                                <span class="job-item">政策研究</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：北京市统计局、中关村科技园区管委会</div>
+            
+            <!-- 北京 -->
+            <div class="province-card region-north">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏛️</span> 北京市 <small>首都·全国政治中心</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 4.38万亿</span>
+                        <span>人口: 2184万</span>
+                        <span class="toggle">▼</span>
                     </div>
                 </div>
-                
-                <div class="province-card region-north">
-                    <div class="province-header">
-                        <div><h3>天津市</h3><span>北方工业重镇</span></div>
-                        <div class="gdp">GDP: 1.67万亿 (2023)</div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥13,438/月</div><div class="sub">城镇非私营: 20.8万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥62,358/㎡</div><div class="sub">核心区超10万/㎡</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">5.2%</div><div class="sub">高质量发展</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">科技/金融/文化</div><div class="sub">高端人才集聚</div></div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">石油化工</span>
-                                <span class="ind-tag pillar">港口物流</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">航空航天</span>
-                                <span class="ind-tag emerging">新能源</span>
-                                <span class="ind-tag emerging">生物制药</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">航空工程师</span>
-                                <span class="job-item">物流管理</span>
-                                <span class="job-item">机械工程师</span>
-                                <span class="job-item">化工研发</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：天津市统计局</div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">科技服务</span>
+                        <span class="ind-tag pillar">金融业</span>
+                        <span class="ind-tag pillar">信息服务</span>
+                        <span class="ind-tag pillar">文化创意</span>
                     </div>
-                </div>
-                
-                <div class="province-card region-north">
-                    <div class="province-header">
-                        <div><h3>河北省</h3><span>京津冀协同发展</span></div>
-                        <div class="gdp">GDP: 4.39万亿 (2023)</div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">人工智能</span>
+                        <span class="ind-tag emerging">大模型</span>
+                        <span class="ind-tag emerging">生物医药</span>
+                        <span class="ind-tag emerging">自动驾驶</span>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">钢铁</span>
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">医药</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">大数据(雄安)</span>
-                                <span class="ind-tag emerging">生物医药</span>
-                                <span class="ind-tag growing">新能源</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">数据中心运维</span>
-                                <span class="job-item">医药研发</span>
-                                <span class="job-item">智能制造</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：河北省统计局</div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>落户：</strong>积分落户制，年度指标约6000人；博士后出站可落户</li>
+                            <li><strong>工作居住证：</strong>本科+中级职称可申请，享受准户籍待遇</li>
+                            <li><strong>人才住房：</strong>中关村人才公租房，租金优惠30%</li>
+                        </ul>
                     </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点区域</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>中关村科技园</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>8万+/㎡</strong></span>
+                                    <span>薪资: <strong>2万+/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>AI</span><span>大模型</span><span>芯片</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>亦庄经开区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>5万/㎡</strong></span>
+                                    <span>薪资: <strong>1.5万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>智能制造</span><span>生物医药</span><span>新能源汽车</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>金融街</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>12万+/㎡</strong></span>
+                                    <span>薪资: <strong>3万+/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>金融</span><span>投资</span><span>保险</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：北京市统计局、北京市人社局、中关村管委会</div>
                 </div>
             </div>
+            
+            <!-- 天津 -->
+            <div class="province-card region-north">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>⚓</span> 天津市 <small>直辖市·北方重要港口</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 1.67万亿</span>
+                        <span>人口: 1364万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥8,652/月</div><div class="sub">城镇非私营: 12.8万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥21,235/㎡</div><div class="sub">市区2.5万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">4.3%</div><div class="sub">稳步恢复</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">智能制造/航空</div><div class="sub">技术人才需求</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">装备制造</span>
+                        <span class="ind-tag pillar">石油化工</span>
+                        <span class="ind-tag pillar">港口物流</span>
+                        <span class="ind-tag pillar">航空航天</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">智能科技</span>
+                        <span class="ind-tag emerging">生物医药</span>
+                        <span class="ind-tag emerging">新能源</span>
+                        <span class="ind-tag emerging">新材料</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>海河英才：</strong>本科40岁以下可直接落户，学历型、技能型、资格型多通道</li>
+                            <li><strong>购房补贴：</strong>滨海新区人才购房最高100万补贴</li>
+                            <li><strong>租房补贴：</strong>本科每月1000元，硕士每月1500元，博士每月2000元</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点区域</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>滨海新区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.5万/㎡</strong></span>
+                                    <span>薪资: <strong>9500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>航空</span><span>石化</span><span>智能制造</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>天津港保税区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.2万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>物流</span><span>贸易</span><span>加工制造</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：天津市统计局、天津市人社局</div>
+                </div>
+            </div>
+            
+            <!-- 河北 -->
+            <div class="province-card region-north">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏗️</span> 河北省 <small>京津冀协同发展</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 4.39万亿</span>
+                        <span>人口: 7420万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥6,125/月</div><div class="sub">城镇非私营: 8.6万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥9,562/㎡</div><div class="sub">燕郊等地较高</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">5.5%</div><div class="sub">稳步发展</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">钢铁/装备制造</div><div class="sub">产业转型需人才</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">钢铁</span>
+                        <span class="ind-tag pillar">装备制造</span>
+                        <span class="ind-tag pillar">石化</span>
+                        <span class="ind-tag pillar">建材</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">新能源</span>
+                        <span class="ind-tag emerging">生物医药</span>
+                        <span class="ind-tag emerging">数字经济</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>雄安新区：</strong>顶尖人才最高1亿元综合资助，购房补贴最高300万</li>
+                            <li><strong>石家庄：</strong>本科可落户，人才绿卡享多项服务</li>
+                            <li><strong>全省：</strong>燕赵英才计划，引进高层次人才</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>石家庄市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.3万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>医药</span><span>装备</span><span>电子</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>雄安新区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>限购政策</strong></span>
+                                    <span>薪资: <strong>8000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>科技</span><span>金融</span><span>数字经济</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>唐山市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.0万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>钢铁</span><span>装备</span><span>港口</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：河北省统计局、雄安新区管委会</div>
+                </div>
+            </div>
+            
+            <!-- 山西 -->
+            <div class="province-card region-north">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>⛏️</span> 山西省 <small>能源大省·转型发展</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 2.57万亿</span>
+                        <span>人口: 3466万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥6,523/月</div><div class="sub">城镇非私营: 9.3万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥8,125/㎡</div><div class="sub">太原略高</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">5.0%</div><div class="sub">稳步发展</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">新能源/新材料</div><div class="sub">转型人才需求</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">煤炭能源</span>
+                        <span class="ind-tag pillar">钢铁冶金</span>
+                        <span class="ind-tag pillar">焦化</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">新能源</span>
+                        <span class="ind-tag emerging">新材料</span>
+                        <span class="ind-tag emerging">高端装备</span>
+                        <span class="ind-tag emerging">数字经济</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>太原：</strong>本科可落户，人才公寓租金优惠</li>
+                            <li><strong>全省：</strong>三晋英才计划，给予科研经费和安家补贴</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>太原市（省会）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.1万/㎡</strong></span>
+                                    <span>薪资: <strong>7000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备制造</span><span>新材料</span><span>信息技术</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>大同市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.6万/㎡</strong></span>
+                                    <span>薪资: <strong>5500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>新能源</span><span>煤化工</span><span>旅游</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：山西省统计局、太原市人社局</div>
+                </div>
+            </div>
+            
+            <!-- 内蒙古 -->
+            <div class="province-card region-north">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🐎</span> 内蒙古自治区 <small>能源重地·风光资源丰富</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 2.40万亿</span>
+                        <span>人口: 2401万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥7,125/月</div><div class="sub">城镇非私营: 10.5万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥6,562/㎡</div><div class="sub">呼和浩特略高</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">7.3%</div><div class="sub">增速较快</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">新能源/稀土</div><div class="sub">专业人才紧缺</div></div>
+                    </div>
+                    
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">能源化工</span>
+                        <span class="ind-tag pillar">稀土</span>
+                        <span class="ind-tag pillar">畜牧业</span>
+                        <span class="ind-tag pillar">乳业</span>
+                    </div>
+                    
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">风电光伏</span>
+                        <span class="ind-tag emerging">氢能</span>
+                        <span class="ind-tag emerging">新材料</span>
+                        <span class="ind-tag emerging">大数据</span>
+                    </div>
+                    
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>呼和浩特：</strong>本科可落户，购房补贴最高10万</li>
+                            <li><strong>包头：</strong>鹿城英才计划，安家补贴最高50万</li>
+                            <li><strong>全区：</strong>草原英才工程，给予科研启动资金</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card">
+                                <h4>呼和浩特市（首府）</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>乳业</span><span>生物</span><span>大数据</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>包头市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>6800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>稀土</span><span>钢铁</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>鄂尔多斯市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>煤炭</span><span>天然气</span><span>新能源</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：内蒙古统计局、各盟市人社局</div>
+                </div>
+            </div>
+            
         </div>
         
         <!-- 华中地区 -->
         <div class="region-content" id="region-central">
-            <div class="province-grid">
-                <div class="province-card region-central">
-                    <div class="province-header">
-                        <div><h3>湖北省</h3><span>中部崛起核心</span></div>
-                        <div class="gdp">GDP: 5.58万亿 (2023)</div>
-                    </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">汽车制造</span>
-                                <span class="ind-tag pillar">钢铁</span>
-                                <span class="ind-tag pillar">光电子信息</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">光芯屏端网</span>
-                                <span class="ind-tag emerging">生物医药</span>
-                                <span class="ind-tag emerging">新能源汽车</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">光电工程师</span>
-                                <span class="job-item">汽车研发</span>
-                                <span class="job-item">软件开发</span>
-                                <span class="job-item">生物技术</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：湖北省统计局、武汉东湖高新区</div>
+            
+            <!-- 河南 -->
+            <div class="province-card region-central">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌾</span> 河南省 <small>人口大省·交通枢纽</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 5.91万亿</span>
+                        <span>人口: 9815万</span>
+                        <span class="toggle">▼</span>
                     </div>
                 </div>
-                
-                <div class="province-card region-central">
-                    <div class="province-header">
-                        <div><h3>湖南省</h3><span>智能制造高地</span></div>
-                        <div class="gdp">GDP: 5.00万亿 (2023)</div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥6,125/月</div><div class="sub">城镇非私营: 8.5万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥8,562/㎡</div><div class="sub">郑州1.5万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">4.1%</div><div class="sub">稳步发展</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">装备制造/电子信息</div><div class="sub">产业转移需人才</div></div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">工程机械</span>
-                                <span class="ind-tag pillar">轨道交通</span>
-                                <span class="ind-tag pillar">文化传媒</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">新材料</span>
-                                <span class="ind-tag emerging">电子信息</span>
-                                <span class="ind-tag growing">北斗应用</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">机械工程师</span>
-                                <span class="job-item">轨道交通技术</span>
-                                <span class="job-item">内容策划</span>
-                                <span class="job-item">材料研发</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：湖南省统计局</div>
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">装备制造</span>
+                        <span class="ind-tag pillar">食品加工</span>
+                        <span class="ind-tag pillar">有色金属</span>
                     </div>
-                </div>
-                
-                <div class="province-card region-central">
-                    <div class="province-header">
-                        <div><h3>河南省</h3><span>人口经济大省</span></div>
-                        <div class="gdp">GDP: 5.91万亿 (2023)</div>
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">新能源汽车</span>
+                        <span class="ind-tag emerging">电子信息</span>
+                        <span class="ind-tag emerging">生物医药</span>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">食品加工</span>
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">电子信息</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">新能源汽车</span>
-                                <span class="ind-tag emerging">现代物流</span>
-                                <span class="ind-tag growing">数字经济</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">食品研发</span>
-                                <span class="job-item">物流管理</span>
-                                <span class="job-item">电商运营</span>
-                                <span class="job-item">生产管理</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：河南省统计局</div>
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>郑州：</strong>本科可落户，青年人才生活补贴本科1万、硕士3万、博士5万</li>
+                            <li><strong>全省：</strong>中原英才计划，给予科研启动资金</li>
+                        </ul>
                     </div>
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card"><h4>郑州市（省会）</h4><div class="city-info"><span>房价: <strong>1.5万/㎡</strong></span><span>薪资: <strong>7200/月</strong></span></div><div class="city-industries"><span>电子信息</span><span>汽车</span><span>装备</span></div></div>
+                            <div class="city-card"><h4>洛阳市</h4><div class="city-info"><span>房价: <strong>0.9万/㎡</strong></span><span>薪资: <strong>6200/月</strong></span></div><div class="city-industries"><span>装备</span><span>新材料</span></div></div>
+                            <div class="city-card"><h4>南阳市</h4><div class="city-info"><span>房价: <strong>0.7万/㎡</strong></span><span>薪资: <strong>5500/月</strong></span></div><div class="city-industries"><span>光电</span><span>汽车零部件</span></div></div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：河南省统计局、各市人社局</div>
                 </div>
             </div>
+            
+            <!-- 湖北 -->
+            <div class="province-card region-central">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌊</span> 湖北省 <small>中部崛起支点</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 5.57万亿</span>
+                        <span>人口: 5838万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥7,523/月</div><div class="sub">城镇非私营: 10.2万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥10,562/㎡</div><div class="sub">武汉1.8万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">6.0%</div><div class="sub">中部第二</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">光电/生物医药</div><div class="sub">高新技术人才</div></div>
+                    </div>
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">汽车制造</span>
+                        <span class="ind-tag pillar">光电子</span>
+                        <span class="ind-tag pillar">钢铁</span>
+                    </div>
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">光通信</span>
+                        <span class="ind-tag emerging">生物医药</span>
+                        <span class="ind-tag emerging">集成电路</span>
+                    </div>
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>武汉：</strong>百万大学生留汉计划，本科可落户，购房打八折</li>
+                            <li><strong>光谷：</strong>3551人才计划，高层次人才最高1000万资助</li>
+                        </ul>
+                    </div>
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card"><h4>武汉市（省会）</h4><div class="city-info"><span>房价: <strong>1.8万/㎡</strong></span><span>薪资: <strong>9200/月</strong></span></div><div class="city-industries"><span>光电子</span><span>汽车</span><span>生物医药</span></div></div>
+                            <div class="city-card"><h4>宜昌市</h4><div class="city-info"><span>房价: <strong>0.8万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>化工</span><span>电力</span></div></div>
+                            <div class="city-card"><h4>襄阳市</h4><div class="city-info"><span>房价: <strong>0.7万/㎡</strong></span><span>薪资: <strong>6000/月</strong></span></div><div class="city-industries"><span>汽车</span><span>装备</span></div></div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：湖北省统计局、武汉市人社局</div>
+                </div>
+            </div>
+            
+            <!-- 湖南 -->
+            <div class="province-card region-central">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏢</span> 湖南省 <small>工程机械大省</small></h3>
+                    <div class="province-meta">
+                        <span>GDP: 5.00万亿</span>
+                        <span>人口: 6604万</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥7,125/月</div><div class="sub">城镇非私营: 9.8万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥9,125/㎡</div><div class="sub">长沙1.2万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">4.4%</div><div class="sub">稳步发展</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">工程机械/新材料</div><div class="sub">智能制造人才</div></div>
+                    </div>
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag pillar">工程机械</span>
+                        <span class="ind-tag pillar">轨道交通</span>
+                        <span class="ind-tag pillar">电子信息</span>
+                    </div>
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags">
+                        <span class="ind-tag emerging">先进计算</span>
+                        <span class="ind-tag emerging">新能源汽车</span>
+                        <span class="ind-tag emerging">文化娱乐</span>
+                    </div>
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>长沙：</strong>本科可落户，生活补贴本科6000元、硕士1万、博士1.5万</li>
+                            <li><strong>全省：</strong>芙蓉人才计划，给予科研启动资金和安家补贴</li>
+                        </ul>
+                    </div>
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card"><h4>长沙市（省会）</h4><div class="city-info"><span>房价: <strong>1.2万/㎡</strong></span><span>薪资: <strong>8500/月</strong></span></div><div class="city-industries"><span>工程机械</span><span>文娱</span><span>轨道</span></div></div>
+                            <div class="city-card"><h4>株洲市</h4><div class="city-info"><span>房价: <strong>0.7万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>轨道</span><span>航空</span></div></div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：湖南省统计局、各市人社局</div>
+                </div>
+            </div>
+            
         </div>
         
         <!-- 西部地区 -->
         <div class="region-content" id="region-west">
-            <div class="province-grid">
-                <div class="province-card region-west">
-                    <div class="province-header">
-                        <div><h3>四川省</h3><span>西部经济中心</span></div>
-                        <div class="gdp">GDP: 6.01万亿 (2023)</div>
-                    </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">电子信息</span>
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">食品饮料</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">人工智能</span>
-                                <span class="ind-tag emerging">航空航天</span>
-                                <span class="ind-tag emerging">清洁能源</span>
-                                <span class="ind-tag growing">游戏动漫</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">软件开发</span>
-                                <span class="job-item">游戏策划</span>
-                                <span class="job-item">航空工程</span>
-                                <span class="job-item">新能源研发</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：四川省统计局、成都高新区</div>
-                    </div>
+            <!-- 四川 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌶️</span> 四川省 <small>西部经济大省</small></h3>
+                    <div class="province-meta"><span>GDP: 6.01万亿</span><span>人口: 8372万</span><span class="toggle">▼</span></div>
                 </div>
-                
-                <div class="province-card region-west">
-                    <div class="province-header">
-                        <div><h3>重庆市</h3><span>制造业重镇</span></div>
-                        <div class="gdp">GDP: 3.01万亿 (2023)</div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥7,652/月</div><div class="sub">城镇非私营: 10.5万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥10,562/㎡</div><div class="sub">成都1.8万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">6.0%</div><div class="sub">西部领先</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">电子信息/生物医药</div></div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">汽车制造</span>
-                                <span class="ind-tag pillar">电子信息</span>
-                                <span class="ind-tag pillar">装备制造</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">智能网联汽车</span>
-                                <span class="ind-tag emerging">集成电路</span>
-                                <span class="ind-tag growing">大数据智能化</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">汽车电子工程师</span>
-                                <span class="job-item">智能制造</span>
-                                <span class="job-item">数据工程师</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：重庆市统计局</div>
-                    </div>
+                    <div class="industry-tags"><span class="ind-tag pillar">电子信息</span><span class="ind-tag pillar">装备制造</span><span class="ind-tag pillar">白酒</span><span class="ind-tag emerging">数字经济</span><span class="ind-tag emerging">新能源汽车</span></div>
+                    <div class="talent-policy"><h5>🎯 人才政策</h5><ul><li>成都本科可落户，蓉漂计划给予生活补贴</li><li>天府峨眉计划，顶尖人才最高300万补贴</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>成都市</h4><div class="city-info"><span>房价: <strong>1.8万/㎡</strong></span><span>薪资: <strong>9500/月</strong></span></div><div class="city-industries"><span>电子</span><span>游戏</span><span>生物</span></div></div><div class="city-card"><h4>绵阳市</h4><div class="city-info"><span>房价: <strong>0.7万</strong></span><span>薪资: <strong>6000</strong></span></div></div><div class="city-card"><h4>宜宾市</h4><div class="city-info"><span>房价: <strong>0.65万</strong></span><span>薪资: <strong>5800</strong></span></div></div></div>
+                    <div class="data-source">数据来源：四川省统计局、各市人社局</div>
                 </div>
-                
-                <div class="province-card region-west">
-                    <div class="province-header">
-                        <div><h3>陕西省</h3><span>科教与军工重地</span></div>
-                        <div class="gdp">GDP: 3.39万亿 (2023)</div>
+            </div>
+            <!-- 重庆 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌆</span> 重庆市 <small>直辖市·成渝双城核心</small></h3>
+                    <div class="province-meta"><span>GDP: 3.01万亿</span><span>人口: 3205万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 薪资</h5><div class="value">¥7,236/月</div></div>
+                        <div class="info-item"><h5>🏠 房价</h5><div class="value">¥12,562/㎡</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">6.1%</div></div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">能源化工</span>
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">航空航天</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">半导体</span>
-                                <span class="ind-tag emerging">新能源汽车</span>
-                                <span class="ind-tag growing">硬科技</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">航天工程师</span>
-                                <span class="job-item">芯片设计</span>
-                                <span class="job-item">科研人员</span>
-                                <span class="job-item">军工技术</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：陕西省统计局、西安高新区</div>
+                    <div class="industry-tags"><span class="ind-tag pillar">汽车制造</span><span class="ind-tag pillar">电子信息</span><span class="ind-tag emerging">新能源汽车</span><span class="ind-tag emerging">智能网联汽车</span></div>
+                    <div class="talent-policy"><h5>🎯 人才政策</h5><ul><li>两江新区购房补贴最高100万</li><li>鸿雁计划安家补贴最高200万</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>两江新区</h4><div class="city-info"><span>房价: <strong>1.3万</strong></span><span>薪资: <strong>8500</strong></span></div></div><div class="city-card"><h4>渝北区</h4><div class="city-info"><span>房价: <strong>1.5万</strong></span><span>薪资: <strong>8000</strong></span></div></div></div>
+                    <div class="data-source">数据来源：重庆市统计局</div>
+                </div>
+            </div>
+            <!-- 陕西 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏛️</span> 陕西省 <small>科教大省·航空航天基地</small></h3>
+                    <div class="province-meta"><span>GDP: 3.32万亿</span><span>人口: 3956万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 薪资</h5><div class="value">¥7,236/月</div><div class="sub">城镇非私营: 10.1万/年</div></div>
+                        <div class="info-item"><h5>🏠 房价</h5><div class="value">¥11,562/㎡</div><div class="sub">西安1.5万+</div></div>
                     </div>
+                    <div class="industry-tags"><span class="ind-tag pillar">能源化工</span><span class="ind-tag pillar">装备制造</span><span class="ind-tag emerging">航空航天</span><span class="ind-tag emerging">半导体</span></div>
+                    <div class="talent-policy"><h5>🎯 人才政策</h5><ul><li>西安本科可落户，秦创原人才补贴最高100万</li><li>三秦学者计划，给予科研启动资金</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>西安市</h4><div class="city-info"><span>房价: <strong>1.5万</strong></span><span>薪资: <strong>8500</strong></span></div><div class="city-industries"><span>航空航天</span><span>电子</span><span>汽车</span></div></div><div class="city-card"><h4>咸阳市</h4><div class="city-info"><span>房价: <strong>0.7万</strong></span><span>薪资: <strong>6000</strong></span></div></div></div>
+                    <div class="data-source">数据来源：陕西省统计局</div>
+                </div>
+            </div>
+            <!-- 云南 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌿</span> 云南省 <small>旅游大省·面向东南亚</small></h3>
+                    <div class="province-meta"><span>GDP: 3.01万亿</span><span>人口: 4693万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid"><div class="info-item"><h5>💰</h5><div class="value">¥5,862/月</div></div><div class="info-item"><h5>🏠</h5><div class="value">¥9,562/㎡</div></div></div>
+                    <div class="industry-tags"><span class="ind-tag pillar">烟草</span><span class="ind-tag pillar">旅游</span><span class="ind-tag emerging">绿色能源</span><span class="ind-tag emerging">生物医药</span></div>
+                    <div class="talent-policy"><h5>🎯</h5><ul><li>昆明本科可落户，春城计划人才补贴</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>昆明市</h4><div class="city-info"><span>房价: <strong>1.3万</strong></span><span>薪资: <strong>7000</strong></span></div></div></div>
+                    <div class="data-source">数据来源：云南省统计局</div>
+                </div>
+            </div>
+            <!-- 贵州 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>⛰️</span> 贵州省 <small>大数据中心·白酒基地</small></h3>
+                    <div class="province-meta"><span>GDP: 2.09万亿</span><span>人口: 3856万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid"><div class="info-item"><h5>💰</h5><div class="value">¥5,652/月</div></div><div class="info-item"><h5>🏠</h5><div class="value">¥7,562/㎡</div></div></div>
+                    <div class="industry-tags"><span class="ind-tag pillar">白酒</span><span class="ind-tag pillar">能源</span><span class="ind-tag emerging">大数据</span><span class="ind-tag emerging">新能源电池</span></div>
+                    <div class="talent-policy"><h5>🎯</h5><ul><li>贵阳本科可落户，黔灵英才计划最高100万补贴</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>贵阳市</h4><div class="city-info"><span>房价: <strong>1.0万</strong></span><span>薪资: <strong>6500</strong></span></div></div><div class="city-card"><h4>遵义市</h4><div class="city-info"><span>房价: <strong>0.55万</strong></span><span>薪资: <strong>5200</strong></span></div></div></div>
+                    <div class="data-source">数据来源：贵州省统计局</div>
+                </div>
+            </div>
+            <!-- 甘肃 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏜️</span> 甘肃省 <small>丝路重镇·新能源基地</small></h3>
+                    <div class="province-meta"><span>GDP: 1.18万亿</span><span>人口: 2492万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid"><div class="info-item"><h5>💰</h5><div class="value">¥6,236/月</div></div><div class="info-item"><h5>🏠</h5><div class="value">¥7,125/㎡</div></div></div>
+                    <div class="industry-tags"><span class="ind-tag pillar">石化</span><span class="ind-tag pillar">有色金属</span><span class="ind-tag emerging">风电光伏</span><span class="ind-tag emerging">新材料</span></div>
+                    <div class="talent-policy"><h5>🎯</h5><ul><li>兰州本科可落户，陇原人才计划</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>兰州市</h4><div class="city-info"><span>房价: <strong>0.9万</strong></span><span>薪资: <strong>6500</strong></span></div></div></div>
+                    <div class="data-source">数据来源：甘肃省统计局</div>
+                </div>
+            </div>
+            <!-- 青海 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌄</span> 青海省 <small>高原省份·盐湖资源丰富</small></h3>
+                    <div class="province-meta"><span>GDP: 0.38万亿</span><span>人口: 595万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid"><div class="info-item"><h5>💰</h5><div class="value">¥6,562/月</div></div><div class="info-item"><h5>🏠</h5><div class="value">¥6,562/㎡</div></div></div>
+                    <div class="industry-tags"><span class="ind-tag pillar">盐湖化工</span><span class="ind-tag pillar">能源</span><span class="ind-tag emerging">钾电池</span><span class="ind-tag emerging">光伏发电</span></div>
+                    <div class="talent-policy"><h5>🎯</h5><ul><li>西宁本科可落户，昆仑英才计划</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>西宁市</h4><div class="city-info"><span>房价: <strong>0.8万</strong></span><span>薪资: <strong>6800</strong></span></div></div></div>
+                    <div class="data-source">数据来源：青海省统计局</div>
+                </div>
+            </div>
+            <!-- 宁夏 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏵️</span> 宁夏回族自治区 <small>塘城·新能源基地</small></h3>
+                    <div class="province-meta"><span>GDP: 0.54万亿</span><span>人口: 728万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid"><div class="info-item"><h5>💰</h5><div class="value">¥6,236/月</div></div><div class="info-item"><h5>🏠</h5><div class="value">¥5,562/㎡</div></div></div>
+                    <div class="industry-tags"><span class="ind-tag pillar">能源化工</span><span class="ind-tag pillar">新材料</span><span class="ind-tag emerging">光伏</span><span class="ind-tag emerging">单晶硅</span></div>
+                    <div class="talent-policy"><h5>🎯</h5><ul><li>银川本科可落户，塘城英才计划</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>银川市</h4><div class="city-info"><span>房价: <strong>0.65万</strong></span><span>薪资: <strong>6500</strong></span></div></div></div>
+                    <div class="data-source">数据来源：宁夏统计局</div>
+                </div>
+            </div>
+            <!-- 新疆 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌐</span> 新疆维吾尔自治区 <small>丝路核心区·能源重地</small></h3>
+                    <div class="province-meta"><span>GDP: 1.91万亿</span><span>人口: 2587万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid"><div class="info-item"><h5>💰</h5><div class="value">¥6,562/月</div></div><div class="info-item"><h5>🏠</h5><div class="value">¥6,125/㎡</div></div><div class="info-item"><h5>📈</h5><div class="value">6.8%</div></div></div>
+                    <div class="industry-tags"><span class="ind-tag pillar">石油天然气</span><span class="ind-tag pillar">煤炭</span><span class="ind-tag pillar">棉花</span><span class="ind-tag emerging">风光新能源</span></div>
+                    <div class="talent-policy"><h5>🎯</h5><ul><li>乌鲁木齐本科可落户，天山英才计划</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>乌鲁木齐市</h4><div class="city-info"><span>房价: <strong>1.0万</strong></span><span>薪资: <strong>7000</strong></span></div></div><div class="city-card"><h4>克拉玛依市</h4><div class="city-info"><span>房价: <strong>0.65万</strong></span><span>薪资: <strong>8000</strong></span></div></div></div>
+                    <div class="data-source">数据来源：新疆统计局</div>
+                </div>
+            </div>
+            <!-- 西藏 -->
+            <div class="province-card region-west">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏔️</span> 西藏自治区 <small>高原省份·生态重地</small></h3>
+                    <div class="province-meta"><span>GDP: 0.24万亿</span><span>人口: 364万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid"><div class="info-item"><h5>💰</h5><div class="value">¥7,125/月</div><div class="sub">城镇非私营: 12.5万/年</div></div><div class="info-item"><h5>🏠</h5><div class="value">¥8,562/㎡</div></div><div class="info-item"><h5>📈</h5><div class="value">9.5%</div><div class="sub">全国领先</div></div></div>
+                    <div class="industry-tags"><span class="ind-tag pillar">旅游</span><span class="ind-tag pillar">畜牧</span><span class="ind-tag pillar">藏医药</span><span class="ind-tag emerging">清洁能源</span></div>
+                    <div class="talent-policy"><h5>🎯</h5><ul><li>拉萨本科可落户，高原英才计划补贴丰厚</li></ul></div>
+                    <div class="cities-grid"><div class="city-card"><h4>拉萨市</h4><div class="city-info"><span>房价: <strong>1.0万</strong></span><span>薪资: <strong>8500</strong></span></div></div></div>
+                    <div class="data-source">数据来源：西藏统计局</div>
                 </div>
             </div>
         </div>
         
         <!-- 东北地区 -->
         <div class="region-content" id="region-northeast">
-            <div class="province-grid">
-                <div class="province-card region-northeast">
-                    <div class="province-header">
-                        <div><h3>辽宁省</h3><span>老工业基地振兴</span></div>
-                        <div class="gdp">GDP: 3.03万亿 (2023)</div>
-                    </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">装备制造</span>
-                                <span class="ind-tag pillar">石油化工</span>
-                                <span class="ind-tag pillar">钢铁</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">高端装备</span>
-                                <span class="ind-tag emerging">机器人</span>
-                                <span class="ind-tag growing">新材料</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">机械工程师</span>
-                                <span class="job-item">机器人研发</span>
-                                <span class="job-item">船舶设计</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：辽宁省统计局</div>
-                    </div>
+            <!-- 辽宁 -->
+            <div class="province-card region-northeast">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🏭</span> 辽宁省 <small>老工业基地·装备制造重镇</small></h3>
+                    <div class="province-meta"><span>GDP: 3.03万亿</span><span>人口: 4197万</span><span class="toggle">▼</span></div>
                 </div>
-                
-                <div class="province-card region-northeast">
-                    <div class="province-header">
-                        <div><h3>吉林省</h3><span>汽车与农业大省</span></div>
-                        <div class="gdp">GDP: 1.36万亿 (2023)</div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥6,852/月</div><div class="sub">城镇非私营: 9.2万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥8,562/㎡</div><div class="sub">沈陳1.2万+，大连1.5万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">5.3%</div><div class="sub">稳步回升</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">装备制造/石化</div><div class="sub">技能人才紧缺</div></div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">汽车制造</span>
-                                <span class="ind-tag pillar">石化</span>
-                                <span class="ind-tag pillar">农产品加工</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">新能源汽车</span>
-                                <span class="ind-tag emerging">卫星通信</span>
-                                <span class="ind-tag growing">医药健康</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">汽车工程师</span>
-                                <span class="job-item">卫星研发</span>
-                                <span class="job-item">农业技术</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：吉林省统计局</div>
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags"><span class="ind-tag pillar">装备制造</span><span class="ind-tag pillar">石化</span><span class="ind-tag pillar">钢铁</span><span class="ind-tag pillar">造船</span></div>
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags"><span class="ind-tag emerging">机器人</span><span class="ind-tag emerging">集成电路</span><span class="ind-tag emerging">新能源汽车</span><span class="ind-tag emerging">航空装备</span></div>
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>沈阳：</strong>本科可落户，浑南新区人才购房补贴最高100万</li>
+                            <li><strong>大连：</strong>高层次人才安家费最高200万，博士每月2500元补贴</li>
+                            <li><strong>全省：</strong>兴辽英才计划，给予科研启动资金</li>
+                        </ul>
                     </div>
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card"><h4>沈阳市（省会）</h4><div class="city-info"><span>房价: <strong>1.2万/㎡</strong></span><span>薪资: <strong>7500/月</strong></span></div><div class="city-industries"><span>装备</span><span>汽车</span><span>机器人</span></div></div>
+                            <div class="city-card"><h4>大连市</h4><div class="city-info"><span>房价: <strong>1.5万/㎡</strong></span><span>薪资: <strong>8000/月</strong></span></div><div class="city-industries"><span>软件</span><span>航运</span><span>石化</span></div></div>
+                            <div class="city-card"><h4>鞍山市</h4><div class="city-info"><span>房价: <strong>0.6万/㎡</strong></span><span>薪资: <strong>5800/月</strong></span></div><div class="city-industries"><span>钢铁</span><span>装备</span></div></div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：辽宁省统计局、各市人社局</div>
                 </div>
-                
-                <div class="province-card region-northeast">
-                    <div class="province-header">
-                        <div><h3>黑龙江省</h3><span>农业与能源大省</span></div>
-                        <div class="gdp">GDP: 1.59万亿 (2023)</div>
+            </div>
+            <!-- 吉林 -->
+            <div class="province-card region-northeast">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>🌾</span> 吉林省 <small>汽车产业基地·冰雪经济</small></h3>
+                    <div class="province-meta"><span>GDP: 1.35万亿</span><span>人口: 2375万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥6,125/月</div><div class="sub">城镇非私营: 8.5万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥6,562/㎡</div><div class="sub">长晸0.9万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">6.3%</div><div class="sub">增速回升</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">汽车/化工</div><div class="sub">专业技术人才</div></div>
                     </div>
-                    <div class="province-body">
-                        <div class="industry-section">
-                            <h4>🏭 支柱产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag pillar">现代农业</span>
-                                <span class="ind-tag pillar">能源</span>
-                                <span class="ind-tag pillar">装备制造</span>
-                            </div>
-                        </div>
-                        <div class="industry-section">
-                            <h4>🚀 新兴产业</h4>
-                            <div class="industry-tags">
-                                <span class="ind-tag emerging">航空航天</span>
-                                <span class="ind-tag emerging">生物经济</span>
-                                <span class="ind-tag growing">冰雪经济</span>
-                            </div>
-                        </div>
-                        <div class="jobs-section">
-                            <h4>💼 主要岗位需求</h4>
-                            <div class="job-list">
-                                <span class="job-item">农业科技</span>
-                                <span class="job-item">航空工程</span>
-                                <span class="job-item">旅游管理</span>
-                            </div>
-                        </div>
-                        <div class="data-source">数据来源：黑龙江省统计局</div>
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags"><span class="ind-tag pillar">汽车制造</span><span class="ind-tag pillar">石化</span><span class="ind-tag pillar">农产加工</span></div>
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags"><span class="ind-tag emerging">新能源汽车</span><span class="ind-tag emerging">光电子</span><span class="ind-tag emerging">冰雪经济</span><span class="ind-tag emerging">生物医药</span></div>
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>长春：</strong>本科可落户，地铁、公交免费，购房补贴最高40万</li>
+                            <li><strong>全省：</strong>长白山人才工程，给予科研启动资金和安家补贴</li>
+                        </ul>
                     </div>
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card"><h4>长春市（省会）</h4><div class="city-info"><span>房价: <strong>0.9万/㎡</strong></span><span>薪资: <strong>6800/月</strong></span></div><div class="city-industries"><span>汽车</span><span>光电</span><span>生物</span></div></div>
+                            <div class="city-card"><h4>吉林市</h4><div class="city-info"><span>房价: <strong>0.6万/㎡</strong></span><span>薪资: <strong>5500/月</strong></span></div><div class="city-industries"><span>化工</span><span>旅游</span></div></div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：吉林省统计局、各市人社局</div>
+                </div>
+            </div>
+            <!-- 黑龙江 -->
+            <div class="province-card region-northeast">
+                <div class="province-header" onclick="toggleProvince(this)">
+                    <h3><span>❄️</span> 黑龙江省 <small>边疆省份·农业大省</small></h3>
+                    <div class="province-meta"><span>GDP: 1.59万亿</span><span>人口: 3099万</span><span class="toggle">▼</span></div>
+                </div>
+                <div class="province-body">
+                    <div class="info-grid">
+                        <div class="info-item"><h5>💰 平均薪资</h5><div class="value">¥5,862/月</div><div class="sub">城镇非私营: 8.2万/年</div></div>
+                        <div class="info-item"><h5>🏠 平均房价</h5><div class="value">¥5,562/㎡</div><div class="sub">哈尔滨0.9万+</div></div>
+                        <div class="info-item"><h5>📈 GDP增速</h5><div class="value">2.6%</div><div class="sub">转型发展中</div></div>
+                        <div class="info-item"><h5>👥 人才缺口</h5><div class="value">装备/能源</div><div class="sub">技能人才需求</div></div>
+                    </div>
+                    <div class="section-title">🏭 支柱产业</div>
+                    <div class="industry-tags"><span class="ind-tag pillar">能源</span><span class="ind-tag pillar">装备制造</span><span class="ind-tag pillar">农产加工</span><span class="ind-tag pillar">煤炭</span></div>
+                    <div class="section-title">🚀 新兴产业</div>
+                    <div class="industry-tags"><span class="ind-tag emerging">数字经济</span><span class="ind-tag emerging">冰雪旅游</span><span class="ind-tag emerging">生物经济</span><span class="ind-tag emerging">航空航天</span></div>
+                    <div class="talent-policy">
+                        <h5>🎯 人才引进政策</h5>
+                        <ul>
+                            <li><strong>哈尔滨：</strong>本科可落户，新引进博士每月5000元补贴（连续3年）</li>
+                            <li><strong>全省：</strong>头雁计划引进高层次人才，给予科研启动资金</li>
+                        </ul>
+                    </div>
+                    <div class="cities-section">
+                        <div class="section-title">📍 重点城市</div>
+                        <div class="cities-grid">
+                            <div class="city-card"><h4>哈尔滨市（省会）</h4><div class="city-info"><span>房价: <strong>0.9万/㎡</strong></span><span>薪资: <strong>6500/月</strong></span></div><div class="city-industries"><span>装备</span><span>食品</span><span>旅游</span></div></div>
+                            <div class="city-card"><h4>大庆市</h4><div class="city-info"><span>房价: <strong>0.6万/㎡</strong></span><span>薪资: <strong>7000/月</strong></span></div><div class="city-industries"><span>石油</span><span>化工</span></div></div>
+                        </div>
+                    </div>
+                    <div class="data-source">数据来源：黑龙江省统计局、各市人社局</div>
                 </div>
             </div>
         </div>
         
-        <!-- 权威数据来源 -->
+        <!-- 数据来源说明 -->
         <div class="sources-section">
             <h3>📚 权威数据来源</h3>
-            <div class="source-list">
+            <div class="source-grid">
                 <a href="https://www.stats.gov.cn/" target="_blank" class="source-item">
-                    <span class="source-icon">🏛️</span>
-                    <div class="source-info">
-                        <h4>国家统计局</h4>
-                        <p>GDP、产业结构、就业数据等官方统计</p>
-                    </div>
+                    <span class="source-icon">🏢</span>
+                    <div class="source-info"><h4>国家统计局</h4><p>全国GDP、平均工资数据</p></div>
                 </a>
                 <a href="https://www.ndrc.gov.cn/" target="_blank" class="source-item">
-                    <span class="source-icon">📋</span>
-                    <div class="source-info">
-                        <h4>国家发展改革委</h4>
-                        <p>产业政策、区域发展规划</p>
-                    </div>
+                    <span class="source-icon">📊</span>
+                    <div class="source-info"><h4>国家发改委</h4><p>产业规划、区域发展政策</p></div>
+                </a>
+                <a href="https://www.mohrss.gov.cn/" target="_blank" class="source-item">
+                    <span class="source-icon">👥</span>
+                    <div class="source-info"><h4>人力资源和社会保障部</h4><p>人才政策、就业数据</p></div>
+                </a>
+                <a href="https://www.creprice.cn/" target="_blank" class="source-item">
+                    <span class="source-icon">🏠</span>
+                    <div class="source-info"><h4>中国房价行情网</h4><p>全国房价数据监测</p></div>
                 </a>
                 <a href="https://www.miit.gov.cn/" target="_blank" class="source-item">
                     <span class="source-icon">🏭</span>
-                    <div class="source-info">
-                        <h4>工业和信息化部</h4>
-                        <p>制造业、信息产业发展报告</p>
-                    </div>
+                    <div class="source-info"><h4>工业和信息化部</h4><p>产业发展、技术创新数据</p></div>
                 </a>
-                <a href="http://www.mohrss.gov.cn/" target="_blank" class="source-item">
-                    <span class="source-icon">👔</span>
-                    <div class="source-info">
-                        <h4>人力资源和社会保障部</h4>
-                        <p>就业形势、人才需求分析</p>
-                    </div>
-                </a>
-                <a href="https://www.cingta.com/" target="_blank" class="source-item">
-                    <span class="source-icon">📊</span>
-                    <div class="source-info">
-                        <h4>中国信通院</h4>
-                        <p>数字经济、ICT产业研究报告</p>
-                    </div>
-                </a>
-                <a href="https://www.mckinsey.com.cn/" target="_blank" class="source-item">
+                <a href="#" class="source-item">
                     <span class="source-icon">📈</span>
-                    <div class="source-info">
-                        <h4>麦肯锡中国</h4>
-                        <p>行业趋势、人才市场研究</p>
-                    </div>
+                    <div class="source-info"><h4>各省市统计局</h4><p>地方经济与产业数据</p></div>
                 </a>
             </div>
+            <p style="margin-top:15px;font-size:0.85em;color:#888;">说明：本页数据主要来源于2023年统计年鉴及2024年最新发布数据，仅供参考。具体政策以各地官方最新发布为准。</p>
         </div>
+        
     </div>
     
     <footer class="footer">
-        <p>&copy; 2026 高考志愿填报指南 | <a href="index.html">返回首页</a> | 数据更新至2024年</p>
+        <p>数据来源：国家统计局、各省市统计局、各地人社局、中国房价行情网</p>
+        <p>© 2026 高考志愿填报指南 | <a href="index.html">返回首页</a></p>
     </footer>
     
     <script>
         function showRegion(region) {
             document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.region-content').forEach(c => c.classList.remove('active'));
-            
             document.querySelector(`.region-tab[onclick="showRegion('${region}')"]`).classList.add('active');
             document.getElementById(`region-${region}`).classList.add('active');
+        }
+        
+        function toggleProvince(header) {
+            const body = header.nextElementSibling;
+            header.classList.toggle('expanded');
+            body.classList.toggle('expanded');
         }
     </script>
 </body>
