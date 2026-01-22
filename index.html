@@ -295,43 +295,198 @@
         
         .service-card:hover .service-link { gap: 12px; }
         
-        /* CTA区域 */
-        .cta-section {
-            background: linear-gradient(135deg, #1a73e8, #4285f4);
-            padding: 100px 60px;
-            text-align: center;
+        /* 测评卡片区域 - 现代感设计 */
+        .assessment-section {
+            background: #0a0a0a;
+            padding: 80px 60px;
+            display: flex;
+            justify-content: center;
         }
         
-        .cta-section h2 {
-            font-size: 2.8em;
-            font-weight: 600;
+        .assessment-card {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            background: linear-gradient(145deg, rgba(30,30,40,0.9), rgba(15,15,20,0.95));
+            border-radius: 30px;
+            padding: 60px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        /* 渐变边框效果 */
+        .assessment-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 30px;
+            padding: 2px;
+            background: linear-gradient(135deg, #1a73e8, #4285f4, #00d4ff, #1a73e8);
+            background-size: 300% 300%;
+            animation: gradient-border 4s ease infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        @keyframes gradient-border {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* 光晕效果 */
+        .assessment-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(26,115,232,0.15) 0%, transparent 50%);
+            animation: glow-move 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes glow-move {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(10%, 10%); }
+            50% { transform: translate(0, 20%); }
+            75% { transform: translate(-10%, 10%); }
+        }
+        
+        .assessment-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 40px 80px rgba(26,115,232,0.25);
+        }
+        
+        .assessment-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .assessment-visual {
+            flex-shrink: 0;
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            box-shadow: 0 20px 40px rgba(26,115,232,0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .assessment-info {
+            flex: 1;
+        }
+        
+        .assessment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(26,115,232,0.15);
+            border: 1px solid rgba(26,115,232,0.3);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85em;
+            color: #4285f4;
             margin-bottom: 20px;
         }
         
-        .cta-section p {
-            font-size: 1.2em;
-            opacity: 0.9;
-            margin-bottom: 40px;
-            font-weight: 300;
+        .assessment-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #4285f4;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
         
-        .cta-btn {
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        .assessment-info h3 {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .assessment-info p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.05em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        .assessment-features {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+        
+        .assessment-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95em;
+        }
+        
+        .assessment-feature span:first-child {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .assessment-btn {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: #fff;
-            color: #1a73e8;
-            padding: 20px 50px;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: #fff;
+            padding: 18px 40px;
             border-radius: 50px;
-            font-size: 1.1em;
+            font-size: 1.05em;
             font-weight: 600;
-            text-decoration: none;
             transition: all 0.3s;
+            box-shadow: 0 15px 35px rgba(26,115,232,0.35);
         }
         
-        .cta-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        .assessment-card:hover .assessment-btn {
+            box-shadow: 0 20px 45px rgba(26,115,232,0.5);
+            transform: translateX(5px);
+        }
+        
+        .assessment-btn .arrow {
+            transition: transform 0.3s;
+        }
+        
+        .assessment-card:hover .assessment-btn .arrow {
+            transform: translateX(5px);
         }
         
         /* 页脚 */
@@ -351,6 +506,11 @@
             .services-grid { grid-template-columns: 1fr; max-width: 500px; }
             .hero-title { font-size: 2.8em; }
             .services { padding: 60px 30px; }
+            .assessment-section { padding: 60px 30px; }
+            .assessment-card { padding: 40px; }
+            .assessment-content { flex-direction: column; text-align: center; gap: 30px; }
+            .assessment-visual { width: 100px; height: 100px; font-size: 2.8em; }
+            .assessment-features { justify-content: center; }
         }
         
         @media (max-width: 768px) {
@@ -359,7 +519,9 @@
             .hero-title { font-size: 2.2em; }
             .hero-subtitle { font-size: 1em; }
             .section-header h2 { font-size: 1.8em; }
-            .cta-section h2 { font-size: 1.8em; }
+            .assessment-info h3 { font-size: 1.5em; }
+            .assessment-features { gap: 15px; }
+            .assessment-feature { font-size: 0.85em; }
         }
     </style>
 </head>
@@ -448,11 +610,43 @@
         </div>
     </section>
     
-    <!-- CTA区域 -->
-    <section class="cta-section">
-        <h2>发现最适合你的未来方向</h2>
-        <p>8分钟测评，获取专属的专业·院校·城市匹配分析报告</p>
-        <a href="survey.html" class="cta-btn">立即开始测评 →</a>
+    <!-- 测评卡片区域 -->
+    <section class="assessment-section">
+        <a href="survey.html" class="assessment-card">
+            <div class="assessment-content">
+                <div class="assessment-visual">🎯</div>
+                <div class="assessment-info">
+                    <div class="assessment-badge">
+                        <span class="dot"></span>
+                        <span>AI智能分析</span>
+                    </div>
+                    <h3>专业·院校·城市 匹配度测评</h3>
+                    <p>基于多维度特质分析的智能匹配系统，为您精准推荐最适合的专业方向、发展城市和目标院校</p>
+                    <div class="assessment-features">
+                        <div class="assessment-feature">
+                            <span>📊</span>
+                            <span>个性特质分析</span>
+                        </div>
+                        <div class="assessment-feature">
+                            <span>🎓</span>
+                            <span>专业方向匹配</span>
+                        </div>
+                        <div class="assessment-feature">
+                            <span>🏙️</span>
+                            <span>城市发展建议</span>
+                        </div>
+                        <div class="assessment-feature">
+                            <span>⏱️</span>
+                            <span>约8分钟完成</span>
+                        </div>
+                    </div>
+                    <div class="assessment-btn">
+                        <span>开始测评</span>
+                        <span class="arrow">→</span>
+                    </div>
+                </div>
+            </div>
+        </a>
     </section>
     
     <!-- 页脚 -->
