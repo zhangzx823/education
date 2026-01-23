@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>城市基因深度解析 - 蓝图咨询</title>
+    <title>城市基因深度解析 - 城市性格研究</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -23,13 +24,15 @@
             --text-gray: #6C757D;
             --text-light: #ADB5BD;
             --border-color: #E9ECEF;
+            --accent-orange: #FF6B6B;
+            --accent-green: #51CF66;
         }
         
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background: var(--bg-white);
             color: var(--text-dark);
-            line-height: 1.6;
+            line-height: 1.8;
         }
         
         /* 导航栏 */
@@ -79,172 +82,279 @@
         /* 头部区域 */
         .header {
             background: linear-gradient(135deg, var(--blue-bg) 0%, var(--bg-white) 100%);
-            padding: 120px 60px 80px;
+            padding: 140px 60px 100px;
             text-align: center;
             margin-top: 80px;
         }
         
         .header h1 {
-            font-size: 3em;
+            font-size: 3.5em;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: var(--text-dark);
+            line-height: 1.2;
         }
         
-        .header p {
-            font-size: 1.2em;
+        .header .subtitle {
+            font-size: 1.3em;
             color: var(--text-gray);
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
             line-height: 1.8;
+        }
+        
+        .header .intro-text {
+            font-size: 1.1em;
+            color: var(--text-gray);
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 2;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 4px solid var(--primary-blue);
         }
         
         /* 内容区域 */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 80px 60px;
         }
         
         .section {
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
         
         .section-title {
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: 600;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             color: var(--text-dark);
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--primary-blue);
+            padding-bottom: 20px;
+            border-bottom: 4px solid var(--primary-blue);
+            text-align: center;
         }
         
-        .intro-box {
-            background: var(--blue-bg);
-            padding: 40px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-            border-left: 4px solid var(--primary-blue);
-        }
-        
-        .intro-box h3 {
-            color: var(--primary-blue);
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
-        
-        .intro-box p {
-            color: var(--text-gray);
-            line-height: 1.8;
-            font-size: 1.05em;
-        }
-        
-        .city-grid {
+        /* 故事化城市卡片 */
+        .city-stories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
         }
         
-        .city-card {
+        .city-story-card {
             background: var(--bg-white);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            position: relative;
         }
         
-        .city-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.1);
-            border-color: var(--primary-blue);
+        .city-story-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(74, 144, 226, 0.2);
         }
         
-        .city-header {
-            background: var(--primary-blue);
+        .city-story-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
             color: white;
-            padding: 25px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
         }
         
-        .city-header h3 {
-            font-size: 1.4em;
-            font-weight: 600;
+        .city-story-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(180deg); }
+        }
+        
+        .city-story-header h3 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .city-story-header .city-tagline {
+            font-size: 1.1em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .city-story-body {
+            padding: 40px;
+        }
+        
+        .story-timeline {
+            margin: 30px 0;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .story-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-blue), var(--primary-blue-light));
+        }
+        
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary-blue);
+        }
+        
+        .timeline-year {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1em;
             margin-bottom: 8px;
         }
         
-        .city-header p {
-            opacity: 0.9;
-            font-size: 0.95em;
-        }
-        
-        .city-body {
-            padding: 30px;
-        }
-        
-        .city-body h4 {
-            color: var(--primary-blue);
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 12px;
-            margin-top: 20px;
-        }
-        
-        .city-body h4:first-child {
-            margin-top: 0;
-        }
-        
-        .city-body p {
+        .timeline-content {
             color: var(--text-gray);
             line-height: 1.8;
-            font-size: 0.95em;
-            margin-bottom: 15px;
         }
         
-        .theory-box {
-            background: var(--bg-light);
-            padding: 30px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-        }
-        
-        .theory-box h3 {
-            color: var(--primary-blue);
-            font-size: 1.3em;
-            margin-bottom: 20px;
-        }
-        
-        .theory-box p {
-            color: var(--text-gray);
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-        
-        .methodology-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .methodology-item {
-            background: white;
+        .city-characteristics {
+            background: var(--blue-bg);
             padding: 25px;
             border-radius: 12px;
-            border-left: 4px solid var(--primary-blue);
+            margin-top: 25px;
         }
         
-        .methodology-item h4 {
-            color: var(--text-dark);
-            font-size: 1.1em;
-            margin-bottom: 10px;
+        .city-characteristics h4 {
+            color: var(--primary-blue);
+            font-size: 1.2em;
+            margin-bottom: 15px;
         }
         
-        .methodology-item p {
+        .characteristics-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .characteristic-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             color: var(--text-gray);
-            font-size: 0.95em;
-            line-height: 1.8;
         }
         
+        .characteristic-item::before {
+            content: '✓';
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+        
+        /* 通俗解释框 */
+        .explain-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            border-left: 5px solid var(--accent-orange);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .explain-box h4 {
+            color: var(--accent-orange);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .explain-box p {
+            color: var(--text-dark);
+            line-height: 2;
+            font-size: 1.05em;
+        }
+        
+        /* 互动元素 */
+        .interactive-section {
+            background: var(--bg-light);
+            padding: 50px;
+            border-radius: 20px;
+            margin: 60px 0;
+            text-align: center;
+        }
+        
+        .city-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .city-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            color: var(--text-gray);
+        }
+        
+        .city-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+        
+        .city-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        /* 可视化图表 */
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* 页脚 */
         .footer {
             background: var(--bg-light);
             color: var(--text-gray);
@@ -253,18 +363,27 @@
             border-top: 1px solid var(--border-color);
         }
         
+        @media (max-width: 1024px) {
+            .city-stories {
+                grid-template-columns: 1fr;
+            }
+            .characteristics-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .header { padding: 100px 25px 60px; }
+            .header { padding: 120px 25px 60px; }
+            .header h1 { font-size: 2.5em; }
             .container { padding: 40px 25px; }
-            .city-grid { grid-template-columns: 1fr; }
-            .methodology-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 2em; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <a href="index.html" class="nav-brand">
-            <span>蓝图咨询</span>
+            <span>城市性格研究</span>
         </a>
         <div class="nav-links">
             <a href="index.html">首页</a>
@@ -273,115 +392,257 @@
     </nav>
     
     <header class="header">
-        <h1>城市基因深度解析</h1>
-        <p>从历史学家的视角，解读城市的历史基因如何塑造其文化气质、发展路径与未来潜力</p>
+        <h1>📜 城市基因深度解析</h1>
+        <p class="subtitle">每一座城市，都是一本打开的历史书</p>
+        <div class="intro-text">
+            <strong>你知道吗？</strong>城市就像人一样，也有自己的"基因"。这个基因不是写在DNA里的，而是写在历史里的。每一座城市从诞生那天起，它的地理位置、历史事件、文化传承，就像基因一样，决定了它的性格、气质和未来。今天，让我们一起打开这些城市的历史书，读懂它们的"性格密码"。
+        </div>
     </header>
     
     <div class="container">
-        <div class="intro-box">
-            <h3>📜 城市基因：历史的密码与未来的钥匙</h3>
-            <p>作为历史研究者，我深知城市的历史不是尘封的档案，而是活生生的基因。每一座城市都有其独特的历史基因——从建城之初的地理选择，到历朝历代的兴衰变迁，再到近现代的转型发展，每一段历史都在城市的文化肌理中留下深刻印记。这些历史基因，决定了城市的性格、气质和发展路径，也预示着它的未来走向。</p>
-            <p style="margin-top: 15px;">理解城市基因，就是理解它的"性格密码"。从历史中，我们可以看到城市为什么会有这样的产业布局、为什么会有这样的文化氛围、为什么会有这样的发展轨迹。这些历史基因，是城市选择的重要参考。</p>
+        <!-- 通俗解释：什么是城市基因 -->
+        <div class="explain-box">
+            <h4>💡 什么是城市基因？</h4>
+            <p>想象一下，如果你要了解一个人，你会看什么？看他的出生地、成长经历、教育背景，对吧？城市也是一样！<strong>城市基因</strong>就是这座城市从古到今积累下来的"性格特征"——它为什么建在这里？历史上发生了什么大事？出了哪些名人？这些就像城市的"身份证"，告诉我们这座城市是谁，从哪里来，要到哪里去。</p>
         </div>
         
+        <!-- 城市故事 -->
         <div class="section">
-            <h2 class="section-title">历史基因的理论框架</h2>
-            <div class="theory-box">
-                <h3>🏛️ 历史地理学视角：地理决定论与路径依赖</h3>
-                <p>城市的历史基因首先体现在地理选择上。古代城市的选址往往遵循"依山傍水、交通便利"的原则，这种地理选择决定了城市最初的功能定位。例如，沿江沿海的城市往往成为商贸中心，内陆平原的城市往往成为农业中心，这种地理基因一直影响着城市的发展。</p>
-                <p><strong>路径依赖理论：</strong>城市一旦选择了某种发展路径，就会形成路径依赖。这种依赖不仅体现在产业布局上，更体现在文化传统、价值观念、行为习惯上。理解城市的历史路径，就是理解它的发展逻辑。</p>
-            </div>
+            <h2 class="section-title">城市故事：历史如何塑造城市性格</h2>
             
-            <div class="theory-box">
-                <h3>📚 文化传承视角：文化基因的延续与变异</h3>
-                <p>城市的文化基因，体现在历史文化的传承上。从古都的厚重底蕴，到新兴城市的创新活力，历史文化的传承决定了城市的文化气质。这种文化基因，通过教育、艺术、生活方式等途径代代相传，成为城市的"文化DNA"。</p>
-                <p><strong>文化基因的变异：</strong>文化基因不是一成不变的，它会在传承中发生变异。这种变异，既可能带来创新活力，也可能带来文化冲突。理解城市的文化基因及其变异，就是理解它的文化氛围。</p>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2 class="section-title">典型城市基因解析</h2>
-            <div class="city-grid">
-                <div class="city-card">
-                    <div class="city-header">
+            <div class="city-stories">
+                <!-- 福州故事 -->
+                <div class="city-story-card">
+                    <div class="city-story-header">
                         <h3>🏛️ 福州：千年文脉，向海而生</h3>
-                        <p>一座从历史深处走来的"有福之州"</p>
+                        <p class="city-tagline">一座从历史深处走来的"有福之州"</p>
                     </div>
-                    <div class="city-body">
-                        <h4>📜 历史基因的形成</h4>
-                        <p>福州，古称"榕城"，2200多年建城史。这里是海上丝绸之路的重要起点，郑和七下西洋的启航地。从唐代的"闽都"到明清的"三坊七巷"，福州始终是东南沿海的文化重镇。</p>
-                        <p><strong>地理基因：</strong>福州面朝大海，背靠群山。这种地理格局塑造了福州人"敢闯敢拼、开放包容"的性格。从古代的海上贸易，到近代的"下南洋"，再到今天的"数字福州"，福州始终在与海洋的对话中寻找机遇。</p>
+                    <div class="city-story-body">
+                        <p style="font-size: 1.1em; color: var(--text-dark); margin-bottom: 20px; line-height: 2;">
+                            <strong>故事开始：</strong>2200多年前，一个叫"无诸"的闽越王，在闽江下游选择了一块地方建城。他看中了什么？面朝大海，背靠群山，既有山海之利，又有天险可守。这就是福州的起点。
+                        </p>
                         
-                        <h4>🧬 文化基因的传承</h4>
-                        <p>林则徐、严复、林觉民——这些改变中国历史的人物，都从这座城市的文脉中走出。福州是一座"文教立市"的城市，深厚的文化底蕴、重视教育的传统，让这里成为人才的摇篮。</p>
-                        <p><strong>文化特质：</strong>福州的文化基因体现在"文雅而务实"的城市气质上。既有深厚的文化底蕴，又有面向未来的产业布局；既有传统的价值观念，又有开放的国际视野。</p>
+                        <div class="story-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">公元前202年</div>
+                                <div class="timeline-content">闽越王无诸建城，取名"冶城"。这是福州历史的起点。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">唐代（618-907年）</div>
+                                <div class="timeline-content">福州成为"闽都"，是东南沿海重要的政治、经济、文化中心。海上贸易开始兴盛。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1405-1433年</div>
+                                <div class="timeline-content">郑和七下西洋，福州是重要的启航地。这座城市与海洋的缘分，从这时就注定了。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">明清时期</div>
+                                <div class="timeline-content">"三坊七巷"成为福州的文化名片。林则徐、严复、林觉民等历史名人从这里走出，改变了中国历史。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">今天</div>
+                                <div class="timeline-content">"数字福州"正在崛起，但骨子里还是那个"文教立市"的福州——文雅而务实，向海而生。</div>
+                            </div>
+                        </div>
+                        
+                        <div class="city-characteristics">
+                            <h4>🎯 福州的"性格密码"</h4>
+                            <div class="characteristics-list">
+                                <div class="characteristic-item">文教立市，重视教育</div>
+                                <div class="characteristic-item">向海而生，开放包容</div>
+                                <div class="characteristic-item">文雅务实，不张扬</div>
+                                <div class="characteristic-item">敢闯敢拼，下南洋传统</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="city-card">
-                    <div class="city-header">
+                <!-- 深圳故事 -->
+                <div class="city-story-card">
+                    <div class="city-story-header">
                         <h3>🚀 深圳：从边陲小镇到创新之都</h3>
-                        <p>一座用40年书写奇迹的"梦想之城"</p>
+                        <p class="city-tagline">一座用40年书写奇迹的"梦想之城"</p>
                     </div>
-                    <div class="city-body">
-                        <h4>⚡ 历史基因的突变</h4>
-                        <p>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它已成为拥有1700万人口的国际化大都市。这不是偶然，而是改革开放的必然。</p>
-                        <p><strong>政策基因：</strong>深圳的历史基因，很大程度上是由政策塑造的。作为改革开放的"试验田"，深圳从一开始就承担着"先行先试"的使命。这种政策基因，让深圳形成了"敢为人先、勇于创新"的城市精神。</p>
+                    <div class="city-story-body">
+                        <p style="font-size: 1.1em; color: var(--text-dark); margin-bottom: 20px; line-height: 2;">
+                            <strong>故事开始：</strong>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它成为拥有1700万人口的国际化大都市。这不是偶然，而是历史的必然。
+                        </p>
                         
-                        <h4>🔬 创新基因的密码</h4>
-                        <p>从"三来一补"到"自主创新"，从"世界工厂"到"创新之都"，深圳的每一次转型都走在时代前列。华为、腾讯、比亚迪、大疆——这些改变世界的企业，都诞生在这片热土上。</p>
-                        <p><strong>创新特质：</strong>深圳的创新基因体现在"市场+政府"的双轮驱动上。政府提供制度创新，市场提供资源配置。这里形成了完整的创新生态：从基础研究到产业应用，从创业孵化到资本支持。</p>
+                        <div class="story-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">1979年</div>
+                                <div class="timeline-content">深圳建市，成为中国第一个经济特区。一个小渔村，迎来了历史机遇。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1980年代</div>
+                                <div class="timeline-content">"三来一补"（来料加工、来样加工、来件装配、补偿贸易）模式兴起，深圳成为"世界工厂"。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1990年代</div>
+                                <div class="timeline-content">华为、中兴等企业崛起，深圳开始从"制造"转向"创造"。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">2000年代</div>
+                                <div class="timeline-content">腾讯、比亚迪等企业成为行业巨头，深圳成为"创新之都"。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">今天</div>
+                                <div class="timeline-content">大疆、柔宇等新锐企业涌现，深圳的创新基因不断进化。</div>
+                            </div>
+                        </div>
+                        
+                        <div class="city-characteristics">
+                            <h4>🎯 深圳的"性格密码"</h4>
+                            <div class="characteristics-list">
+                                <div class="characteristic-item">没有历史包袱，敢为人先</div>
+                                <div class="characteristic-item">市场+政府双轮驱动</div>
+                                <div class="characteristic-item">创新生态完整</div>
+                                <div class="characteristic-item">包容开放，只看能力</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="city-card">
-                    <div class="city-header">
+                <!-- 青岛故事 -->
+                <div class="city-story-card">
+                    <div class="city-story-header">
                         <h3>🌊 青岛：红瓦绿树，碧海蓝天的"东方瑞士"</h3>
-                        <p>一座融合中西方文化的"品牌之都"</p>
+                        <p class="city-tagline">一座融合中西方文化的"品牌之都"</p>
                     </div>
-                    <div class="city-body">
-                        <h4>🏛️ 历史基因的交汇</h4>
-                        <p>1891年，青岛建置。1897年，德国强占青岛，留下了"红瓦绿树、碧海蓝天"的城市风貌。1919年，"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。</p>
-                        <p><strong>文化融合：</strong>青岛是一座"兼容并蓄"的城市。中西方文化在这里交融，传统与现代在这里对话。这种文化基因，让青岛既有深厚的底蕴，又有开放的胸怀。</p>
+                    <div class="city-story-body">
+                        <p style="font-size: 1.1em; color: var(--text-dark); margin-bottom: 20px; line-height: 2;">
+                            <strong>故事开始：</strong>1891年，清政府在这里建置。6年后，德国人来了，留下了"红瓦绿树、碧海蓝天"的城市风貌。中西方文化在这里碰撞、融合，形成了青岛独特的城市基因。
+                        </p>
                         
-                        <h4>🏭 品牌基因的密码</h4>
-                        <p>青岛啤酒、海尔、海信、中车四方——这些响当当的品牌，都诞生在青岛。为什么是青岛？因为这里既有工业基础，又有创新精神；既有工匠传统，又有品牌意识。</p>
-                        <p><strong>品牌特质：</strong>青岛的品牌基因体现在"品牌+创新"的双轮驱动上。从"青岛制造"到"青岛创造"，从传统产业到新兴产业，青岛正在打造"世界工业互联网之都"和"全球海洋中心城市"。</p>
+                        <div class="story-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">1891年</div>
+                                <div class="timeline-content">清政府在此建置，青岛正式登上历史舞台。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1897-1914年</div>
+                                <div class="timeline-content">德国强占青岛，留下了欧式建筑和城市规划。这是青岛"红瓦绿树"风格的来源。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1919年</div>
+                                <div class="timeline-content">"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1949年后</div>
+                                <div class="timeline-content">青岛成为重要的工业基地，青岛啤酒、海尔、海信等品牌诞生。</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">今天</div>
+                                <div class="timeline-content">"品牌之都"正在打造"世界工业互联网之都"和"全球海洋中心城市"。</div>
+                            </div>
+                        </div>
+                        
+                        <div class="city-characteristics">
+                            <h4>🎯 青岛的"性格密码"</h4>
+                            <div class="characteristics-list">
+                                <div class="characteristic-item">兼容并蓄，中西融合</div>
+                                <div class="characteristic-item">品牌意识强</div>
+                                <div class="characteristic-item">工业基础扎实</div>
+                                <div class="characteristic-item">工匠精神传承</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="section">
-            <h2 class="section-title">城市基因分析方法论</h2>
-            <div class="methodology-grid">
-                <div class="methodology-item">
-                    <h4>📅 历史分期分析法</h4>
-                    <p>将城市历史分为建城期、发展期、转型期等不同阶段，分析每个阶段的历史事件如何塑造城市基因。从建城之初的地理选择，到历朝历代的兴衰变迁，再到近现代的转型发展，每一段历史都在城市的文化肌理中留下深刻印记。</p>
-                </div>
-                
-                <div class="methodology-item">
-                    <h4>🗺️ 地理环境分析法</h4>
-                    <p>分析城市的地理环境如何影响其历史发展。从地理位置、地形地貌、气候条件等角度，理解城市为什么会有这样的产业布局、为什么会有这样的文化氛围。地理环境是城市基因的基础。</p>
-                </div>
-                
-                <div class="methodology-item">
-                    <h4>👥 人物事件分析法</h4>
-                    <p>通过分析城市历史上的重要人物和事件，理解城市的文化基因。从历史名人到重大事件，从文化传统到价值观念，这些人物和事件塑造了城市的文化气质。</p>
-                </div>
-                
-                <div class="methodology-item">
-                    <h4>🔄 路径依赖分析法</h4>
-                    <p>运用路径依赖理论，分析城市的历史选择如何影响其未来发展。城市一旦选择了某种发展路径，就会形成路径依赖。理解这种依赖，就是理解城市的发展逻辑。</p>
-                </div>
+        <!-- 通俗解释：如何读懂城市基因 -->
+        <div class="explain-box">
+            <h4>🔍 如何读懂一座城市的基因？</h4>
+            <p>读懂城市基因，就像读懂一个人一样，需要从几个方面入手：</p>
+            <p style="margin-top: 15px;">
+                <strong>1. 看地理：</strong>为什么建在这里？靠山还是靠海？这决定了城市最初的功能和性格。<br>
+                <strong>2. 看历史：</strong>历史上发生了什么大事？出了哪些名人？这些塑造了城市的文化气质。<br>
+                <strong>3. 看文化：</strong>有什么独特的文化传统？人们的生活方式是怎样的？这反映了城市的"性格"。<br>
+                <strong>4. 看发展：</strong>从古到今，城市经历了哪些转型？这些转型说明了什么？这预示着城市的未来。
+            </p>
+        </div>
+        
+        <!-- 更多城市探索 -->
+        <div class="interactive-section">
+            <h2 style="font-size: 2em; margin-bottom: 20px; color: var(--text-dark);">探索更多城市</h2>
+            <p style="color: var(--text-gray); margin-bottom: 30px; font-size: 1.1em;">点击下方城市，了解它们的历史基因</p>
+            <div class="city-selector">
+                <button class="city-btn" onclick="showCity('beijing')">北京</button>
+                <button class="city-btn" onclick="showCity('shanghai')">上海</button>
+                <button class="city-btn" onclick="showCity('guangzhou')">广州</button>
+                <button class="city-btn" onclick="showCity('chengdu')">成都</button>
+                <button class="city-btn" onclick="showCity('xian')">西安</button>
+                <button class="city-btn" onclick="showCity('nanjing')">南京</button>
+                <button class="city-btn" onclick="showCity('hangzhou')">杭州</button>
+                <button class="city-btn" onclick="showCity('wuhan')">武汉</button>
+            </div>
+            <div id="city-detail" style="margin-top: 40px; padding: 30px; background: white; border-radius: 16px; display: none;">
+                <h3 id="city-name" style="color: var(--primary-blue); margin-bottom: 20px;"></h3>
+                <p id="city-story" style="color: var(--text-gray); line-height: 2; font-size: 1.05em;"></p>
             </div>
         </div>
     </div>
     
     <footer class="footer">
-        <p>&copy; 2026 蓝图咨询</p>
+        <p>&copy; 2026 城市性格研究</p>
         <p>本站内容仅供参考，请结合实际情况综合决策</p>
     </footer>
+    
+    <script>
+        const cityStories = {
+            beijing: {
+                name: '北京：千年古都，文化中心',
+                story: '北京，3000多年的建城史，800多年的建都史。从燕国都城到元大都，从明清紫禁城到今天的首都，北京的历史就是一部中国历史的缩影。这里既有厚重的历史文化底蕴，又有现代国际化的活力。北京的性格？大气、包容、有底蕴，但也有压力。'
+            },
+            shanghai: {
+                name: '上海：海派文化，国际化都市',
+                story: '1843年开埠，上海从一个渔村变成了"东方巴黎"。100多年来，中西方文化在这里交融，形成了独特的"海派文化"。上海的性格？精致、务实、国际化，但也快节奏、有压力。'
+            },
+            guangzhou: {
+                name: '广州：千年商都，开放前沿',
+                story: '2000多年前，广州就是海上丝绸之路的起点。从古到今，这里都是中国对外贸易的重要窗口。广州的性格？务实、开放、敢闯，生活节奏相对悠闲。'
+            },
+            chengdu: {
+                name: '成都：天府之国，慢生活之都',
+                story: '2300多年前，李冰父子修建都江堰，让成都成为"天府之国"。从古到今，成都都是西南地区的文化、经济中心。成都的性格？悠闲、包容、创新，生活节奏慢，但发展很快。'
+            },
+            xian: {
+                name: '西安：十三朝古都，历史厚重',
+                story: '3100多年的建城史，13个朝代的都城。西安的历史就是一部中国历史的教科书。从周秦汉唐到今天的"一带一路"起点，西安始终是连接东西方的桥梁。西安的性格？厚重、大气、有底蕴，但也需要转型。'
+            },
+            nanjing: {
+                name: '南京：六朝古都，文化名城',
+                story: '2500多年的建城史，10个朝代的都城。南京的历史充满了兴衰起伏，但也积累了深厚的文化底蕴。从"六朝古都"到今天的科教名城，南京始终是江南文化的中心。南京的性格？文雅、有底蕴、宜居，但也需要更多活力。'
+            },
+            hangzhou: {
+                name: '杭州：人间天堂，创新活力',
+                story: '2200多年的建城史，曾是南宋的都城。从"人间天堂"到今天的"数字经济第一城"，杭州的历史就是一部从文化到创新的转型史。杭州的性格？精致、创新、宜居，生活品质高。'
+            },
+            wuhan: {
+                name: '武汉：九省通衢，中部枢纽',
+                story: '3500多年的建城史，长江和汉江在这里交汇。从古到今，武汉都是中国中部的重要交通枢纽和商业中心。武汉的性格？豪爽、务实、有活力，但也需要更多创新。'
+            }
+        };
+        
+        function showCity(cityKey) {
+            const city = cityStories[cityKey];
+            if (!city) return;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.city-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 显示城市详情
+            document.getElementById('city-name').textContent = city.name;
+            document.getElementById('city-story').textContent = city.story;
+            document.getElementById('city-detail').style.display = 'block';
+            
+            // 平滑滚动
+            document.getElementById('city-detail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
 </body>
 </html>
-
