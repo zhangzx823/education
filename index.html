@@ -12,60 +12,91 @@
             box-sizing: border-box;
         }
         
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background: #0a0a0a;
-            min-height: 100vh;
-            color: #fff;
+        :root {
+            --primary-blue: #4A90E2;
+            --primary-blue-dark: #357ABD;
+            --primary-blue-light: #6BA3E8;
+            --bg-light: #F8F9FA;
+            --bg-white: #FFFFFF;
+            --text-dark: #2C3E50;
+            --text-gray: #6C757D;
+            --text-light: #ADB5BD;
+            --border-color: #E9ECEF;
         }
         
-        /* 导航栏 - 透明风格 */
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        /* 导航栏 - 极简风格 */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            padding: 25px 60px;
+            padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
-            transition: background 0.3s;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s;
         }
         
         .navbar.scrolled {
-            background: rgba(10,10,10,0.95);
-            backdrop-filter: blur(10px);
-            padding: 18px 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
-            color: #fff;
+            color: var(--text-dark);
+            font-size: 1.2em;
+            font-weight: 600;
         }
         
-        .nav-brand span {
-            font-size: 1.3em;
-            font-weight: 600;
-            letter-spacing: 1px;
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
         }
         
         .nav-links a {
-            color: rgba(255,255,255,0.85);
+            color: var(--text-gray);
             text-decoration: none;
-            margin-left: 40px;
             font-size: 0.95em;
             font-weight: 400;
             transition: color 0.3s;
-            letter-spacing: 0.5px;
+            position: relative;
         }
-        .nav-links a:hover { color: #fff; }
         
-        /* Hero区域 - 全屏背景图 */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-blue);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero区域 - 极简风格 */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -73,70 +104,29 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
-            background: linear-gradient(135deg, rgba(10,30,60,0.85), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80') center/cover no-repeat;
-            padding: 0 20px;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            background: linear-gradient(to top, #0a0a0a, transparent);
+            padding: 120px 20px 80px;
+            background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
         }
         
         .hero-content {
-            position: relative;
-            z-index: 1;
             max-width: 900px;
         }
         
-        .hero-tagline {
-            font-size: 1em;
-            color: rgba(255,255,255,0.6);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 25px;
-        }
-        
         .hero-title {
-            font-size: 4em;
+            font-size: 3.5em;
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 30px;
-            letter-spacing: 2px;
+            color: var(--text-dark);
+            letter-spacing: -1px;
         }
         
         .hero-subtitle {
-            font-size: 1.25em;
-            color: rgba(255,255,255,0.75);
+            font-size: 1.2em;
+            color: var(--text-gray);
             line-height: 1.8;
             margin-bottom: 50px;
             font-weight: 300;
-        }
-        
-        .hero-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: #fff;
-            color: #0a0a0a;
-            padding: 18px 45px;
-            border-radius: 50px;
-            font-size: 1.05em;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            letter-spacing: 1px;
-        }
-        
-        .hero-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 50px rgba(255,255,255,0.15);
         }
         
         .scroll-hint {
@@ -144,9 +134,8 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.4);
+            color: var(--text-light);
             font-size: 0.85em;
-            letter-spacing: 2px;
             animation: bounce 2s infinite;
         }
         
@@ -155,44 +144,9 @@
             50% { transform: translateX(-50%) translateY(10px); }
         }
         
-        /* 填报要点滚动区 */
-        .tips-section {
-            background: #111;
-            padding: 25px 0;
-            overflow: hidden;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        
-        .tips-track {
-            display: flex;
-            animation: scroll-tips 35s linear infinite;
-            width: max-content;
-        }
-        
-        .tip-item {
-            flex-shrink: 0;
-            padding: 0 50px;
-            font-size: 0.95em;
-            color: rgba(255,255,255,0.5);
-            white-space: nowrap;
-            border-right: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .tip-item strong { color: rgba(255,255,255,0.85); }
-        
-        @keyframes scroll-tips {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
-        .tips-section:hover .tips-track {
-            animation-play-state: paused;
-        }
-        
-        /* 服务区域 */
-        .services {
-            background: #0a0a0a;
+        /* 核心服务区域 */
+        .services-section {
+            background: var(--bg-white);
             padding: 100px 60px;
         }
         
@@ -205,11 +159,12 @@
             font-size: 2.5em;
             font-weight: 600;
             margin-bottom: 15px;
-            letter-spacing: 1px;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
         }
         
         .section-header p {
-            color: rgba(255,255,255,0.5);
+            color: var(--text-gray);
             font-size: 1.1em;
             font-weight: 300;
         }
@@ -217,17 +172,17 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 35px;
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
         }
         
         .service-card {
-            background: linear-gradient(145deg, #151515, #0d0d0d);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 45px 35px;
-            transition: all 0.4s ease;
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
             display: flex;
@@ -235,137 +190,244 @@
         }
         
         .service-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255,255,255,0.2);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.1);
         }
         
         .service-icon {
-            width: 65px;
-            height: 65px;
-            border-radius: 16px;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.8em;
             margin-bottom: 25px;
-            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            background: var(--primary-blue);
+            color: white;
         }
         
         .service-card h3 {
-            font-size: 1.35em;
+            font-size: 1.3em;
             font-weight: 600;
             margin-bottom: 15px;
-            letter-spacing: 0.5px;
+            color: var(--text-dark);
         }
         
         .service-card p {
-            color: rgba(255,255,255,0.55);
+            color: var(--text-gray);
             line-height: 1.8;
             font-size: 0.95em;
             flex: 1;
-            font-weight: 300;
-        }
-        
-        .service-tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 25px;
-        }
-        
-        .service-tag {
-            background: rgba(255,255,255,0.06);
-            padding: 8px 15px;
-            border-radius: 25px;
-            font-size: 0.8em;
-            color: rgba(255,255,255,0.6);
+            margin-bottom: 20px;
         }
         
         .service-link {
+            color: var(--primary-blue);
+            font-weight: 500;
+            font-size: 0.95em;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 25px;
-            color: #4285f4;
-            font-weight: 500;
-            font-size: 0.95em;
-            transition: gap 0.3s;
         }
         
-        .service-card:hover .service-link { gap: 12px; }
+        /* 城市性格板块 */
+        .city-character-section {
+            background: var(--bg-light);
+            padding: 100px 60px;
+        }
         
-        /* 测评卡片区域 - 现代感设计 */
+        .city-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+        
+        .city-intro h2 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+        
+        .city-intro p {
+            font-size: 1.1em;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+        
+        .city-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .city-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .city-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .city-card-header {
+            padding: 30px;
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .city-card-header h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .city-card-header p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .city-card-body {
+            padding: 30px;
+        }
+        
+        .city-card-body h4 {
+            color: var(--primary-blue);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            margin-top: 20px;
+        }
+        
+        .city-card-body h4:first-child {
+            margin-top: 0;
+        }
+        
+        .city-card-body p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+        
+        .city-insights {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .city-insights h4 {
+            color: var(--text-dark);
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+        
+        .city-insights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .city-insight-item {
+            background: var(--bg-white);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .city-insight-item strong {
+            color: var(--primary-blue);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .city-insight-item p {
+            font-size: 0.85em;
+            color: var(--text-gray);
+            margin: 0;
+        }
+        
+        .city-methodology {
+            background: var(--bg-white);
+            padding: 60px;
+            margin-top: 60px;
+            border-radius: 16px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .city-methodology h3 {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+        
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .methodology-item {
+            background: var(--bg-light);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .methodology-item h4 {
+            color: var(--text-dark);
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .methodology-item p {
+            color: var(--text-gray);
+            font-size: 0.95em;
+            line-height: 1.8;
+            margin: 0;
+        }
+        
+        /* 测评卡片区域 */
         .assessment-section {
-            background: #0a0a0a;
-            padding: 80px 60px;
+            background: var(--bg-white);
+            padding: 100px 60px;
             display: flex;
             justify-content: center;
         }
         
         .assessment-card {
-            position: relative;
             max-width: 900px;
             width: 100%;
-            background: linear-gradient(145deg, rgba(30,30,40,0.9), rgba(15,15,20,0.95));
-            border-radius: 30px;
+            background: var(--bg-white);
+            border: 2px solid var(--primary-blue);
+            border-radius: 20px;
             padding: 60px;
-            overflow: hidden;
             text-decoration: none;
             color: inherit;
             display: block;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        /* 渐变边框效果 */
-        .assessment-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 30px;
-            padding: 2px;
-            background: linear-gradient(135deg, #1a73e8, #4285f4, #00d4ff, #1a73e8);
-            background-size: 300% 300%;
-            animation: gradient-border 4s ease infinite;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-        
-        @keyframes gradient-border {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        /* 光晕效果 */
-        .assessment-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(26,115,232,0.15) 0%, transparent 50%);
-            animation: glow-move 8s ease-in-out infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes glow-move {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(10%, 10%); }
-            50% { transform: translate(0, 20%); }
-            75% { transform: translate(-10%, 10%); }
+            transition: all 0.3s ease;
         }
         
         .assessment-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 40px 80px rgba(26,115,232,0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(74, 144, 226, 0.2);
         }
         
         .assessment-content {
-            position: relative;
-            z-index: 1;
             display: flex;
             align-items: center;
             gap: 50px;
@@ -373,21 +435,14 @@
         
         .assessment-visual {
             flex-shrink: 0;
-            width: 140px;
-            height: 140px;
-            background: linear-gradient(135deg, #1a73e8, #4285f4);
-            border-radius: 28px;
+            width: 120px;
+            height: 120px;
+            background: var(--primary-blue);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4em;
-            box-shadow: 0 20px 40px rgba(26,115,232,0.4);
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            font-size: 3.5em;
         }
         
         .assessment-info {
@@ -398,40 +453,24 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(26,115,232,0.15);
-            border: 1px solid rgba(26,115,232,0.3);
+            background: rgba(74, 144, 226, 0.1);
+            border: 1px solid var(--primary-blue);
             padding: 8px 18px;
-            border-radius: 30px;
+            border-radius: 20px;
             font-size: 0.85em;
-            color: #4285f4;
+            color: var(--primary-blue);
             margin-bottom: 20px;
-        }
-        
-        .assessment-badge .dot {
-            width: 8px;
-            height: 8px;
-            background: #4285f4;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
         }
         
         .assessment-info h3 {
             font-size: 2em;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 15px;
-            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
+            color: var(--text-dark);
         }
         
         .assessment-info p {
-            color: rgba(255,255,255,0.6);
+            color: var(--text-gray);
             font-size: 1.05em;
             line-height: 1.8;
             margin-bottom: 30px;
@@ -448,80 +487,77 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: rgba(255,255,255,0.7);
+            color: var(--text-gray);
             font-size: 0.95em;
-        }
-        
-        .assessment-feature span:first-child {
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .assessment-btn {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: linear-gradient(135deg, #1a73e8, #4285f4);
-            color: #fff;
-            padding: 18px 40px;
-            border-radius: 50px;
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
             font-size: 1.05em;
             font-weight: 600;
             transition: all 0.3s;
-            box-shadow: 0 15px 35px rgba(26,115,232,0.35);
         }
         
         .assessment-card:hover .assessment-btn {
-            box-shadow: 0 20px 45px rgba(26,115,232,0.5);
-            transform: translateX(5px);
-        }
-        
-        .assessment-btn .arrow {
-            transition: transform 0.3s;
-        }
-        
-        .assessment-card:hover .assessment-btn .arrow {
-            transform: translateX(5px);
+            background: var(--primary-blue-dark);
         }
         
         /* 页脚 */
         .footer {
-            background: #050505;
-            color: rgba(255,255,255,0.4);
+            background: var(--bg-light);
+            color: var(--text-gray);
             text-align: center;
             padding: 50px 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid var(--border-color);
         }
         
-        .footer p { font-size: 0.9em; }
-        .footer-note { margin-top: 10px; font-size: 0.8em; opacity: 0.6; }
+        .footer p {
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
         
         /* 响应式 */
         @media (max-width: 1024px) {
-            .services-grid { grid-template-columns: 1fr; max-width: 500px; }
-            .hero-title { font-size: 2.8em; }
-            .services { padding: 60px 30px; }
-            .assessment-section { padding: 60px 30px; }
-            .assessment-card { padding: 40px; }
-            .assessment-content { flex-direction: column; text-align: center; gap: 30px; }
-            .assessment-visual { width: 100px; height: 100px; font-size: 2.8em; }
-            .assessment-features { justify-content: center; }
+            .services-grid, .city-cards {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+            .hero-title { font-size: 2.5em; }
+            .services-section, .city-character-section, .assessment-section {
+                padding: 60px 30px;
+            }
+            .methodology-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 768px) {
-            .navbar { padding: 18px 25px; }
-            .nav-links { display: none; }
-            .hero-title { font-size: 2.2em; }
+            .navbar {
+                padding: 15px 25px;
+            }
+            .nav-links {
+                gap: 20px;
+                font-size: 0.9em;
+            }
+            .hero-title { font-size: 2em; }
             .hero-subtitle { font-size: 1em; }
-            .section-header h2 { font-size: 1.8em; }
-            .assessment-info h3 { font-size: 1.5em; }
-            .assessment-features { gap: 15px; }
-            .assessment-feature { font-size: 0.85em; }
+            .section-header h2, .city-intro h2 {
+                font-size: 1.8em;
+            }
+            .assessment-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+            .city-insights-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -529,12 +565,11 @@
     <!-- 导航栏 -->
     <nav class="navbar" id="navbar">
         <a href="index.html" class="nav-brand">
-            🎓 <span>蓝图咨询</span>
+            <span>蓝图咨询</span>
         </a>
         <div class="nav-links">
-            <a href="economy.html">区域经济</a>
-            <a href="survey.html">智能测评</a>
-            <a href="knowledge.html">知识学习</a>
+            <a href="#team">蓝图团队</a>
+            <a href="#services">核心服务</a>
         </div>
     </nav>
     
@@ -547,24 +582,10 @@
         <div class="scroll-hint">向下滚动 ↓</div>
     </section>
     
-    <!-- 填报要点滚动 -->
-    <section class="tips-section">
-        <div class="tips-track">
-            <div class="tip-item">🏙️ <strong>城市选择决定未来：产业集聚带来更多机会，区域优势影响职业发展</strong></div>
-            <div class="tip-item">📊 <strong>产业经济分析：了解城市主导产业、产业链完整度、创新生态活力</strong></div>
-            <div class="tip-item">💼 <strong>人力资本视角：人才政策、薪资水平、职业发展路径是核心考量</strong></div>
-            <div class="tip-item">🌐 <strong>区域经济格局：城市群协同发展、区域竞争优势、未来增长潜力</strong></div>
-            <div class="tip-item">🎯 <strong>科学决策框架：产业匹配度+区域发展潜力+人力资本回报率</strong></div>
-            <div class="tip-item">💡 <strong>长期价值思维：选择城市就是选择未来20年的发展环境与机会</strong></div>
-            <div class="tip-item">🏙️ <strong>城市选择决定未来：产业集聚带来更多机会，区域优势影响职业发展</strong></div>
-            <div class="tip-item">📊 <strong>产业经济分析：了解城市主导产业、产业链完整度、创新生态活力</strong></div>
-        </div>
-    </section>
-    
-    <!-- 服务区域 -->
-    <section class="services">
+    <!-- 核心服务区域 -->
+    <section class="services-section" id="services">
         <div class="section-header">
-            <h2>城市选择三维分析框架</h2>
+            <h2>核心服务</h2>
             <p>产业经济 · 区域经济 · 人力资本 全方位赋能城市决策</p>
         </div>
         
@@ -573,11 +594,6 @@
                 <div class="service-icon">📊</div>
                 <h3>区域经济深度解析</h3>
                 <p>从产业集聚理论、区域竞争优势、产业链完整性等维度，深度剖析各城市产业发展现状、未来趋势与就业机会分布。</p>
-                <div class="service-tags">
-                    <span class="service-tag">产业集聚</span>
-                    <span class="service-tag">产业链分析</span>
-                    <span class="service-tag">创新生态</span>
-                </div>
                 <span class="service-link">查看分析 →</span>
             </a>
             
@@ -585,13 +601,153 @@
                 <div class="service-icon">💼</div>
                 <h3>人力资本与职业发展</h3>
                 <p>分析各城市人才政策、薪资水平、职业发展路径、生活成本等关键因素，帮助评估在不同城市发展的长期价值。</p>
-                <div class="service-tags">
-                    <span class="service-tag">人才政策</span>
-                    <span class="service-tag">薪资分析</span>
-                    <span class="service-tag">发展路径</span>
-                </div>
                 <span class="service-link">了解更多 →</span>
             </a>
+            
+            <a href="survey.html" class="service-card">
+                <div class="service-icon">🎯</div>
+                <h3>智能匹配测评</h3>
+                <p>基于多维度特质分析的智能匹配系统，为您精准推荐最适合的专业方向、发展城市和目标院校。</p>
+                <span class="service-link">开始测评 →</span>
+            </a>
+        </div>
+    </section>
+    
+    <!-- 城市性格板块 -->
+    <section class="city-character-section">
+        <div class="city-intro">
+            <h2>城市"性格"：读懂一座城的历史密码</h2>
+            <p>城市如人，各有性格。每一座城市都有其独特的历史基因、文化底蕴和发展轨迹。了解一座城市的"性格"，就是读懂它的过去、现在和未来。作为市长，我邀请您走进这些城市，感受它们的历史脉搏，理解它们的发展逻辑。</p>
+        </div>
+        
+        <div class="city-cards">
+            <!-- 福州案例 -->
+            <div class="city-card">
+                <div class="city-card-header">
+                    <h3>🏛️ 福州：千年文脉，向海而生</h3>
+                    <p>一座从历史深处走来的"有福之州"</p>
+                </div>
+                <div class="city-card-body">
+                    <h4>📜 历史基因</h4>
+                    <p>福州，古称"榕城"，2200多年建城史。这里是海上丝绸之路的重要起点，郑和七下西洋的启航地。从唐代的"闽都"到明清的"三坊七巷"，福州始终是东南沿海的文化重镇。林则徐、严复、林觉民——这些改变中国历史的人物，都从这座城市的文脉中走出。</p>
+                    <p><strong>历史告诉我们：</strong>福州是一座"文教立市"的城市。深厚的文化底蕴、重视教育的传统，让这里成为人才的摇篮。选择福州，就是选择一种"文雅而务实"的城市气质。</p>
+                    
+                    <h4>🌊 向海而生</h4>
+                    <p>福州面朝大海，背靠群山。这种地理格局塑造了福州人"敢闯敢拼、开放包容"的性格。从古代的海上贸易，到近代的"下南洋"，再到今天的"数字福州"，福州始终在与海洋的对话中寻找机遇。</p>
+                    <p><strong>经济逻辑：</strong>作为"21世纪海上丝绸之路核心区"，福州正在打造数字经济、海洋经济、绿色经济三大支柱。这里既有深厚的历史底蕴，又有面向未来的产业布局。</p>
+                    
+                    <div class="city-insights">
+                        <h4>💡 对考生的启示</h4>
+                        <div class="city-insights-grid">
+                            <div class="city-insight-item">
+                                <strong>文化教育优势</strong>
+                                <p>福州大学、福建师范大学等高校，文理并重。适合喜欢文化氛围、重视教育环境的考生。</p>
+                            </div>
+                            <div class="city-insight-item">
+                                <strong>数字经济发展</strong>
+                                <p>数字中国建设峰会永久举办地，数字产业蓬勃发展。适合计算机、软件、大数据等专业。</p>
+                            </div>
+                            <div class="city-insight-item">
+                                <strong>生活成本适中</strong>
+                                <p>相比一线城市，房价和生活成本更友好，但发展机会和薪资水平也在快速提升。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 深圳案例 -->
+            <div class="city-card">
+                <div class="city-card-header">
+                    <h3>🚀 深圳：从边陲小镇到创新之都</h3>
+                    <p>一座用40年书写奇迹的"梦想之城"</p>
+                </div>
+                <div class="city-card-body">
+                    <h4>⚡ 从零到一的奇迹</h4>
+                    <p>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它已成为拥有1700万人口的国际化大都市，GDP从1.96亿元增长到3.24万亿元。这不是偶然，而是改革开放的必然。</p>
+                    <p><strong>历史告诉我们：</strong>深圳没有历史包袱，只有对未来的无限渴望。这里没有"关系"，只有"能力"；没有"论资排辈"，只有"敢为人先"。选择深圳，就是选择一种"拼搏、创新、包容"的城市精神。</p>
+                    
+                    <h4>🔬 创新基因的密码</h4>
+                    <p>从"三来一补"到"自主创新"，从"世界工厂"到"创新之都"，深圳的每一次转型都走在时代前列。华为、腾讯、比亚迪、大疆——这些改变世界的企业，都诞生在这片热土上。</p>
+                    <p><strong>经济逻辑：</strong>深圳的成功在于"市场+政府"的双轮驱动。政府提供制度创新，市场提供资源配置。这里形成了完整的创新生态：从基础研究到产业应用，从创业孵化到资本支持。</p>
+                    
+                    <div class="city-insights">
+                        <h4>💡 对考生的启示</h4>
+                        <div class="city-insights-grid">
+                            <div class="city-insight-item">
+                                <strong>创新创业天堂</strong>
+                                <p>深圳大学、南方科技大学等高校，注重产学研结合。适合有创业梦想、追求创新的考生。</p>
+                            </div>
+                            <div class="city-insight-item">
+                                <strong>高薪高机会</strong>
+                                <p>平均薪资全国前列，但生活成本也高。适合追求高收入、愿意拼搏的年轻人。</p>
+                            </div>
+                            <div class="city-insight-item">
+                                <strong>国际化视野</strong>
+                                <p>毗邻香港，国际化程度高。适合希望拓展国际视野、从事外向型工作的考生。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 青岛案例 -->
+            <div class="city-card">
+                <div class="city-card-header">
+                    <h3>🌊 青岛：红瓦绿树，碧海蓝天的"东方瑞士"</h3>
+                    <p>一座融合中西方文化的"品牌之都"</p>
+                </div>
+                <div class="city-card-body">
+                    <h4>🏛️ 历史交汇的见证</h4>
+                    <p>1891年，青岛建置。1897年，德国强占青岛，留下了"红瓦绿树、碧海蓝天"的城市风貌。1919年，"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。1949年后，青岛成为重要的工业基地和港口城市。</p>
+                    <p><strong>历史告诉我们：</strong>青岛是一座"兼容并蓄"的城市。中西方文化在这里交融，传统与现代在这里对话。这种文化基因，让青岛既有深厚的底蕴，又有开放的胸怀。</p>
+                    
+                    <h4>🏭 品牌之都的密码</h4>
+                    <p>青岛啤酒、海尔、海信、中车四方——这些响当当的品牌，都诞生在青岛。为什么是青岛？因为这里既有工业基础，又有创新精神；既有工匠传统，又有品牌意识。</p>
+                    <p><strong>经济逻辑：</strong>青岛的成功在于"品牌+创新"的双轮驱动。从"青岛制造"到"青岛创造"，从传统产业到新兴产业，青岛正在打造"世界工业互联网之都"和"全球海洋中心城市"。</p>
+                    
+                    <div class="city-insights">
+                        <h4>💡 对考生的启示</h4>
+                        <div class="city-insights-grid">
+                            <div class="city-insight-item">
+                                <strong>品牌企业云集</strong>
+                                <p>中国海洋大学、山东大学（青岛）等高校，与海尔、海信等企业合作紧密。适合希望进入知名企业的考生。</p>
+                            </div>
+                            <div class="city-insight-item">
+                                <strong>宜居宜业</strong>
+                                <p>环境优美，生活品质高，但房价相对友好。适合追求工作生活平衡的考生。</p>
+                            </div>
+                            <div class="city-insight-item">
+                                <strong>海洋经济</strong>
+                                <p>海洋科学、海洋工程等专业优势明显。适合对海洋产业感兴趣的考生。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 方法论总结 -->
+        <div class="city-methodology">
+            <h3>🎯 读懂城市"性格"的方法论</h3>
+            <div class="methodology-grid">
+                <div class="methodology-item">
+                    <h4>📚 从历史看基因</h4>
+                    <p>每一座城市的历史，都塑造了它的文化基因和发展路径。了解城市的历史，就是理解它的"性格密码"。</p>
+                </div>
+                <div class="methodology-item">
+                    <h4>💼 从经济看未来</h4>
+                    <p>城市的产业结构和发展方向，决定了未来的就业机会和发展空间。读懂经济逻辑，就是把握发展机遇。</p>
+                </div>
+                <div class="methodology-item">
+                    <h4>🌍 从文化看氛围</h4>
+                    <p>城市的文化氛围和生活环境，影响你的生活方式和价值认同。选择城市，就是选择一种生活。</p>
+                </div>
+                <div class="methodology-item">
+                    <h4>🎓 从教育看潜力</h4>
+                    <p>城市的教育资源和人才政策，决定了你的成长空间和发展机会。教育是城市未来的基石。</p>
+                </div>
+            </div>
         </div>
     </section>
     
@@ -602,7 +758,6 @@
                 <div class="assessment-visual">🎯</div>
                 <div class="assessment-info">
                     <div class="assessment-badge">
-                        <span class="dot"></span>
                         <span>AI智能分析</span>
                     </div>
                     <h3>专业·院校·城市 匹配度测评</h3>
@@ -627,7 +782,7 @@
                     </div>
                     <div class="assessment-btn">
                         <span>开始测评</span>
-                        <span class="arrow">→</span>
+                        <span>→</span>
                     </div>
                 </div>
             </div>
@@ -637,7 +792,7 @@
     <!-- 页脚 -->
     <footer class="footer">
         <p>&copy; 2026 蓝图咨询</p>
-        <p class="footer-note">本站内容仅供参考，请结合实际情况综合决策</p>
+        <p>本站内容仅供参考，请结合实际情况综合决策</p>
     </footer>
     
     <script>
@@ -649,6 +804,20 @@
             } else {
                 navbar.classList.remove('scrolled');
             }
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     </script>
 </body>
