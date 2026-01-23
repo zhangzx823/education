@@ -172,6 +172,120 @@
             margin: 0 auto;
         }
         
+        /* 城市地图区域 */
+        .map-section {
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--blue-bg) 100%);
+            padding: 100px 60px;
+        }
+        
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .map-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .map-header h2 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .map-header p {
+            color: var(--text-gray);
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        .map-wrapper {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .china-map {
+            width: 100%;
+            height: 600px;
+            margin-bottom: 30px;
+        }
+        
+        .map-svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .city-dot {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .city-dot:hover {
+            r: 12;
+            fill: var(--primary-blue-dark);
+        }
+        
+        .city-dot:hover + text {
+            font-weight: 700;
+            fill: var(--primary-blue);
+        }
+        
+        .analysis-dimensions circle {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .analysis-dimensions circle:hover {
+            r: 30;
+            fill: rgba(74, 144, 226, 0.2);
+        }
+        
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+            font-size: 0.95em;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            display: inline-block;
+        }
+        
+        .legend-icon {
+            font-size: 1.2em;
+        }
+        
+        .map-source {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.85em;
+            margin-top: 20px;
+        }
+        
+        .map-source p {
+            margin: 0;
+        }
+        
         /* 从历史看基因板块 */
         .history-section {
             background: var(--bg-white);
@@ -599,6 +713,15 @@
             .section {
                 padding: 60px 30px;
             }
+            .map-section {
+                padding: 60px 30px;
+            }
+            .china-map {
+                height: 400px;
+            }
+            .map-legend {
+                gap: 20px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -613,6 +736,23 @@
             .hero-subtitle { font-size: 1em; }
             .section-header h2 {
                 font-size: 1.8em;
+            }
+            .map-header h2 {
+                font-size: 1.8em;
+            }
+            .map-header p {
+                font-size: 0.95em;
+            }
+            .china-map {
+                height: 300px;
+            }
+            .map-wrapper {
+                padding: 20px;
+            }
+            .map-legend {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
             }
         }
     </style>
@@ -632,10 +772,117 @@
     <!-- Hero区域 -->
     <section class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">择一座城 安一颗心</h1>
+            <h1 class="hero-title">择一座城 安一颗心 筑一段梦</h1>
             <p class="hero-subtitle">历史·经济·文化·教育 四维分析<br>深度洞察，科学决策</p>
         </div>
         <div class="scroll-hint">向下滚动 ↓</div>
+    </section>
+    
+    <!-- 城市地图区域 -->
+    <section class="map-section">
+        <div class="map-container">
+            <div class="map-header">
+                <h2>探索中国城市</h2>
+                <p>从历史基因到经济未来，从文化氛围到教育潜力<br>深度解析每一座城市的独特性格</p>
+            </div>
+            <div class="map-wrapper">
+                <div class="china-map">
+                    <!-- 使用SVG或图片展示中国地图，标注主要城市 -->
+                    <svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg" class="map-svg">
+                        <!-- 简化的中国地图轮廓 -->
+                        <path d="M 200 300 L 250 280 L 300 290 L 350 300 L 400 310 L 450 320 L 500 330 L 550 340 L 600 350 L 650 360 L 700 370 L 750 380 L 800 390 L 850 400 L 800 450 L 750 500 L 700 550 L 650 600 L 600 650 L 550 700 L 500 750 L 450 700 L 400 650 L 350 600 L 300 550 L 250 500 L 200 450 Z" 
+                              fill="#E8F4FD" stroke="#4A90E2" stroke-width="2" class="china-outline"/>
+                        
+                        <!-- 主要城市标注 -->
+                        <g class="cities">
+                            <!-- 北京 -->
+                            <circle cx="450" cy="280" r="8" fill="#4A90E2" class="city-dot" data-city="北京"/>
+                            <text x="470" y="285" font-size="14" fill="#2C3E50" font-weight="600">北京</text>
+                            
+                            <!-- 上海 -->
+                            <circle cx="600" cy="400" r="8" fill="#4A90E2" class="city-dot" data-city="上海"/>
+                            <text x="620" y="405" font-size="14" fill="#2C3E50" font-weight="600">上海</text>
+                            
+                            <!-- 深圳 -->
+                            <circle cx="550" cy="550" r="8" fill="#4A90E2" class="city-dot" data-city="深圳"/>
+                            <text x="570" y="555" font-size="14" fill="#2C3E50" font-weight="600">深圳</text>
+                            
+                            <!-- 杭州 -->
+                            <circle cx="580" cy="420" r="8" fill="#4A90E2" class="city-dot" data-city="杭州"/>
+                            <text x="600" y="425" font-size="14" fill="#2C3E50" font-weight="600">杭州</text>
+                            
+                            <!-- 成都 -->
+                            <circle cx="350" cy="450" r="8" fill="#4A90E2" class="city-dot" data-city="成都"/>
+                            <text x="370" y="455" font-size="14" fill="#2C3E50" font-weight="600">成都</text>
+                            
+                            <!-- 西安 -->
+                            <circle cx="400" cy="350" r="8" fill="#4A90E2" class="city-dot" data-city="西安"/>
+                            <text x="420" y="355" font-size="14" fill="#2C3E50" font-weight="600">西安</text>
+                            
+                            <!-- 南京 -->
+                            <circle cx="570" cy="380" r="8" fill="#4A90E2" class="city-dot" data-city="南京"/>
+                            <text x="590" y="385" font-size="14" fill="#2C3E50" font-weight="600">南京</text>
+                            
+                            <!-- 青岛 -->
+                            <circle cx="550" cy="320" r="8" fill="#4A90E2" class="city-dot" data-city="青岛"/>
+                            <text x="570" y="325" font-size="14" fill="#2C3E50" font-weight="600">青岛</text>
+                            
+                            <!-- 福州 -->
+                            <circle cx="580" cy="480" r="8" fill="#4A90E2" class="city-dot" data-city="福州"/>
+                            <text x="600" y="485" font-size="14" fill="#2C3E50" font-weight="600">福州</text>
+                            
+                            <!-- 武汉 -->
+                            <circle cx="500" cy="420" r="8" fill="#4A90E2" class="city-dot" data-city="武汉"/>
+                            <text x="520" y="425" font-size="14" fill="#2C3E50" font-weight="600">武汉</text>
+                        </g>
+                        
+                        <!-- 分析维度图标 -->
+                        <g class="analysis-dimensions">
+                            <circle cx="100" cy="100" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
+                            <text x="100" y="108" font-size="20" text-anchor="middle">📜</text>
+                            <text x="100" y="140" font-size="12" text-anchor="middle" fill="#6C757D">历史基因</text>
+                            
+                            <circle cx="900" cy="100" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
+                            <text x="900" y="108" font-size="20" text-anchor="middle">📊</text>
+                            <text x="900" y="140" font-size="12" text-anchor="middle" fill="#6C757D">经济未来</text>
+                            
+                            <circle cx="100" cy="700" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
+                            <text x="100" y="708" font-size="20" text-anchor="middle">🌍</text>
+                            <text x="100" y="740" font-size="12" text-anchor="middle" fill="#6C757D">文化氛围</text>
+                            
+                            <circle cx="900" cy="700" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
+                            <text x="900" y="708" font-size="20" text-anchor="middle">🎓</text>
+                            <text x="900" y="740" font-size="12" text-anchor="middle" fill="#6C757D">教育潜力</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-dot"></span>
+                        <span>主要城市</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon">📜</span>
+                        <span>历史基因分析</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon">📊</span>
+                        <span>经济未来分析</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon">🌍</span>
+                        <span>文化氛围分析</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon">🎓</span>
+                        <span>教育潜力分析</span>
+                    </div>
+                </div>
+            </div>
+            <div class="map-source">
+                <p>地图数据来源：国家基础地理信息中心 | 城市数据来源：国家统计局、各地统计局</p>
+            </div>
+        </div>
     </section>
     
     <!-- 从历史看基因板块 -->
@@ -646,53 +893,7 @@
         </div>
         
         <div class="history-content">
-            <div class="history-intro">
-                <h3>📜 历史是城市的基因密码</h3>
-                <p>城市的历史不是尘封的档案，而是活生生的基因。从建城之初的地理选择，到历朝历代的兴衰变迁，每一段历史都在城市的文化肌理中留下深刻印记。</p>
-            </div>
-            
-            <div class="history-cities">
-                <!-- 福州案例 -->
-                <div class="history-city-card">
-                    <div class="history-city-header">
-                        <h3>🏛️ 福州：千年文脉，向海而生</h3>
-                        <p>一座从历史深处走来的"有福之州"</p>
-                    </div>
-                    <div class="history-city-body">
-                        <h4>📜 历史基因</h4>
-                        <p>福州，古称"榕城"，2200多年建城史。海上丝绸之路的重要起点，郑和七下西洋的启航地。林则徐、严复、林觉民——这些改变中国历史的人物，都从这座城市的文脉中走出。</p>
-                        <p><strong>城市气质：</strong>文雅而务实，文教立市，向海而生。</p>
-                    </div>
-                </div>
-                
-                <!-- 深圳案例 -->
-                <div class="history-city-card">
-                    <div class="history-city-header">
-                        <h3>🚀 深圳：从边陲小镇到创新之都</h3>
-                        <p>一座用40年书写奇迹的"梦想之城"</p>
-                    </div>
-                    <div class="history-city-body">
-                        <h4>⚡ 从零到一的奇迹</h4>
-                        <p>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它已成为拥有1700万人口的国际化大都市。这不是偶然，而是改革开放的必然。</p>
-                        <p><strong>城市精神：</strong>拼搏、创新、包容。华为、腾讯、比亚迪、大疆——这些改变世界的企业，都诞生在这片热土上。</p>
-                    </div>
-                </div>
-                
-                <!-- 青岛案例 -->
-                <div class="history-city-card">
-                    <div class="history-city-header">
-                        <h3>🌊 青岛：红瓦绿树，碧海蓝天的"东方瑞士"</h3>
-                        <p>一座融合中西方文化的"品牌之都"</p>
-                    </div>
-                    <div class="history-city-body">
-                        <h4>🏛️ 历史交汇的见证</h4>
-                        <p>1891年，青岛建置。1897年，德国强占青岛，留下了"红瓦绿树、碧海蓝天"的城市风貌。1919年，"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。</p>
-                        <p><strong>城市特质：</strong>兼容并蓄，中西方文化交融。青岛啤酒、海尔、海信、中车四方——这些响当当的品牌，都诞生在青岛。</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 50px;">
+            <div style="text-align: center; margin-top: 30px;">
                 <a href="city-gene.html" class="economy-link" style="display: inline-block;">进入城市基因深度解析 →</a>
             </div>
         </div>
@@ -706,11 +907,8 @@
         </div>
         
         <div class="economy-content">
-            <div class="economy-intro">
-                <h3>📊 经济是城市发展的引擎</h3>
-                <p>从产业集聚理论到区域竞争优势，从产业链完整性到创新生态活力，每一个经济指标都揭示着城市的发展潜力。</p>
-                <p style="margin-top: 15px;"><strong>深度解析：</strong>基于产业集聚理论、区域竞争优势等维度，剖析各城市产业发展现状、未来趋势与就业机会分布。</p>
-                <a href="economy.html" class="economy-link">进入区域经济深度解析 →</a>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="economy.html" class="economy-link" style="display: inline-block;">进入区域经济深度解析 →</a>
             </div>
         </div>
     </section>
@@ -723,34 +921,7 @@
         </div>
         
         <div class="culture-content">
-            <div class="culture-intro">
-                <h3>🌍 文化是城市的灵魂</h3>
-                <p>城市的文化不是抽象的符号，而是具体的生活方式。从历史传承到现代创新，每一种文化元素都塑造着城市的气质。</p>
-            </div>
-            
-            <div class="culture-grid">
-                <div class="culture-card">
-                    <h4>🏛️ 历史文化的传承</h4>
-                    <p>从古都的厚重底蕴，到新兴城市的创新活力，历史文化的传承决定了城市的文化气质。</p>
-                </div>
-                
-                <div class="culture-card">
-                    <h4>🎭 现代文化的创新</h4>
-                    <p>艺术、设计、媒体、娱乐等各个领域的文化创新，决定了城市的文化活力。</p>
-                </div>
-                
-                <div class="culture-card">
-                    <h4>🍜 生活方式的特色</h4>
-                    <p>从慢生活的悠闲，到快节奏的拼搏，生活方式的特色决定了城市的生活品质。</p>
-                </div>
-                
-                <div class="culture-card">
-                    <h4>🤝 价值认同的共鸣</h4>
-                    <p>从传统的重视家庭，到现代的追求自由，价值认同的共鸣决定了城市的人文环境。</p>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 50px;">
+            <div style="text-align: center; margin-top: 30px;">
                 <a href="city-culture.html" class="economy-link" style="display: inline-block;">进入文化氛围深度解析 →</a>
             </div>
         </div>
@@ -764,29 +935,7 @@
         </div>
         
         <div class="education-content">
-            <div class="education-intro">
-                <h3>🎓 教育是城市的未来</h3>
-                <p>城市的教育不是简单的学校数量，而是完整的教育生态。从基础教育到高等教育，从人才培养到人才引进，每一个教育环节都影响着城市的发展潜力。</p>
-            </div>
-            
-            <div class="education-grid">
-                <div class="education-card">
-                    <h4>📚 高等教育资源</h4>
-                    <p>从985/211高校到双一流建设，从综合性大学到特色院校，高等教育资源决定了城市的人才培养能力。</p>
-                </div>
-                
-                <div class="education-card">
-                    <h4>🔬 科研创新实力</h4>
-                    <p>从基础研究到应用研究，从原始创新到成果转化，科研创新实力决定了城市的发展后劲。</p>
-                </div>
-                
-                <div class="education-card">
-                    <h4>💼 人才政策支持</h4>
-                    <p>从落户政策到人才补贴，从创业扶持到发展空间，人才政策支持决定了城市的人才吸引力。</p>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 50px;">
+            <div style="text-align: center; margin-top: 30px;">
                 <a href="city-education.html" class="economy-link" style="display: inline-block;">进入教育潜力与人才政策深度解析 →</a>
             </div>
         </div>
