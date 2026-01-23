@@ -98,6 +98,112 @@
             width: 100%;
         }
         
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+            font-size: 0.9em;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-login, .btn-register {
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-login {
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+        
+        .btn-login:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .btn-register {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            color: white;
+            border: 2px solid transparent;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-logout {
+            padding: 6px 15px;
+            background: var(--bg-light);
+            color: var(--text-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: var(--text-gray);
+            color: white;
+        }
+        
+        .user-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .user-menu {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn-login, .btn-register {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
         /* Hero区域 */
         .hero {
             min-height: 100vh;
@@ -574,6 +680,53 @@
             font-size: 0.95em;
         }
         
+        /* 用户状态提示 */
+        .user-status-banner {
+            background: linear-gradient(135deg, #E8F4FD 0%, #F0F8FF 100%);
+            border: 2px solid var(--primary-blue-light);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .user-status-banner.show {
+            display: block;
+        }
+        
+        .user-status-banner.guest {
+            background: linear-gradient(135deg, #FFF3CD 0%, #FFE69C 100%);
+            border-color: #FFC107;
+        }
+        
+        .user-status-banner.registered {
+            background: linear-gradient(135deg, #D4EDDA 0%, #C3E6CB 100%);
+            border-color: #28A745;
+        }
+        
+        .user-status-banner h3 {
+            color: var(--text-dark);
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .user-status-banner p {
+            color: var(--text-gray);
+            font-size: 0.9em;
+            margin: 0;
+        }
+        
+        .user-status-banner a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .user-status-banner a:hover {
+            text-decoration: underline;
+        }
+        
         /* 页脚 */
         .footer {
             background: var(--bg-light);
@@ -628,6 +781,9 @@
             <a href="#team">蓝图团队</a>
             <a href="#services">核心服务</a>
         </div>
+        <div class="user-menu" id="userMenu">
+            <!-- 用户信息或登录按钮将在这里动态显示 -->
+        </div>
     </nav>
     
     <!-- Hero区域 -->
@@ -639,6 +795,16 @@
         <div class="scroll-hint">向下滚动 ↓</div>
     </section>
     
+    <!-- 用户状态提示 -->
+    <div class="user-status-banner guest" id="guestBanner">
+        <h3>👋 欢迎，游客！</h3>
+        <p>您正在以游客身份浏览。注册成为正式用户，解锁更多深度分析内容和个性化服务。<a href="register.html">立即注册</a> 或 <a href="login.html">登录</a></p>
+    </div>
+    
+    <div class="user-status-banner registered" id="registeredBanner" style="display: none;">
+        <h3>✨ 欢迎回来，正式用户！</h3>
+        <p>感谢您的支持！作为正式用户，您可以访问所有深度分析内容和个性化服务。</p>
+    </div>
     
     <!-- 从历史看基因板块 -->
     <section class="section history-section" id="history">
@@ -727,5 +893,6 @@
             });
         });
     </script>
+    <script src="js/user-auth.js"></script>
 </body>
 </html>
