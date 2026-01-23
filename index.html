@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>蓝图咨询</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -16,6 +17,7 @@
             --primary-blue: #4A90E2;
             --primary-blue-dark: #357ABD;
             --primary-blue-light: #6BA3E8;
+            --blue-bg: #E8F4FD;
             --bg-light: #F8F9FA;
             --bg-white: #FFFFFF;
             --text-dark: #2C3E50;
@@ -96,7 +98,7 @@
             width: 100%;
         }
         
-        /* Hero区域 - 极简风格 */
+        /* Hero区域 */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -105,7 +107,7 @@
             align-items: center;
             text-align: center;
             padding: 120px 20px 80px;
-            background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+            background: linear-gradient(135deg, var(--blue-bg) 0%, var(--bg-white) 100%);
         }
         
         .hero-content {
@@ -144,15 +146,14 @@
             50% { transform: translateX(-50%) translateY(10px); }
         }
         
-        /* 核心服务区域 */
-        .services-section {
-            background: var(--bg-white);
+        /* 板块通用样式 */
+        .section {
             padding: 100px 60px;
         }
         
         .section-header {
             text-align: center;
-            margin-bottom: 70px;
+            margin-bottom: 60px;
         }
         
         .section-header h2 {
@@ -167,140 +168,82 @@
             color: var(--text-gray);
             font-size: 1.1em;
             font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+        /* 从历史看基因板块 */
+        .history-section {
+            background: var(--bg-white);
+        }
+        
+        .history-content {
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        .service-card {
-            background: var(--bg-white);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+        .history-intro {
+            background: var(--blue-bg);
             padding: 40px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
+            border-radius: 16px;
+            margin-bottom: 50px;
+            border-left: 4px solid var(--primary-blue);
         }
         
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.1);
-        }
-        
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            margin-bottom: 25px;
-            background: var(--primary-blue);
-            color: white;
-        }
-        
-        .service-card h3 {
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-        
-        .service-card p {
-            color: var(--text-gray);
-            line-height: 1.8;
-            font-size: 0.95em;
-            flex: 1;
-            margin-bottom: 20px;
-        }
-        
-        .service-link {
+        .history-intro h3 {
             color: var(--primary-blue);
-            font-weight: 500;
-            font-size: 0.95em;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 1.5em;
+            margin-bottom: 15px;
         }
         
-        /* 城市性格板块 */
-        .city-character-section {
-            background: var(--bg-light);
-            padding: 100px 60px;
-        }
-        
-        .city-intro {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 60px;
-        }
-        
-        .city-intro h2 {
-            font-size: 2.5em;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-            letter-spacing: -0.5px;
-        }
-        
-        .city-intro p {
-            font-size: 1.1em;
+        .history-intro p {
             color: var(--text-gray);
             line-height: 1.8;
+            font-size: 1.05em;
         }
         
-        .city-cards {
+        .history-cities {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
         }
         
-        .city-card {
+        .history-city-card {
             background: var(--bg-white);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
         
-        .city-card:hover {
+        .history-city-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.1);
+            border-color: var(--primary-blue);
         }
         
-        .city-card-header {
-            padding: 30px;
+        .history-city-header {
             background: var(--primary-blue);
             color: white;
+            padding: 25px;
         }
         
-        .city-card-header h3 {
-            font-size: 1.5em;
+        .history-city-header h3 {
+            font-size: 1.4em;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
-        .city-card-header p {
+        .history-city-header p {
             opacity: 0.9;
             font-size: 0.95em;
         }
         
-        .city-card-body {
-            padding: 30px;
+        .history-city-body {
+            padding: 25px;
         }
         
-        .city-card-body h4 {
+        .history-city-body h4 {
             color: var(--primary-blue);
             font-size: 1.1em;
             font-weight: 600;
@@ -308,204 +251,191 @@
             margin-top: 20px;
         }
         
-        .city-card-body h4:first-child {
+        .history-city-body h4:first-child {
             margin-top: 0;
         }
         
-        .city-card-body p {
+        .history-city-body p {
             color: var(--text-gray);
             line-height: 1.8;
             font-size: 0.95em;
             margin-bottom: 15px;
         }
         
-        .city-insights {
-            background: var(--bg-light);
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
+        /* 从经济看未来板块 */
+        .economy-section {
+            background: var(--blue-bg);
         }
         
-        .city-insights h4 {
-            color: var(--text-dark);
-            font-size: 1em;
-            margin-bottom: 15px;
+        .economy-content {
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
-        .city-insights-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        
-        .city-insight-item {
-            background: var(--bg-white);
-            padding: 15px;
-            border-radius: 8px;
-        }
-        
-        .city-insight-item strong {
-            color: var(--primary-blue);
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-        
-        .city-insight-item p {
-            font-size: 0.85em;
-            color: var(--text-gray);
-            margin: 0;
-        }
-        
-        .city-methodology {
-            background: var(--bg-white);
-            padding: 60px;
-            margin-top: 60px;
+        .economy-intro {
+            background: white;
+            padding: 40px;
             border-radius: 16px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .city-methodology h3 {
-            font-size: 2em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            text-align: center;
-            color: var(--text-dark);
-        }
-        
-        .methodology-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        
-        .methodology-item {
-            background: var(--bg-light);
-            padding: 25px;
-            border-radius: 12px;
+            margin-bottom: 50px;
             border-left: 4px solid var(--primary-blue);
         }
         
-        .methodology-item h4 {
-            color: var(--text-dark);
-            font-size: 1.1em;
-            margin-bottom: 10px;
-        }
-        
-        .methodology-item p {
-            color: var(--text-gray);
-            font-size: 0.95em;
-            line-height: 1.8;
-            margin: 0;
-        }
-        
-        /* 测评卡片区域 */
-        .assessment-section {
-            background: var(--bg-white);
-            padding: 100px 60px;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .assessment-card {
-            max-width: 900px;
-            width: 100%;
-            background: var(--bg-white);
-            border: 2px solid var(--primary-blue);
-            border-radius: 20px;
-            padding: 60px;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        
-        .assessment-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(74, 144, 226, 0.2);
-        }
-        
-        .assessment-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-        
-        .assessment-visual {
-            flex-shrink: 0;
-            width: 120px;
-            height: 120px;
-            background: var(--primary-blue);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5em;
-        }
-        
-        .assessment-info {
-            flex: 1;
-        }
-        
-        .assessment-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(74, 144, 226, 0.1);
-            border: 1px solid var(--primary-blue);
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.85em;
+        .economy-intro h3 {
             color: var(--primary-blue);
-            margin-bottom: 20px;
-        }
-        
-        .assessment-info h3 {
-            font-size: 2em;
-            font-weight: 600;
+            font-size: 1.5em;
             margin-bottom: 15px;
-            color: var(--text-dark);
         }
         
-        .assessment-info p {
+        .economy-intro p {
             color: var(--text-gray);
-            font-size: 1.05em;
             line-height: 1.8;
-            margin-bottom: 30px;
+            font-size: 1.05em;
         }
         
-        .assessment-features {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 35px;
-            flex-wrap: wrap;
-        }
-        
-        .assessment-feature {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-gray);
-            font-size: 0.95em;
-        }
-        
-        .assessment-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
+        .economy-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
             background: var(--primary-blue);
             color: white;
-            padding: 15px 35px;
-            border-radius: 30px;
-            font-size: 1.05em;
-            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
             transition: all 0.3s;
         }
         
-        .assessment-card:hover .assessment-btn {
+        .economy-link:hover {
             background: var(--primary-blue-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* 从文化看氛围板块 */
+        .culture-section {
+            background: var(--bg-white);
+        }
+        
+        .culture-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .culture-intro {
+            background: var(--blue-bg);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 50px;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .culture-intro h3 {
+            color: var(--primary-blue);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .culture-intro p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+        
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .culture-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .culture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.1);
+            border-color: var(--primary-blue);
+        }
+        
+        .culture-card h4 {
+            color: var(--primary-blue);
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .culture-card p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 0.95em;
+        }
+        
+        /* 从教育看潜力板块 */
+        .education-section {
+            background: var(--blue-bg);
+        }
+        
+        .education-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .education-intro {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 50px;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .education-intro h3 {
+            color: var(--primary-blue);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .education-intro p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+        
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .education-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.1);
+            border-color: var(--primary-blue);
+        }
+        
+        .education-card h4 {
+            color: var(--primary-blue);
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .education-card p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 0.95em;
         }
         
         /* 页脚 */
@@ -524,16 +454,15 @@
         
         /* 响应式 */
         @media (max-width: 1024px) {
-            .services-grid, .city-cards {
+            .history-cities, .education-grid {
                 grid-template-columns: 1fr;
-                max-width: 600px;
+            }
+            .culture-grid {
+                grid-template-columns: 1fr;
             }
             .hero-title { font-size: 2.5em; }
-            .services-section, .city-character-section, .assessment-section {
+            .section {
                 padding: 60px 30px;
-            }
-            .methodology-grid {
-                grid-template-columns: 1fr;
             }
         }
         
@@ -547,16 +476,8 @@
             }
             .hero-title { font-size: 2em; }
             .hero-subtitle { font-size: 1em; }
-            .section-header h2, .city-intro h2 {
+            .section-header h2 {
                 font-size: 1.8em;
-            }
-            .assessment-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 30px;
-            }
-            .city-insights-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -577,216 +498,160 @@
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">择城择校·安放你的理想</h1>
-            <p class="hero-subtitle">基于产业经济、区域经济、人力资本三维分析框架<br>为考生提供城市选择的深度洞察与科学决策支持</p>
+            <p class="hero-subtitle">基于历史、经济、文化、教育四维分析框架<br>为每一位选择城市的人提供深度洞察与科学决策支持</p>
         </div>
         <div class="scroll-hint">向下滚动 ↓</div>
     </section>
     
-    <!-- 核心服务区域 -->
-    <section class="services-section" id="services">
+    <!-- 从历史看基因板块 -->
+    <section class="section history-section" id="history">
         <div class="section-header">
-            <h2>核心服务</h2>
-            <p>产业经济 · 区域经济 · 人力资本 全方位赋能城市决策</p>
+            <h2>从历史看基因</h2>
+            <p>每一座城市的历史，都塑造了它的文化基因和发展路径。了解城市的历史，就是理解它的"性格密码"</p>
         </div>
         
-        <div class="services-grid">
-            <a href="economy.html" class="service-card">
-                <div class="service-icon">📊</div>
-                <h3>区域经济深度解析</h3>
-                <p>从产业集聚理论、区域竞争优势、产业链完整性等维度，深度剖析各城市产业发展现状、未来趋势与就业机会分布。</p>
-                <span class="service-link">查看分析 →</span>
-            </a>
-            
-            <a href="knowledge.html" class="service-card">
-                <div class="service-icon">💼</div>
-                <h3>人力资本与职业发展</h3>
-                <p>分析各城市人才政策、薪资水平、职业发展路径、生活成本等关键因素，帮助评估在不同城市发展的长期价值。</p>
-                <span class="service-link">了解更多 →</span>
-            </a>
-            
-            <a href="survey.html" class="service-card">
-                <div class="service-icon">🎯</div>
-                <h3>智能匹配测评</h3>
-                <p>基于多维度特质分析的智能匹配系统，为您精准推荐最适合的专业方向、发展城市和目标院校。</p>
-                <span class="service-link">开始测评 →</span>
-            </a>
-        </div>
-    </section>
-    
-    <!-- 城市性格板块 -->
-    <section class="city-character-section">
-        <div class="city-intro">
-            <h2>城市"性格"：读懂一座城的历史密码</h2>
-            <p>城市如人，各有性格。每一座城市都有其独特的历史基因、文化底蕴和发展轨迹。了解一座城市的"性格"，就是读懂它的过去、现在和未来。作为市长，我邀请您走进这些城市，感受它们的历史脉搏，理解它们的发展逻辑。</p>
-        </div>
-        
-        <div class="city-cards">
-            <!-- 福州案例 -->
-            <div class="city-card">
-                <div class="city-card-header">
-                    <h3>🏛️ 福州：千年文脉，向海而生</h3>
-                    <p>一座从历史深处走来的"有福之州"</p>
-                </div>
-                <div class="city-card-body">
-                    <h4>📜 历史基因</h4>
-                    <p>福州，古称"榕城"，2200多年建城史。这里是海上丝绸之路的重要起点，郑和七下西洋的启航地。从唐代的"闽都"到明清的"三坊七巷"，福州始终是东南沿海的文化重镇。林则徐、严复、林觉民——这些改变中国历史的人物，都从这座城市的文脉中走出。</p>
-                    <p><strong>历史告诉我们：</strong>福州是一座"文教立市"的城市。深厚的文化底蕴、重视教育的传统，让这里成为人才的摇篮。选择福州，就是选择一种"文雅而务实"的城市气质。</p>
-                    
-                    <h4>🌊 向海而生</h4>
-                    <p>福州面朝大海，背靠群山。这种地理格局塑造了福州人"敢闯敢拼、开放包容"的性格。从古代的海上贸易，到近代的"下南洋"，再到今天的"数字福州"，福州始终在与海洋的对话中寻找机遇。</p>
-                    <p><strong>经济逻辑：</strong>作为"21世纪海上丝绸之路核心区"，福州正在打造数字经济、海洋经济、绿色经济三大支柱。这里既有深厚的历史底蕴，又有面向未来的产业布局。</p>
-                    
-                    <div class="city-insights">
-                        <h4>💡 对考生的启示</h4>
-                        <div class="city-insights-grid">
-                            <div class="city-insight-item">
-                                <strong>文化教育优势</strong>
-                                <p>福州大学、福建师范大学等高校，文理并重。适合喜欢文化氛围、重视教育环境的考生。</p>
-                            </div>
-                            <div class="city-insight-item">
-                                <strong>数字经济发展</strong>
-                                <p>数字中国建设峰会永久举办地，数字产业蓬勃发展。适合计算机、软件、大数据等专业。</p>
-                            </div>
-                            <div class="city-insight-item">
-                                <strong>生活成本适中</strong>
-                                <p>相比一线城市，房价和生活成本更友好，但发展机会和薪资水平也在快速提升。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="history-content">
+            <div class="history-intro">
+                <h3>📜 历史是城市的基因密码</h3>
+                <p>作为历史研究者，我深知城市的历史不是尘封的档案，而是活生生的基因。从建城之初的地理选择，到历朝历代的兴衰变迁，再到近现代的转型发展，每一段历史都在城市的文化肌理中留下深刻印记。这些历史基因，决定了城市的性格、气质和发展路径。</p>
             </div>
             
-            <!-- 深圳案例 -->
-            <div class="city-card">
-                <div class="city-card-header">
-                    <h3>🚀 深圳：从边陲小镇到创新之都</h3>
-                    <p>一座用40年书写奇迹的"梦想之城"</p>
-                </div>
-                <div class="city-card-body">
-                    <h4>⚡ 从零到一的奇迹</h4>
-                    <p>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它已成为拥有1700万人口的国际化大都市，GDP从1.96亿元增长到3.24万亿元。这不是偶然，而是改革开放的必然。</p>
-                    <p><strong>历史告诉我们：</strong>深圳没有历史包袱，只有对未来的无限渴望。这里没有"关系"，只有"能力"；没有"论资排辈"，只有"敢为人先"。选择深圳，就是选择一种"拼搏、创新、包容"的城市精神。</p>
-                    
-                    <h4>🔬 创新基因的密码</h4>
-                    <p>从"三来一补"到"自主创新"，从"世界工厂"到"创新之都"，深圳的每一次转型都走在时代前列。华为、腾讯、比亚迪、大疆——这些改变世界的企业，都诞生在这片热土上。</p>
-                    <p><strong>经济逻辑：</strong>深圳的成功在于"市场+政府"的双轮驱动。政府提供制度创新，市场提供资源配置。这里形成了完整的创新生态：从基础研究到产业应用，从创业孵化到资本支持。</p>
-                    
-                    <div class="city-insights">
-                        <h4>💡 对考生的启示</h4>
-                        <div class="city-insights-grid">
-                            <div class="city-insight-item">
-                                <strong>创新创业天堂</strong>
-                                <p>深圳大学、南方科技大学等高校，注重产学研结合。适合有创业梦想、追求创新的考生。</p>
-                            </div>
-                            <div class="city-insight-item">
-                                <strong>高薪高机会</strong>
-                                <p>平均薪资全国前列，但生活成本也高。适合追求高收入、愿意拼搏的年轻人。</p>
-                            </div>
-                            <div class="city-insight-item">
-                                <strong>国际化视野</strong>
-                                <p>毗邻香港，国际化程度高。适合希望拓展国际视野、从事外向型工作的考生。</p>
-                            </div>
-                        </div>
+            <div class="history-cities">
+                <!-- 福州案例 -->
+                <div class="history-city-card">
+                    <div class="history-city-header">
+                        <h3>🏛️ 福州：千年文脉，向海而生</h3>
+                        <p>一座从历史深处走来的"有福之州"</p>
+                    </div>
+                    <div class="history-city-body">
+                        <h4>📜 历史基因</h4>
+                        <p>福州，古称"榕城"，2200多年建城史。这里是海上丝绸之路的重要起点，郑和七下西洋的启航地。从唐代的"闽都"到明清的"三坊七巷"，福州始终是东南沿海的文化重镇。林则徐、严复、林觉民——这些改变中国历史的人物，都从这座城市的文脉中走出。</p>
+                        <p><strong>历史告诉我们：</strong>福州是一座"文教立市"的城市。深厚的文化底蕴、重视教育的传统，让这里成为人才的摇篮。选择福州，就是选择一种"文雅而务实"的城市气质。</p>
+                        
+                        <h4>🌊 向海而生</h4>
+                        <p>福州面朝大海，背靠群山。这种地理格局塑造了福州人"敢闯敢拼、开放包容"的性格。从古代的海上贸易，到近代的"下南洋"，再到今天的"数字福州"，福州始终在与海洋的对话中寻找机遇。</p>
                     </div>
                 </div>
-            </div>
-            
-            <!-- 青岛案例 -->
-            <div class="city-card">
-                <div class="city-card-header">
-                    <h3>🌊 青岛：红瓦绿树，碧海蓝天的"东方瑞士"</h3>
-                    <p>一座融合中西方文化的"品牌之都"</p>
-                </div>
-                <div class="city-card-body">
-                    <h4>🏛️ 历史交汇的见证</h4>
-                    <p>1891年，青岛建置。1897年，德国强占青岛，留下了"红瓦绿树、碧海蓝天"的城市风貌。1919年，"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。1949年后，青岛成为重要的工业基地和港口城市。</p>
-                    <p><strong>历史告诉我们：</strong>青岛是一座"兼容并蓄"的城市。中西方文化在这里交融，传统与现代在这里对话。这种文化基因，让青岛既有深厚的底蕴，又有开放的胸怀。</p>
-                    
-                    <h4>🏭 品牌之都的密码</h4>
-                    <p>青岛啤酒、海尔、海信、中车四方——这些响当当的品牌，都诞生在青岛。为什么是青岛？因为这里既有工业基础，又有创新精神；既有工匠传统，又有品牌意识。</p>
-                    <p><strong>经济逻辑：</strong>青岛的成功在于"品牌+创新"的双轮驱动。从"青岛制造"到"青岛创造"，从传统产业到新兴产业，青岛正在打造"世界工业互联网之都"和"全球海洋中心城市"。</p>
-                    
-                    <div class="city-insights">
-                        <h4>💡 对考生的启示</h4>
-                        <div class="city-insights-grid">
-                            <div class="city-insight-item">
-                                <strong>品牌企业云集</strong>
-                                <p>中国海洋大学、山东大学（青岛）等高校，与海尔、海信等企业合作紧密。适合希望进入知名企业的考生。</p>
-                            </div>
-                            <div class="city-insight-item">
-                                <strong>宜居宜业</strong>
-                                <p>环境优美，生活品质高，但房价相对友好。适合追求工作生活平衡的考生。</p>
-                            </div>
-                            <div class="city-insight-item">
-                                <strong>海洋经济</strong>
-                                <p>海洋科学、海洋工程等专业优势明显。适合对海洋产业感兴趣的考生。</p>
-                            </div>
-                        </div>
+                
+                <!-- 深圳案例 -->
+                <div class="history-city-card">
+                    <div class="history-city-header">
+                        <h3>🚀 深圳：从边陲小镇到创新之都</h3>
+                        <p>一座用40年书写奇迹的"梦想之城"</p>
+                    </div>
+                    <div class="history-city-body">
+                        <h4>⚡ 从零到一的奇迹</h4>
+                        <p>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它已成为拥有1700万人口的国际化大都市，GDP从1.96亿元增长到3.24万亿元。这不是偶然，而是改革开放的必然。</p>
+                        <p><strong>历史告诉我们：</strong>深圳没有历史包袱，只有对未来的无限渴望。这里没有"关系"，只有"能力"；没有"论资排辈"，只有"敢为人先"。选择深圳，就是选择一种"拼搏、创新、包容"的城市精神。</p>
+                        
+                        <h4>🔬 创新基因的密码</h4>
+                        <p>从"三来一补"到"自主创新"，从"世界工厂"到"创新之都"，深圳的每一次转型都走在时代前列。华为、腾讯、比亚迪、大疆——这些改变世界的企业，都诞生在这片热土上。</p>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- 方法论总结 -->
-        <div class="city-methodology">
-            <h3>🎯 读懂城市"性格"的方法论</h3>
-            <div class="methodology-grid">
-                <div class="methodology-item">
-                    <h4>📚 从历史看基因</h4>
-                    <p>每一座城市的历史，都塑造了它的文化基因和发展路径。了解城市的历史，就是理解它的"性格密码"。</p>
-                </div>
-                <div class="methodology-item">
-                    <h4>💼 从经济看未来</h4>
-                    <p>城市的产业结构和发展方向，决定了未来的就业机会和发展空间。读懂经济逻辑，就是把握发展机遇。</p>
-                </div>
-                <div class="methodology-item">
-                    <h4>🌍 从文化看氛围</h4>
-                    <p>城市的文化氛围和生活环境，影响你的生活方式和价值认同。选择城市，就是选择一种生活。</p>
-                </div>
-                <div class="methodology-item">
-                    <h4>🎓 从教育看潜力</h4>
-                    <p>城市的教育资源和人才政策，决定了你的成长空间和发展机会。教育是城市未来的基石。</p>
+                
+                <!-- 青岛案例 -->
+                <div class="history-city-card">
+                    <div class="history-city-header">
+                        <h3>🌊 青岛：红瓦绿树，碧海蓝天的"东方瑞士"</h3>
+                        <p>一座融合中西方文化的"品牌之都"</p>
+                    </div>
+                    <div class="history-city-body">
+                        <h4>🏛️ 历史交汇的见证</h4>
+                        <p>1891年，青岛建置。1897年，德国强占青岛，留下了"红瓦绿树、碧海蓝天"的城市风貌。1919年，"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。1949年后，青岛成为重要的工业基地和港口城市。</p>
+                        <p><strong>历史告诉我们：</strong>青岛是一座"兼容并蓄"的城市。中西方文化在这里交融，传统与现代在这里对话。这种文化基因，让青岛既有深厚的底蕴，又有开放的胸怀。</p>
+                        
+                        <h4>🏭 品牌之都的密码</h4>
+                        <p>青岛啤酒、海尔、海信、中车四方——这些响当当的品牌，都诞生在青岛。为什么是青岛？因为这里既有工业基础，又有创新精神；既有工匠传统，又有品牌意识。</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- 测评卡片区域 -->
-    <section class="assessment-section">
-        <a href="survey.html" class="assessment-card">
-            <div class="assessment-content">
-                <div class="assessment-visual">🎯</div>
-                <div class="assessment-info">
-                    <div class="assessment-badge">
-                        <span>AI智能分析</span>
-                    </div>
-                    <h3>专业·院校·城市 匹配度测评</h3>
-                    <p>基于多维度特质分析的智能匹配系统，为您精准推荐最适合的专业方向、发展城市和目标院校</p>
-                    <div class="assessment-features">
-                        <div class="assessment-feature">
-                            <span>📊</span>
-                            <span>个性特质分析</span>
-                        </div>
-                        <div class="assessment-feature">
-                            <span>🎓</span>
-                            <span>专业方向匹配</span>
-                        </div>
-                        <div class="assessment-feature">
-                            <span>🏙️</span>
-                            <span>城市发展建议</span>
-                        </div>
-                        <div class="assessment-feature">
-                            <span>⏱️</span>
-                            <span>约8分钟完成</span>
-                        </div>
-                    </div>
-                    <div class="assessment-btn">
-                        <span>开始测评</span>
-                        <span>→</span>
-                    </div>
+    <!-- 从经济看未来板块 -->
+    <section class="section economy-section" id="economy">
+        <div class="section-header">
+            <h2>从经济看未来</h2>
+            <p>城市的产业结构和发展方向，决定了未来的就业机会和发展空间。读懂经济逻辑，就是把握发展机遇</p>
+        </div>
+        
+        <div class="economy-content">
+            <div class="economy-intro">
+                <h3>📊 经济是城市发展的引擎</h3>
+                <p>作为经济学家，我深知城市的经济结构不是静态的数据，而是动态的发展引擎。从产业集聚理论到区域竞争优势，从产业链完整性到创新生态活力，每一个经济指标都揭示着城市的发展潜力。了解城市的经济逻辑，就是把握未来的发展机遇。</p>
+                <p style="margin-top: 15px;"><strong>区域经济深度解析：</strong>我们基于产业集聚理论、区域竞争优势、产业链完整性等维度，深度剖析各城市产业发展现状、未来趋势与就业机会分布。通过城市对比分析工具，您可以同时对比多个城市的经济指标，包括GDP总量、产业集聚度、创新生态活力、就业机会指数等关键数据。</p>
+                <a href="economy.html" class="economy-link">进入区域经济深度解析 →</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 从文化看氛围板块 -->
+    <section class="section culture-section" id="culture">
+        <div class="section-header">
+            <h2>从文化看氛围</h2>
+            <p>城市的文化氛围和生活环境，影响你的生活方式和价值认同。选择城市，就是选择一种生活</p>
+        </div>
+        
+        <div class="culture-content">
+            <div class="culture-intro">
+                <h3>🌍 文化是城市的灵魂</h3>
+                <p>作为文化研究者，我深知城市的文化不是抽象的符号，而是具体的生活方式。从历史传承到现代创新，从地域特色到国际视野，每一种文化元素都塑造着城市的气质。了解城市的文化氛围，就是理解它的生活方式和价值认同。</p>
+            </div>
+            
+            <div class="culture-grid">
+                <div class="culture-card">
+                    <h4>🏛️ 历史文化的传承</h4>
+                    <p>每一座城市都有其独特的历史文化传承。从古都的厚重底蕴，到新兴城市的创新活力，历史文化的传承决定了城市的文化气质。了解城市的历史文化，就是理解它的文化基因。</p>
+                </div>
+                
+                <div class="culture-card">
+                    <h4>🎭 现代文化的创新</h4>
+                    <p>现代城市的文化创新，体现在艺术、设计、媒体、娱乐等各个领域。从文化创意产业到国际文化交流，现代文化的创新决定了城市的文化活力。了解城市的文化创新，就是把握它的文化趋势。</p>
+                </div>
+                
+                <div class="culture-card">
+                    <h4>🍜 生活方式的特色</h4>
+                    <p>城市的生活方式，体现在饮食、居住、出行、娱乐等各个方面。从慢生活的悠闲，到快节奏的拼搏，生活方式的特色决定了城市的生活品质。了解城市的生活方式，就是选择一种生活。</p>
+                </div>
+                
+                <div class="culture-card">
+                    <h4>🤝 价值认同的共鸣</h4>
+                    <p>城市的价值认同，体现在人们的价值观念、行为方式、社交习惯等方面。从传统的重视家庭，到现代的追求自由，价值认同的共鸣决定了城市的人文环境。了解城市的价值认同，就是找到一种归属。</p>
                 </div>
             </div>
-        </a>
+        </div>
+    </section>
+    
+    <!-- 从教育看潜力板块 -->
+    <section class="section education-section" id="education">
+        <div class="section-header">
+            <h2>从教育看潜力</h2>
+            <p>城市的教育资源和人才政策，决定了你的成长空间和发展机会。教育是城市未来的基石</p>
+        </div>
+        
+        <div class="education-content">
+            <div class="education-intro">
+                <h3>🎓 教育是城市的未来</h3>
+                <p>作为教育研究者，我深知城市的教育不是简单的学校数量，而是完整的教育生态。从基础教育到高等教育，从人才培养到人才引进，每一个教育环节都影响着城市的发展潜力。了解城市的教育资源，就是把握自己的成长空间。</p>
+            </div>
+            
+            <div class="education-grid">
+                <div class="education-card">
+                    <h4>📚 高等教育资源</h4>
+                    <p>城市的高等教育资源，包括高校数量、重点高校、学科优势等。从985/211高校到双一流建设，从综合性大学到特色院校，高等教育资源决定了城市的人才培养能力。了解城市的高等教育资源，就是选择自己的成长平台。</p>
+                </div>
+                
+                <div class="education-card">
+                    <h4>🔬 科研创新实力</h4>
+                    <p>城市的科研创新实力，体现在科研院所、实验室、创新平台等方面。从基础研究到应用研究，从原始创新到成果转化，科研创新实力决定了城市的发展后劲。了解城市的科研创新实力，就是把握未来的发展机遇。</p>
+                </div>
+                
+                <div class="education-card">
+                    <h4>💼 人才政策支持</h4>
+                    <p>城市的人才政策支持，包括落户政策、人才补贴、创业扶持等。从应届生落户到高层次人才引进，从购房补贴到创业资助，人才政策支持决定了城市的人才吸引力。了解城市的人才政策，就是评估自己的发展机会。</p>
+                </div>
+            </div>
+        </div>
     </section>
     
     <!-- 页脚 -->
