@@ -8,86 +8,91 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans SC', sans-serif; background: #f5f7fa; min-height: 100vh; font-size: 14px; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: linear-gradient(135deg, #E8F4FD 0%, #F0F8FF 100%); min-height: 100vh; font-size: 14px; }
         
-        .nav { background: linear-gradient(135deg, #f093fb, #f5576c); padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .nav-logo { color: white; font-size: 1.2em; font-weight: 700; text-decoration: none; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; opacity: 0.9; }
-        .nav-links a:hover { opacity: 1; }
+        .nav { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(74, 144, 226, 0.2); }
+        .nav-logo { color: white; font-size: 1.3em; font-weight: 700; text-decoration: none; letter-spacing: 0.5px; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 25px; opacity: 0.95; font-weight: 500; transition: opacity 0.3s; }
+        .nav-links a:hover { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
         
-        .header { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 40px 25px 70px; text-align: center; }
-        .header h1 { font-size: 2em; margin-bottom: 10px; }
-        .header p { opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); color: white; padding: 60px 30px 90px; text-align: center; box-shadow: 0 8px 30px rgba(74, 144, 226, 0.15); }
+        .header h1 { font-size: 2.5em; margin-bottom: 15px; font-weight: 700; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header p { opacity: 0.95; max-width: 900px; margin: 0 auto; line-height: 1.8; font-size: 1.05em; }
         
-        .container { max-width: 1400px; margin: -30px auto 0; padding: 0 15px 30px; }
+        .container { max-width: 1400px; margin: -40px auto 0; padding: 0 20px 40px; }
         
-        .intro-box { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.06); }
-        .intro-box h3 { color: #333; margin-bottom: 10px; font-size: 1.1em; }
-        .intro-box p { color: #666; line-height: 1.7; font-size: 0.95em; }
+        .intro-box { background: white; border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: 0 8px 30px rgba(74, 144, 226, 0.1); border: 1px solid rgba(74, 144, 226, 0.1); }
+        .intro-box h3 { color: #2C3E50; margin-bottom: 12px; font-size: 1.2em; font-weight: 600; }
+        .intro-box p { color: #5A6C7D; line-height: 1.8; font-size: 0.98em; }
         
-        .region-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; background: white; padding: 15px; border-radius: 12px; }
-        .region-tab { padding: 10px 18px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; font-weight: 500; background: #f0f0f0; color: #666; transition: all 0.3s; }
-        .region-tab:hover { background: #e0e0e0; }
-        .region-tab.active { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+        .region-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(74, 144, 226, 0.08); }
+        .region-tab { padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; font-size: 0.95em; font-weight: 500; background: #F0F8FF; color: #4A90E2; transition: all 0.3s; border: 2px solid transparent; }
+        .region-tab:hover { background: #E8F4FD; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15); }
+        .region-tab.active { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); color: white; border-color: #357ABD; box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3); }
         
         .region-content { display: none; }
         .region-content.active { display: block; }
         
-        .province-card { background: white; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 3px 15px rgba(0,0,0,0.05); overflow: hidden; }
-        .province-header { padding: 15px 20px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .province-header h3 { font-size: 1.15em; display: flex; align-items: center; gap: 8px; }
-        .province-header .toggle { font-size: 1.2em; transition: transform 0.3s; }
+        .province-card { background: white; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 6px 25px rgba(74, 144, 226, 0.1); overflow: hidden; border: 1px solid rgba(74, 144, 226, 0.1); transition: transform 0.3s, box-shadow 0.3s; }
+        .province-card:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(74, 144, 226, 0.15); }
+        .province-header { padding: 20px 25px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; }
+        .province-header:hover { opacity: 0.95; }
+        .province-header h3 { font-size: 1.2em; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .province-header .toggle { font-size: 1.3em; transition: transform 0.3s; }
         .province-header.expanded .toggle { transform: rotate(180deg); }
-        .province-meta { display: flex; gap: 15px; font-size: 0.85em; opacity: 0.9; }
+        .province-meta { display: flex; gap: 20px; font-size: 0.9em; opacity: 0.95; }
         
         .province-body { padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
-        .province-body.expanded { padding: 20px; max-height: 5000px; }
+        .province-body.expanded { padding: 30px; max-height: 5000px; }
         
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
-        .info-item { background: #f8f9fa; padding: 12px; border-radius: 8px; }
-        .info-item h5 { color: #888; font-size: 0.8em; margin-bottom: 5px; }
-        .info-item .value { color: #333; font-size: 1.1em; font-weight: 600; }
-        .info-item .sub { color: #888; font-size: 0.75em; margin-top: 3px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .info-item { background: linear-gradient(135deg, #F0F8FF 0%, #E8F4FD 100%); padding: 18px; border-radius: 12px; border: 1px solid rgba(74, 144, 226, 0.15); transition: all 0.3s; }
+        .info-item:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(74, 144, 226, 0.15); }
+        .info-item h5 { color: #6C7A89; font-size: 0.85em; margin-bottom: 8px; font-weight: 500; }
+        .info-item .value { color: #2C3E50; font-size: 1.2em; font-weight: 700; }
+        .info-item .sub { color: #7F8C9A; font-size: 0.8em; margin-top: 5px; }
         
-        .section-title { font-size: 0.95em; color: #333; margin: 15px 0 10px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+        .section-title { font-size: 1em; color: #2C3E50; margin: 20px 0 12px; padding-bottom: 10px; border-bottom: 2px solid #E8F4FD; font-weight: 600; }
         
-        .industry-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-        .ind-tag { padding: 5px 12px; border-radius: 15px; font-size: 0.8em; }
-        .ind-tag.pillar { background: #fff3e0; color: #e65100; }
-        .ind-tag.emerging { background: #e8f5e9; color: #2e7d32; }
+        .industry-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .ind-tag { padding: 8px 16px; border-radius: 20px; font-size: 0.85em; font-weight: 500; transition: all 0.3s; }
+        .ind-tag.pillar { background: linear-gradient(135deg, #FFE8D6 0%, #FFD4B3 100%); color: #C85A00; border: 1px solid rgba(200, 90, 0, 0.2); }
+        .ind-tag.emerging { background: linear-gradient(135deg, #D4F1E8 0%, #B8E6D3 100%); color: #1B5E20; border: 1px solid rgba(27, 94, 32, 0.2); }
+        .ind-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .job-list { display: flex; flex-wrap: wrap; gap: 5px; }
-        .job-item { background: #f0f0f0; padding: 4px 10px; border-radius: 10px; font-size: 0.8em; color: #555; }
+        .job-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .job-item { background: #F0F8FF; padding: 6px 14px; border-radius: 15px; font-size: 0.85em; color: #4A90E2; border: 1px solid rgba(74, 144, 226, 0.2); }
         
-        .talent-policy { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-top: 10px; }
-        .talent-policy h5 { color: #1565c0; margin-bottom: 8px; font-size: 0.9em; }
-        .talent-policy ul { margin-left: 18px; color: #555; font-size: 0.85em; line-height: 1.7; }
+        .talent-policy { background: linear-gradient(135deg, #E8F4FD 0%, #D0E8F9 100%); padding: 20px; border-radius: 12px; margin-top: 15px; border-left: 4px solid #4A90E2; }
+        .talent-policy h5 { color: #357ABD; margin-bottom: 12px; font-size: 1em; font-weight: 600; }
+        .talent-policy ul { margin-left: 20px; color: #2C3E50; font-size: 0.9em; line-height: 1.8; }
         
-        .policy-level { margin-bottom: 12px; }
+        .policy-level { margin-bottom: 15px; }
         .policy-level:last-child { margin-bottom: 0; }
-        .policy-level-title { color: #1565c0; font-size: 0.85em; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
-        .policy-level-title.province { color: #d32f2f; }
-        .policy-level-title.city { color: #1976d2; }
-        .policy-level ul { margin-left: 15px; font-size: 0.83em; }
+        .policy-level-title { color: #357ABD; font-size: 0.9em; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .policy-level-title.province { color: #2C5F8D; }
+        .policy-level-title.city { color: #4A90E2; }
+        .policy-level ul { margin-left: 18px; font-size: 0.88em; }
         
-        .cities-section { margin-top: 15px; }
-        .cities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-        .city-card { background: #fafafa; border-radius: 10px; padding: 15px; border-left: 3px solid #f093fb; }
-        .city-card h4 { color: #333; font-size: 1em; margin-bottom: 10px; }
-        .city-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85em; }
-        .city-info span { color: #666; }
-        .city-info strong { color: #333; }
-        .city-industries { margin-top: 8px; }
-        .city-industries span { background: #f0f0f0; padding: 2px 8px; border-radius: 8px; font-size: 0.75em; margin-right: 4px; color: #666; }
+        .cities-section { margin-top: 20px; }
+        .cities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .city-card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FBFF 100%); border-radius: 12px; padding: 20px; border-left: 4px solid #4A90E2; box-shadow: 0 4px 15px rgba(74, 144, 226, 0.08); transition: all 0.3s; }
+        .city-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(74, 144, 226, 0.15); }
+        .city-card h4 { color: #2C3E50; font-size: 1.05em; margin-bottom: 12px; font-weight: 600; }
+        .city-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9em; }
+        .city-info span { color: #6C7A89; }
+        .city-info strong { color: #2C3E50; font-weight: 600; }
+        .city-industries { margin-top: 12px; }
+        .city-industries span { background: #E8F4FD; padding: 4px 12px; border-radius: 15px; font-size: 0.8em; margin-right: 6px; color: #4A90E2; border: 1px solid rgba(74, 144, 226, 0.2); }
         
-        .data-source { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #ddd; font-size: 0.75em; color: #999; }
+        .data-source { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #D0E8F9; font-size: 0.8em; color: #7F8C9A; }
         
-        .region-east .province-header { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .region-south .province-header { background: linear-gradient(135deg, #f093fb, #f5576c); }
-        .region-north .province-header { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .region-central .province-header { background: linear-gradient(135deg, #fa709a, #fee140); }
-        .region-west .province-header { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-        .region-northeast .province-header { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
+        .region-east .province-header { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); }
+        .region-south .province-header { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); }
+        .region-north .province-header { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); }
+        .region-central .province-header { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); }
+        .region-west .province-header { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); }
+        .region-northeast .province-header { background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); }
         
         .sources-section { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; }
         .sources-section h3 { color: #333; margin-bottom: 15px; font-size: 1.1em; }
@@ -855,7 +860,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（16个地级市）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>济南市（省会）</h4>
@@ -888,6 +893,102 @@
                                     <span>薪资: <strong>6500/月</strong></span>
                                 </div>
                                 <div class="city-industries"><span>农机</span><span>动力装备</span><span>食品加工</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>临沂市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>商贸物流</span><span>食品</span><span>机械</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>济宁市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.85万/㎡</strong></span>
+                                    <span>薪资: <strong>6300/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>煤炭</span><span>工程机械</span><span>化工</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>淄博市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>6800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>化工</span><span>新材料</span><span>医药</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>泰安市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>装备制造</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>德州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备制造</span><span>食品</span><span>化工</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>聊城市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5700/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>有色金属</span><span>化工</span><span>农业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>滨州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5900/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>纺织</span><span>化工</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>菏泽市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.65万/㎡</strong></span>
+                                    <span>薪资: <strong>5500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>农业</span><span>化工</span><span>纺织</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>威海市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.2万/㎡</strong></span>
+                                    <span>薪资: <strong>7000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>海洋经济</span><span>装备制造</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>日照市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>港口物流</span><span>钢铁</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>枣庄市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>煤炭</span><span>化工</span><span>建材</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>东营市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>石油化工</span><span>装备制造</span><span>新材料</span></div>
                             </div>
                         </div>
                     </div>
@@ -938,7 +1039,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（16个地级市）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>合肥市（省会）</h4>
@@ -956,9 +1057,121 @@
                                 </div>
                                 <div class="city-industries"><span>汽车</span><span>机器人</span><span>航空</span></div>
                             </div>
+                            <div class="city-card">
+                                <h4>滁州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>家电</span><span>新能源</span><span>食品</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>阜阳市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>农业</span><span>食品加工</span><span>纺织</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>蚌埠市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.85万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>玻璃</span><span>装备制造</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>安庆市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>石化</span><span>装备</span><span>纺织</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>马鞍山市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>6800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>钢铁</span><span>装备制造</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>宿州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.65万/㎡</strong></span>
+                                    <span>薪资: <strong>5500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>农业</span><span>食品</span><span>纺织</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>六安市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5700/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>农业</span><span>装备</span><span>新能源</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>宣城市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>汽车零部件</span><span>新材料</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>亳州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.65万/㎡</strong></span>
+                                    <span>薪资: <strong>5500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>中药</span><span>农业</span><span>食品</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>淮南市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>煤炭</span><span>电力</span><span>化工</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>淮北市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5900/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>煤炭</span><span>化工</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>铜陵市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>有色金属</span><span>化工</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>池州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>新材料</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>黄山市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.0万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>茶叶</span><span>新材料</span></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="data-source">数据来源：安徽省统计局、合肥市人社局</div>
+                    <div class="data-source">数据来源：安徽省统计局、各市人社局</div>
                 </div>
             </div>
             
@@ -1005,7 +1218,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（9个地级市）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>福州市（省会）</h4>
@@ -1030,6 +1243,54 @@
                                     <span>薪资: <strong>7500/月</strong></span>
                                 </div>
                                 <div class="city-industries"><span>鞋服</span><span>石化</span><span>机械</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>漳州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.1万/㎡</strong></span>
+                                    <span>薪资: <strong>6800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>食品</span><span>装备</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>莆田市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.0万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>鞋服</span><span>工艺美术</span><span>食品</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>三明市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>钢铁</span><span>装备</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>南平市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>食品</span><span>新材料</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>龙岩市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.85万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>机械</span><span>新材料</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>宁德市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.0万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>新能源</span><span>电机</span><span>食品</span></div>
                             </div>
                         </div>
                     </div>
@@ -1078,7 +1339,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（11个地级市）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>南昌市（省会）</h4>
@@ -1096,9 +1357,81 @@
                                 </div>
                                 <div class="city-industries"><span>稀土</span><span>电子</span><span>纺织</span></div>
                             </div>
+                            <div class="city-card">
+                                <h4>上饶市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>新能源</span><span>有色金属</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>九江市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.85万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>石化</span><span>装备</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>宜春市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5700/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>锂电</span><span>装备</span><span>食品</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>吉安市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>电子</span><span>装备</span><span>农业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>抚州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5600/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>汽车</span><span>新材料</span><span>农业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>新余市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>钢铁</span><span>新能源</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>萍乡市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>煤炭</span><span>陶瓷</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>景德镇市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>5900/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>陶瓷</span><span>航空</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>鹰潭市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>有色金属</span><span>装备</span><span>新材料</span></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="data-source">数据来源：江西省统计局、南昌市人社局</div>
+                    <div class="data-source">数据来源：江西省统计局、各市人社局</div>
                 </div>
             </div>
             
@@ -1235,7 +1568,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全区各市（14个地级市）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>南宁市（首府）</h4>
@@ -1260,6 +1593,94 @@
                                     <span>薪资: <strong>5800/月</strong></span>
                                 </div>
                                 <div class="city-industries"><span>旅游</span><span>电子</span><span>橡胶</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>玉林市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.65万/㎡</strong></span>
+                                    <span>薪资: <strong>5500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>机械</span><span>食品</span><span>医药</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>梧州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5700/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>再生资源</span><span>食品</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>北海市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>电子信息</span><span>海洋</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>贵港市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.65万/㎡</strong></span>
+                                    <span>薪资: <strong>5400/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>建材</span><span>食品</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>钦州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5600/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>港口物流</span><span>石化</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>百色市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.6万/㎡</strong></span>
+                                    <span>薪资: <strong>5200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>铝业</span><span>农业</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>河池市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.6万/㎡</strong></span>
+                                    <span>薪资: <strong>5100/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>有色金属</span><span>农业</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>防城港市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>港口物流</span><span>钢铁</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>贺州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.65万/㎡</strong></span>
+                                    <span>薪资: <strong>5300/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>新材料</span><span>农业</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>来宾市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.6万/㎡</strong></span>
+                                    <span>薪资: <strong>5200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>糖业</span><span>电力</span><span>农业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>崇左市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.65万/㎡</strong></span>
+                                    <span>薪资: <strong>5300/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>糖业</span><span>边贸</span><span>旅游</span></div>
                             </div>
                         </div>
                     </div>
@@ -1310,7 +1731,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（4个地级市）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>海口市（省会）</h4>
@@ -1327,6 +1748,22 @@
                                     <span>薪资: <strong>7200/月</strong></span>
                                 </div>
                                 <div class="city-industries"><span>旅游</span><span>免税</span><span>航天</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>儋州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.0万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>农业</span><span>海洋</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>三沙市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>特殊政策</strong></span>
+                                    <span>薪资: <strong>8000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>海洋</span><span>旅游</span><span>渔业</span></div>
                             </div>
                         </div>
                     </div>
@@ -1383,31 +1820,135 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点区域</div>
+                        <div class="section-title">📍 全市各区（16个区）</div>
                         <div class="cities-grid">
                             <div class="city-card">
-                                <h4>中关村科技园</h4>
+                                <h4>海淀区</h4>
                                 <div class="city-info">
                                     <span>房价: <strong>8万+/㎡</strong></span>
                                     <span>薪资: <strong>2万+/月</strong></span>
                                 </div>
-                                <div class="city-industries"><span>AI</span><span>大模型</span><span>芯片</span></div>
+                                <div class="city-industries"><span>AI</span><span>大模型</span><span>芯片</span><span>互联网</span></div>
                             </div>
                             <div class="city-card">
-                                <h4>亦庄经开区</h4>
+                                <h4>朝阳区</h4>
                                 <div class="city-info">
-                                    <span>房价: <strong>5万/㎡</strong></span>
-                                    <span>薪资: <strong>1.5万/月</strong></span>
+                                    <span>房价: <strong>7万+/㎡</strong></span>
+                                    <span>薪资: <strong>1.8万/月</strong></span>
                                 </div>
-                                <div class="city-industries"><span>智能制造</span><span>生物医药</span><span>新能源汽车</span></div>
+                                <div class="city-industries"><span>金融</span><span>文化</span><span>商务</span><span>传媒</span></div>
                             </div>
                             <div class="city-card">
-                                <h4>金融街</h4>
+                                <h4>西城区</h4>
                                 <div class="city-info">
                                     <span>房价: <strong>12万+/㎡</strong></span>
                                     <span>薪资: <strong>3万+/月</strong></span>
                                 </div>
-                                <div class="city-industries"><span>金融</span><span>投资</span><span>保险</span></div>
+                                <div class="city-industries"><span>金融</span><span>投资</span><span>保险</span><span>银行</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>东城区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>10万+/㎡</strong></span>
+                                    <span>薪资: <strong>2.5万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>文化</span><span>旅游</span><span>金融</span><span>商业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>丰台区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>5.5万/㎡</strong></span>
+                                    <span>薪资: <strong>1.2万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>物流</span><span>金融</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>石景山区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>5万/㎡</strong></span>
+                                    <span>薪资: <strong>1.1万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>文化</span><span>金融</span><span>科技</span><span>旅游</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>通州区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>4.5万/㎡</strong></span>
+                                    <span>薪资: <strong>1万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>行政</span><span>文化</span><span>商务</span><span>金融</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>大兴区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>4万/㎡</strong></span>
+                                    <span>薪资: <strong>9500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>生物医药</span><span>航空</span><span>装备</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>昌平区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>4.2万/㎡</strong></span>
+                                    <span>薪资: <strong>9800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>科技</span><span>教育</span><span>旅游</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>房山区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3.5万/㎡</strong></span>
+                                    <span>薪资: <strong>8500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>新材料</span><span>装备</span><span>旅游</span><span>农业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>顺义区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3.8万/㎡</strong></span>
+                                    <span>薪资: <strong>9000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>航空</span><span>汽车</span><span>物流</span><span>金融</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>门头沟区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3.2万/㎡</strong></span>
+                                    <span>薪资: <strong>8000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>文化</span><span>生态</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>平谷区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.5万/㎡</strong></span>
+                                    <span>薪资: <strong>7000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>农业</span><span>旅游</span><span>食品</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>怀柔区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3万/㎡</strong></span>
+                                    <span>薪资: <strong>7500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>科学城</span><span>旅游</span><span>影视</span><span>农业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>密云区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.8万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>生态</span><span>旅游</span><span>农业</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>延庆区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.5万/㎡</strong></span>
+                                    <span>薪资: <strong>6800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>生态</span><span>农业</span><span>体育</span></div>
                             </div>
                         </div>
                     </div>
@@ -1459,7 +2000,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点区域</div>
+                        <div class="section-title">📍 全市各区（16个区）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>滨海新区</h4>
@@ -1467,15 +2008,127 @@
                                     <span>房价: <strong>1.5万/㎡</strong></span>
                                     <span>薪资: <strong>9500/月</strong></span>
                                 </div>
-                                <div class="city-industries"><span>航空</span><span>石化</span><span>智能制造</span></div>
+                                <div class="city-industries"><span>航空</span><span>石化</span><span>智能制造</span><span>港口</span></div>
                             </div>
                             <div class="city-card">
-                                <h4>天津港保税区</h4>
+                                <h4>和平区</h4>
                                 <div class="city-info">
-                                    <span>房价: <strong>1.2万/㎡</strong></span>
+                                    <span>房价: <strong>3.5万/㎡</strong></span>
+                                    <span>薪资: <strong>1.2万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>金融</span><span>商业</span><span>文化</span><span>教育</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>河西区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>3万/㎡</strong></span>
+                                    <span>薪资: <strong>1.1万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>金融</span><span>商务</span><span>文化</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>南开区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.8万/㎡</strong></span>
+                                    <span>薪资: <strong>1万/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>教育</span><span>科技</span><span>文化</span><span>金融</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>河东区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.5万/㎡</strong></span>
+                                    <span>薪资: <strong>9000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>商务</span><span>物流</span><span>金融</span><span>商业</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>河北区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.3万/㎡</strong></span>
                                     <span>薪资: <strong>8500/月</strong></span>
                                 </div>
-                                <div class="city-industries"><span>物流</span><span>贸易</span><span>加工制造</span></div>
+                                <div class="city-industries"><span>文化</span><span>旅游</span><span>商业</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>红桥区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>2.2万/㎡</strong></span>
+                                    <span>薪资: <strong>8200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>商业</span><span>文化</span><span>物流</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>东丽区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.8万/㎡</strong></span>
+                                    <span>薪资: <strong>8000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>航空</span><span>装备</span><span>物流</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>西青区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.6万/㎡</strong></span>
+                                    <span>薪资: <strong>7800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>电子</span><span>汽车</span><span>装备</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>津南区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.5万/㎡</strong></span>
+                                    <span>薪资: <strong>7500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>教育</span><span>科技</span><span>装备</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>北辰区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.4万/㎡</strong></span>
+                                    <span>薪资: <strong>7200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>物流</span><span>新材料</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>武清区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.2万/㎡</strong></span>
+                                    <span>薪资: <strong>7000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>生物医药</span><span>物流</span><span>科技</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>宝坻区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>新材料</span><span>农业</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>宁河区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>6200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>农业</span><span>食品</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>静海区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.95万/㎡</strong></span>
+                                    <span>薪资: <strong>6300/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>新材料</span><span>农业</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>蓟州区</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.85万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>农业</span><span>生态</span><span>文化</span></div>
                             </div>
                         </div>
                     </div>
@@ -1526,7 +2179,7 @@
                     </div>
                     
                     <div class="cities-section">
-                        <div class="section-title">📍 重点城市</div>
+                        <div class="section-title">📍 全省各市（11个地级市）</div>
                         <div class="cities-grid">
                             <div class="city-card">
                                 <h4>石家庄市（省会）</h4>
@@ -1552,9 +2205,73 @@
                                 </div>
                                 <div class="city-industries"><span>钢铁</span><span>装备</span><span>港口</span></div>
                             </div>
+                            <div class="city-card">
+                                <h4>保定市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.1万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>新能源</span><span>纺织</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>邯郸市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.9万/㎡</strong></span>
+                                    <span>薪资: <strong>5800/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>钢铁</span><span>装备</span><span>建材</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>廊坊市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.2万/㎡</strong></span>
+                                    <span>薪资: <strong>6500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>电子信息</span><span>装备</span><span>物流</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>沧州市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.85万/㎡</strong></span>
+                                    <span>薪资: <strong>5700/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>石化</span><span>装备</span><span>管道</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>秦皇岛市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>1.0万/㎡</strong></span>
+                                    <span>薪资: <strong>6000/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>装备</span><span>港口</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>张家口市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.8万/㎡</strong></span>
+                                    <span>薪资: <strong>5500/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>新能源</span><span>旅游</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>承德市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.75万/㎡</strong></span>
+                                    <span>薪资: <strong>5400/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>旅游</span><span>农业</span><span>装备</span></div>
+                            </div>
+                            <div class="city-card">
+                                <h4>衡水市</h4>
+                                <div class="city-info">
+                                    <span>房价: <strong>0.7万/㎡</strong></span>
+                                    <span>薪资: <strong>5200/月</strong></span>
+                                </div>
+                                <div class="city-industries"><span>装备</span><span>食品</span><span>化工</span></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="data-source">数据来源：河北省统计局、雄安新区管委会</div>
+                    <div class="data-source">数据来源：河北省统计局、雄安新区管委会、各市人社局</div>
                 </div>
             </div>
             
