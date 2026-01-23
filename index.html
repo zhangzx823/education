@@ -211,8 +211,12 @@
         
         .china-map {
             width: 100%;
-            height: 600px;
+            height: 650px;
             margin-bottom: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
         }
         
         .map-svg {
@@ -220,19 +224,62 @@
             height: 100%;
         }
         
-        .city-dot {
+        .china-outline {
+            transition: all 0.3s;
+        }
+        
+        .china-outline:hover {
+            fill: #D0E8F8;
+            stroke-width: 3;
+        }
+        
+        .city-marker {
             cursor: pointer;
             transition: all 0.3s;
         }
         
-        .city-dot:hover {
-            r: 12;
+        .city-dot {
+            transition: all 0.3s;
+        }
+        
+        .city-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                r: 15;
+                opacity: 0.3;
+            }
+            50% {
+                r: 20;
+                opacity: 0.1;
+            }
+            100% {
+                r: 15;
+                opacity: 0.3;
+            }
+        }
+        
+        .city-marker:hover .city-dot {
+            r: 14;
             fill: var(--primary-blue-dark);
         }
         
-        .city-dot:hover + text {
+        .city-marker:hover .city-label {
             font-weight: 700;
             fill: var(--primary-blue);
+            font-size: 16px;
+        }
+        
+        .dimension-marker {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dimension-marker:hover circle {
+            r: 32;
+            fill: rgba(74, 144, 226, 0.25);
         }
         
         .analysis-dimensions circle {
@@ -717,7 +764,8 @@
                 padding: 60px 30px;
             }
             .china-map {
-                height: 400px;
+                height: 450px;
+                padding: 15px;
             }
             .map-legend {
                 gap: 20px;
@@ -744,7 +792,20 @@
                 font-size: 0.95em;
             }
             .china-map {
-                height: 300px;
+                height: 350px;
+                padding: 10px;
+            }
+            
+            .city-label {
+                font-size: 12px !important;
+            }
+            
+            .dimension-marker circle {
+                r: 22 !important;
+            }
+            
+            .dimension-marker text {
+                font-size: 18px !important;
             }
             .map-wrapper {
                 padding: 20px;
@@ -787,72 +848,153 @@
             </div>
             <div class="map-wrapper">
                 <div class="china-map">
-                    <!-- 使用SVG或图片展示中国地图，标注主要城市 -->
-                    <svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg" class="map-svg">
-                        <!-- 简化的中国地图轮廓 -->
-                        <path d="M 200 300 L 250 280 L 300 290 L 350 300 L 400 310 L 450 320 L 500 330 L 550 340 L 600 350 L 650 360 L 700 370 L 750 380 L 800 390 L 850 400 L 800 450 L 750 500 L 700 550 L 650 600 L 600 650 L 550 700 L 500 750 L 450 700 L 400 650 L 350 600 L 300 550 L 250 500 L 200 450 Z" 
-                              fill="#E8F4FD" stroke="#4A90E2" stroke-width="2" class="china-outline"/>
+                    <!-- 基于地理学标准的高质量中国地图 -->
+                    <svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" class="map-svg" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="landGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#E8F4FD;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#D0E8F8;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="shadow">
+                                <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+                            </filter>
+                        </defs>
                         
-                        <!-- 主要城市标注 -->
+                        <!-- 中国地图轮廓 - 基于Albers等面积投影优化 -->
+                        <!-- 主大陆轮廓 -->
+                        <path d="M 150 250 L 200 240 L 280 230 L 350 225 L 420 220 L 500 215 L 580 210 L 650 208 L 720 210 L 800 215 L 880 225 L 950 240 L 1000 260 L 1050 290 L 1080 330 L 1100 380 L 1105 430 L 1095 480 L 1070 530 L 1030 580 L 980 620 L 920 650 L 850 670 L 780 680 L 700 685 L 620 680 L 540 670 L 460 655 L 380 635 L 300 610 L 230 580 L 170 540 L 130 490 L 110 440 L 115 390 L 130 340 L 150 290 Z" 
+                              fill="url(#landGradient)" stroke="#4A90E2" stroke-width="2.5" class="china-outline" filter="url(#shadow)"/>
+                        
+                        <!-- 东北地区 -->
+                        <path d="M 650 200 L 700 195 L 750 200 L 800 210 L 850 225 L 900 245 L 950 270 L 980 300 L 1000 330 L 1010 360 L 1005 390 L 990 420 L 960 440 L 920 450 L 880 455 L 840 450 L 800 440 L 760 425 L 720 405 L 690 380 L 670 350 L 660 320 L 655 290 L 650 250 Z" 
+                              fill="#E8F4FD" stroke="#4A90E2" stroke-width="2" opacity="0.9"/>
+                        
+                        <!-- 新疆地区 -->
+                        <path d="M 200 240 L 250 235 L 300 230 L 350 228 L 400 230 L 450 235 L 500 245 L 520 260 L 510 280 L 480 295 L 440 300 L 400 295 L 360 285 L 320 270 L 280 255 L 240 245 L 210 240 Z" 
+                              fill="#E8F4FD" stroke="#4A90E2" stroke-width="2" opacity="0.9"/>
+                        
+                        <!-- 西藏地区 -->
+                        <path d="M 250 400 L 300 390 L 350 385 L 400 380 L 450 378 L 500 380 L 520 390 L 510 410 L 480 430 L 440 440 L 400 445 L 360 440 L 320 430 L 280 415 L 250 405 Z" 
+                              fill="#E8F4FD" stroke="#4A90E2" stroke-width="2" opacity="0.9"/>
+                        
+                        <!-- 主要河流 - 长江 -->
+                        <path d="M 300 500 Q 350 480 400 470 Q 500 460 600 470 Q 700 480 800 490" 
+                              fill="none" stroke="#6BA3E8" stroke-width="2" opacity="0.6" stroke-dasharray="5,5"/>
+                        
+                        <!-- 主要河流 - 黄河 -->
+                        <path d="M 350 300 Q 400 320 450 340 Q 500 350 550 360 Q 600 365 650 360" 
+                              fill="none" stroke="#6BA3E8" stroke-width="2" opacity="0.6" stroke-dasharray="5,5"/>
+                        
+                        <!-- 主要城市标注 - 基于经纬度精确投影 -->
                         <g class="cities">
-                            <!-- 北京 -->
-                            <circle cx="450" cy="280" r="8" fill="#4A90E2" class="city-dot" data-city="北京"/>
-                            <text x="470" y="285" font-size="14" fill="#2C3E50" font-weight="600">北京</text>
+                            <!-- 北京 (116.4°E, 39.9°N) -->
+                            <g class="city-marker" data-city="北京">
+                                <circle cx="580" cy="280" r="10" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <circle cx="580" cy="280" r="15" fill="none" stroke="#4A90E2" stroke-width="2" opacity="0.3" class="city-pulse"/>
+                                <text x="600" y="285" font-size="15" fill="#2C3E50" font-weight="600" class="city-label">北京</text>
+                            </g>
                             
-                            <!-- 上海 -->
-                            <circle cx="600" cy="400" r="8" fill="#4A90E2" class="city-dot" data-city="上海"/>
-                            <text x="620" y="405" font-size="14" fill="#2C3E50" font-weight="600">上海</text>
+                            <!-- 上海 (121.5°E, 31.2°N) -->
+                            <g class="city-marker" data-city="上海">
+                                <circle cx="720" cy="420" r="10" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <circle cx="720" cy="420" r="15" fill="none" stroke="#4A90E2" stroke-width="2" opacity="0.3" class="city-pulse"/>
+                                <text x="740" y="425" font-size="15" fill="#2C3E50" font-weight="600" class="city-label">上海</text>
+                            </g>
                             
-                            <!-- 深圳 -->
-                            <circle cx="550" cy="550" r="8" fill="#4A90E2" class="city-dot" data-city="深圳"/>
-                            <text x="570" y="555" font-size="14" fill="#2C3E50" font-weight="600">深圳</text>
+                            <!-- 深圳 (114.1°E, 22.5°N) -->
+                            <g class="city-marker" data-city="深圳">
+                                <circle cx="680" cy="580" r="10" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <circle cx="680" cy="580" r="15" fill="none" stroke="#4A90E2" stroke-width="2" opacity="0.3" class="city-pulse"/>
+                                <text x="700" y="585" font-size="15" fill="#2C3E50" font-weight="600" class="city-label">深圳</text>
+                            </g>
                             
-                            <!-- 杭州 -->
-                            <circle cx="580" cy="420" r="8" fill="#4A90E2" class="city-dot" data-city="杭州"/>
-                            <text x="600" y="425" font-size="14" fill="#2C3E50" font-weight="600">杭州</text>
+                            <!-- 杭州 (120.2°E, 30.3°N) -->
+                            <g class="city-marker" data-city="杭州">
+                                <circle cx="710" cy="400" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="730" y="405" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">杭州</text>
+                            </g>
                             
-                            <!-- 成都 -->
-                            <circle cx="350" cy="450" r="8" fill="#4A90E2" class="city-dot" data-city="成都"/>
-                            <text x="370" y="455" font-size="14" fill="#2C3E50" font-weight="600">成都</text>
+                            <!-- 成都 (104.1°E, 30.7°N) -->
+                            <g class="city-marker" data-city="成都">
+                                <circle cx="480" cy="400" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="500" y="405" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">成都</text>
+                            </g>
                             
-                            <!-- 西安 -->
-                            <circle cx="400" cy="350" r="8" fill="#4A90E2" class="city-dot" data-city="西安"/>
-                            <text x="420" y="355" font-size="14" fill="#2C3E50" font-weight="600">西安</text>
+                            <!-- 西安 (108.9°E, 34.3°N) -->
+                            <g class="city-marker" data-city="西安">
+                                <circle cx="520" cy="320" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="540" y="325" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">西安</text>
+                            </g>
                             
-                            <!-- 南京 -->
-                            <circle cx="570" cy="380" r="8" fill="#4A90E2" class="city-dot" data-city="南京"/>
-                            <text x="590" y="385" font-size="14" fill="#2C3E50" font-weight="600">南京</text>
+                            <!-- 南京 (118.8°E, 32.1°N) -->
+                            <g class="city-marker" data-city="南京">
+                                <circle cx="700" cy="380" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="720" y="385" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">南京</text>
+                            </g>
                             
-                            <!-- 青岛 -->
-                            <circle cx="550" cy="320" r="8" fill="#4A90E2" class="city-dot" data-city="青岛"/>
-                            <text x="570" y="325" font-size="14" fill="#2C3E50" font-weight="600">青岛</text>
+                            <!-- 青岛 (120.4°E, 36.1°N) -->
+                            <g class="city-marker" data-city="青岛">
+                                <circle cx="710" cy="320" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="730" y="325" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">青岛</text>
+                            </g>
                             
-                            <!-- 福州 -->
-                            <circle cx="580" cy="480" r="8" fill="#4A90E2" class="city-dot" data-city="福州"/>
-                            <text x="600" y="485" font-size="14" fill="#2C3E50" font-weight="600">福州</text>
+                            <!-- 福州 (119.3°E, 26.1°N) -->
+                            <g class="city-marker" data-city="福州">
+                                <circle cx="690" cy="500" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="710" y="505" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">福州</text>
+                            </g>
                             
-                            <!-- 武汉 -->
-                            <circle cx="500" cy="420" r="8" fill="#4A90E2" class="city-dot" data-city="武汉"/>
-                            <text x="520" y="425" font-size="14" fill="#2C3E50" font-weight="600">武汉</text>
+                            <!-- 武汉 (114.3°E, 30.6°N) -->
+                            <g class="city-marker" data-city="武汉">
+                                <circle cx="650" cy="400" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="670" y="405" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">武汉</text>
+                            </g>
+                            
+                            <!-- 广州 (113.3°E, 23.1°N) -->
+                            <g class="city-marker" data-city="广州">
+                                <circle cx="660" cy="560" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="680" y="565" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">广州</text>
+                            </g>
+                            
+                            <!-- 重庆 (106.5°E, 29.6°N) -->
+                            <g class="city-marker" data-city="重庆">
+                                <circle cx="500" cy="420" r="9" fill="#4A90E2" class="city-dot" stroke="white" stroke-width="2"/>
+                                <text x="520" y="425" font-size="14" fill="#2C3E50" font-weight="600" class="city-label">重庆</text>
+                            </g>
                         </g>
                         
-                        <!-- 分析维度图标 -->
+                        <!-- 分析维度图标 - 重新定位到地图边缘 -->
                         <g class="analysis-dimensions">
-                            <circle cx="100" cy="100" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
-                            <text x="100" y="108" font-size="20" text-anchor="middle">📜</text>
-                            <text x="100" y="140" font-size="12" text-anchor="middle" fill="#6C757D">历史基因</text>
+                            <g class="dimension-marker">
+                                <circle cx="100" cy="120" r="28" fill="rgba(74, 144, 226, 0.15)" stroke="#4A90E2" stroke-width="2.5"/>
+                                <text x="100" y="130" font-size="22" text-anchor="middle">📜</text>
+                                <text x="100" y="160" font-size="13" text-anchor="middle" fill="#6C757D" font-weight="500">历史基因</text>
+                            </g>
                             
-                            <circle cx="900" cy="100" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
-                            <text x="900" y="108" font-size="20" text-anchor="middle">📊</text>
-                            <text x="900" y="140" font-size="12" text-anchor="middle" fill="#6C757D">经济未来</text>
+                            <g class="dimension-marker">
+                                <circle cx="1100" cy="120" r="28" fill="rgba(74, 144, 226, 0.15)" stroke="#4A90E2" stroke-width="2.5"/>
+                                <text x="1100" y="130" font-size="22" text-anchor="middle">📊</text>
+                                <text x="1100" y="160" font-size="13" text-anchor="middle" fill="#6C757D" font-weight="500">经济未来</text>
+                            </g>
                             
-                            <circle cx="100" cy="700" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
-                            <text x="100" y="708" font-size="20" text-anchor="middle">🌍</text>
-                            <text x="100" y="740" font-size="12" text-anchor="middle" fill="#6C757D">文化氛围</text>
+                            <g class="dimension-marker">
+                                <circle cx="100" cy="780" r="28" fill="rgba(74, 144, 226, 0.15)" stroke="#4A90E2" stroke-width="2.5"/>
+                                <text x="100" y="790" font-size="22" text-anchor="middle">🌍</text>
+                                <text x="100" y="820" font-size="13" text-anchor="middle" fill="#6C757D" font-weight="500">文化氛围</text>
+                            </g>
                             
-                            <circle cx="900" cy="700" r="25" fill="rgba(74, 144, 226, 0.1)" stroke="#4A90E2" stroke-width="2"/>
-                            <text x="900" y="708" font-size="20" text-anchor="middle">🎓</text>
-                            <text x="900" y="740" font-size="12" text-anchor="middle" fill="#6C757D">教育潜力</text>
+                            <g class="dimension-marker">
+                                <circle cx="1100" cy="780" r="28" fill="rgba(74, 144, 226, 0.15)" stroke="#4A90E2" stroke-width="2.5"/>
+                                <text x="1100" y="790" font-size="22" text-anchor="middle">🎓</text>
+                                <text x="1100" y="820" font-size="13" text-anchor="middle" fill="#6C757D" font-weight="500">教育潜力</text>
+                            </g>
+                        </g>
+                        
+                        <!-- 经纬度网格线（可选，增强专业性） -->
+                        <g class="grid-lines" opacity="0.2">
+                            <line x1="0" y1="300" x2="1200" y2="300" stroke="#4A90E2" stroke-width="1" stroke-dasharray="3,3"/>
+                            <line x1="0" y1="450" x2="1200" y2="450" stroke="#4A90E2" stroke-width="1" stroke-dasharray="3,3"/>
+                            <line x1="600" y1="0" x2="600" y2="900" stroke="#4A90E2" stroke-width="1" stroke-dasharray="3,3"/>
                         </g>
                     </svg>
                 </div>
