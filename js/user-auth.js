@@ -6,6 +6,12 @@ function getCurrentUser() {
     return userStr ? JSON.parse(userStr) : null;
 }
 
+// 获取所有注册用户（用于管理员功能）
+function getAllUsers() {
+    const users = localStorage.getItem('users');
+    return users ? JSON.parse(users) : [];
+}
+
 // 检查用户是否已登录
 function isLoggedIn() {
     return getCurrentUser() !== null;
