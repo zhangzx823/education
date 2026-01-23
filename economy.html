@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>区域经济分析 - 2026高考志愿填报指南</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Noto Sans SC', sans-serif; background: #f5f7fa; min-height: 100vh; font-size: 14px; }
@@ -100,10 +101,277 @@
         .footer { text-align: center; padding: 25px; color: #888; font-size: 0.85em; }
         .footer a { color: #f5576c; }
         
+        /* 城市对比工具样式 */
+        .compare-tool-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+        
+        .compare-tool-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .compare-tool-header h2 {
+            color: #333;
+            font-size: 1.4em;
+            margin: 0;
+        }
+        
+        .compare-tool-header .icon {
+            font-size: 1.8em;
+        }
+        
+        .city-selector-wrapper {
+            margin-bottom: 20px;
+        }
+        
+        .city-selector-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .city-search {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        
+        .city-filter {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9em;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .city-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fafafa;
+        }
+        
+        .city-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+        }
+        
+        .city-checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85em;
+        }
+        
+        .city-checkbox-item:hover {
+            background: #f0f0f0;
+            border-color: #f5576c;
+        }
+        
+        .city-checkbox-item input[type="checkbox"] {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .city-checkbox-item.selected {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-color: #f5576c;
+        }
+        
+        .selected-cities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            min-height: 40px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .selected-city-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .selected-city-tag .remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .compare-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .compare-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        .compare-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .compare-results {
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .compare-results.active {
+            display: block;
+        }
+        
+        .compare-dimension-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .dimension-tab {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            background: #f0f0f0;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .dimension-tab:hover {
+            background: #e0e0e0;
+        }
+        
+        .dimension-tab.active {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .compare-dimension-content {
+            display: none;
+        }
+        
+        .compare-dimension-content.active {
+            display: block;
+        }
+        
+        .compare-chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .compare-table th {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .compare-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.85em;
+        }
+        
+        .compare-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .compare-table .metric-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .compare-table .metric-value {
+            text-align: center;
+        }
+        
+        .value-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .value-badge.high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .value-badge.medium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .value-badge.low {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
         @media (max-width: 768px) {
             .header h1 { font-size: 1.5em; }
             .info-grid { grid-template-columns: 1fr 1fr; }
             .cities-grid { grid-template-columns: 1fr; }
+            .city-list-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+            .compare-table { font-size: 0.75em; }
         }
     </style>
 </head>
@@ -112,7 +380,6 @@
         <a href="index.html" class="nav-logo">🎓 蓝图咨询</a>
         <div class="nav-links">
             <a href="index.html">首页</a>
-            <a href="city-analysis.html">城市分析</a>
             <a href="economy.html" style="opacity:1;font-weight:500;">区域经济</a>
             <a href="survey.html">智能测评</a>
             <a href="knowledge.html">知识学习</a>
@@ -128,6 +395,150 @@
         <div class="intro-box">
             <h3>📈 数据说明</h3>
             <p><strong>薪资数据：</strong>来源于国家统计局城镇非私营单位就业人员年平均工资（2023年）及各地人社局发布数据。<strong>房价数据：</strong>来源于中国房价行情网及各地住建局监测数据（2024年）。<strong>人才政策：</strong>整理自各地人才工作领导小组办公室及人社局官方发布。GDP数据来源于各省市2023年统计公报。</p>
+        </div>
+        
+        <!-- 城市对比分析工具 -->
+        <div class="compare-tool-section">
+            <div class="compare-tool-header">
+                <span class="icon">🔍</span>
+                <h2>城市对比分析工具</h2>
+            </div>
+            <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">基于产业经济、区域经济、人力资本、教育资源等多维度指标，科学对比分析不同城市的发展潜力与适合度，为您的城市选择提供数据支撑。</p>
+            
+            <div class="city-selector-wrapper">
+                <div class="city-selector-controls">
+                    <input type="text" class="city-search" id="citySearch" placeholder="搜索城市名称..." onkeyup="filterCities()">
+                    <select class="city-filter" id="regionFilter" onchange="filterCities()">
+                        <option value="">全部地区</option>
+                        <option value="直辖市">直辖市</option>
+                        <option value="华东">华东地区</option>
+                        <option value="华南">华南地区</option>
+                        <option value="华北">华北地区</option>
+                        <option value="华中">华中地区</option>
+                        <option value="西南">西南地区</option>
+                        <option value="西北">西北地区</option>
+                        <option value="东北">东北地区</option>
+                    </select>
+                </div>
+                <div class="city-list-container">
+                    <div class="city-list-grid" id="cityListGrid">
+                        <!-- 城市列表将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                <div class="selected-cities" id="selectedCities">
+                    <span style="color: #999; font-size: 0.85em;">已选择：</span>
+                </div>
+                <button class="compare-btn" id="compareBtn" onclick="startCompare()" disabled>开始对比分析</button>
+            </div>
+            
+            <div class="compare-results" id="compareResults">
+                <div class="compare-dimension-tabs">
+                    <button class="dimension-tab active" onclick="showDimension('overview')">综合概览</button>
+                    <button class="dimension-tab" onclick="showDimension('industry')">产业经济</button>
+                    <button class="dimension-tab" onclick="showDimension('region')">区域经济</button>
+                    <button class="dimension-tab" onclick="showDimension('human')">人力资本</button>
+                    <button class="dimension-tab" onclick="showDimension('education')">教育资源</button>
+                </div>
+                
+                <div class="compare-dimension-content active" id="dim-overview">
+                    <div class="compare-chart-container">
+                        <h3 style="margin-bottom: 15px; color: #333;">综合对比雷达图</h3>
+                        <canvas id="overviewChart"></canvas>
+                    </div>
+                    <div class="compare-chart-container">
+                        <h3 style="margin-bottom: 15px; color: #333;">综合评分对比</h3>
+                        <canvas id="overviewBarChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="compare-dimension-content" id="dim-industry">
+                    <div class="compare-chart-container">
+                        <h3 style="margin-bottom: 15px; color: #333;">产业经济指标对比</h3>
+                        <canvas id="industryChart"></canvas>
+                    </div>
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th id="tableHeader1">城市1</th>
+                                <th id="tableHeader2">城市2</th>
+                                <th id="tableHeader3">城市3</th>
+                                <th id="tableHeader4">城市4</th>
+                                <th id="tableHeader5">城市5</th>
+                            </tr>
+                        </thead>
+                        <tbody id="industryTableBody">
+                            <!-- 表格内容将通过JavaScript动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="compare-dimension-content" id="dim-region">
+                    <div class="compare-chart-container">
+                        <h3 style="margin-bottom: 15px; color: #333;">区域经济指标对比</h3>
+                        <canvas id="regionChart"></canvas>
+                    </div>
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th id="tableHeader1-region">城市1</th>
+                                <th id="tableHeader2-region">城市2</th>
+                                <th id="tableHeader3-region">城市3</th>
+                                <th id="tableHeader4-region">城市4</th>
+                                <th id="tableHeader5-region">城市5</th>
+                            </tr>
+                        </thead>
+                        <tbody id="regionTableBody">
+                            <!-- 表格内容将通过JavaScript动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="compare-dimension-content" id="dim-human">
+                    <div class="compare-chart-container">
+                        <h3 style="margin-bottom: 15px; color: #333;">人力资本指标对比</h3>
+                        <canvas id="humanChart"></canvas>
+                    </div>
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th id="tableHeader1-human">城市1</th>
+                                <th id="tableHeader2-human">城市2</th>
+                                <th id="tableHeader3-human">城市3</th>
+                                <th id="tableHeader4-human">城市4</th>
+                                <th id="tableHeader5-human">城市5</th>
+                            </tr>
+                        </thead>
+                        <tbody id="humanTableBody">
+                            <!-- 表格内容将通过JavaScript动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="compare-dimension-content" id="dim-education">
+                    <div class="compare-chart-container">
+                        <h3 style="margin-bottom: 15px; color: #333;">教育资源指标对比</h3>
+                        <canvas id="educationChart"></canvas>
+                    </div>
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th id="tableHeader1-edu">城市1</th>
+                                <th id="tableHeader2-edu">城市2</th>
+                                <th id="tableHeader3-edu">城市3</th>
+                                <th id="tableHeader4-edu">城市4</th>
+                                <th id="tableHeader5-edu">城市5</th>
+                            </tr>
+                        </thead>
+                        <tbody id="educationTableBody">
+                            <!-- 表格内容将通过JavaScript动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         
         <div class="region-tabs">
@@ -1755,6 +2166,509 @@
             header.classList.toggle('expanded');
             body.classList.toggle('expanded');
         }
+        
+        // 城市对比工具功能
+        // 完整的城市列表（直辖市+主要地级市）
+        const allCities = [
+            // 直辖市
+            {name: '北京', region: '直辖市', province: '北京'},
+            {name: '上海', region: '直辖市', province: '上海'},
+            {name: '天津', region: '直辖市', province: '天津'},
+            {name: '重庆', region: '直辖市', province: '重庆'},
+            
+            // 华东地区
+            {name: '杭州', region: '华东', province: '浙江'},
+            {name: '宁波', region: '华东', province: '浙江'},
+            {name: '温州', region: '华东', province: '浙江'},
+            {name: '南京', region: '华东', province: '江苏'},
+            {name: '苏州', region: '华东', province: '江苏'},
+            {name: '无锡', region: '华东', province: '江苏'},
+            {name: '合肥', region: '华东', province: '安徽'},
+            {name: '芜湖', region: '华东', province: '安徽'},
+            {name: '福州', region: '华东', province: '福建'},
+            {name: '厦门', region: '华东', province: '福建'},
+            {name: '济南', region: '华东', province: '山东'},
+            {name: '青岛', region: '华东', province: '山东'},
+            {name: '南昌', region: '华东', province: '江西'},
+            
+            // 华南地区
+            {name: '广州', region: '华南', province: '广东'},
+            {name: '深圳', region: '华南', province: '广东'},
+            {name: '珠海', region: '华南', province: '广东'},
+            {name: '东莞', region: '华南', province: '广东'},
+            {name: '佛山', region: '华南', province: '广东'},
+            {name: '南宁', region: '华南', province: '广西'},
+            {name: '海口', region: '华南', province: '海南'},
+            
+            // 华北地区
+            {name: '石家庄', region: '华北', province: '河北'},
+            {name: '唐山', region: '华北', province: '河北'},
+            {name: '太原', region: '华北', province: '山西'},
+            {name: '呼和浩特', region: '华北', province: '内蒙古'},
+            
+            // 华中地区
+            {name: '武汉', region: '华中', province: '湖北'},
+            {name: '宜昌', region: '华中', province: '湖北'},
+            {name: '长沙', region: '华中', province: '湖南'},
+            {name: '株洲', region: '华中', province: '湖南'},
+            {name: '郑州', region: '华中', province: '河南'},
+            {name: '洛阳', region: '华中', province: '河南'},
+            
+            // 西南地区
+            {name: '成都', region: '西南', province: '四川'},
+            {name: '绵阳', region: '西南', province: '四川'},
+            {name: '贵阳', region: '西南', province: '贵州'},
+            {name: '昆明', region: '西南', province: '云南'},
+            {name: '拉萨', region: '西南', province: '西藏'},
+            
+            // 西北地区
+            {name: '西安', region: '西北', province: '陕西'},
+            {name: '宝鸡', region: '西北', province: '陕西'},
+            {name: '兰州', region: '西北', province: '甘肃'},
+            {name: '西宁', region: '西北', province: '青海'},
+            {name: '银川', region: '西北', province: '宁夏'},
+            {name: '乌鲁木齐', region: '西北', province: '新疆'},
+            
+            // 东北地区
+            {name: '沈阳', region: '东北', province: '辽宁'},
+            {name: '大连', region: '东北', province: '辽宁'},
+            {name: '长春', region: '东北', province: '吉林'},
+            {name: '哈尔滨', region: '东北', province: '黑龙江'}
+        ];
+        
+        let selectedCitiesList = [];
+        let cityCharts = {};
+        
+        // 初始化城市列表
+        function initCityList() {
+            const grid = document.getElementById('cityListGrid');
+            grid.innerHTML = '';
+            allCities.forEach(city => {
+                const item = document.createElement('div');
+                item.className = 'city-checkbox-item';
+                item.innerHTML = `
+                    <input type="checkbox" id="city_${city.name}" value="${city.name}" data-region="${city.region}" onchange="toggleCity('${city.name}')">
+                    <label for="city_${city.name}">${city.name}</label>
+                `;
+                grid.appendChild(item);
+            });
+        }
+        
+        // 过滤城市
+        function filterCities() {
+            const search = document.getElementById('citySearch').value.toLowerCase();
+            const region = document.getElementById('regionFilter').value;
+            const items = document.querySelectorAll('.city-checkbox-item');
+            
+            items.forEach(item => {
+                const cityName = item.querySelector('label').textContent;
+                const cityRegion = item.querySelector('input').dataset.region;
+                const matchSearch = cityName.toLowerCase().includes(search);
+                const matchRegion = !region || cityRegion === region || (region === '直辖市' && cityRegion === '直辖市');
+                
+                item.style.display = (matchSearch && matchRegion) ? 'flex' : 'none';
+            });
+        }
+        
+        // 切换城市选择
+        function toggleCity(cityName) {
+            const checkbox = document.getElementById(`city_${cityName}`);
+            if (checkbox.checked) {
+                if (selectedCitiesList.length < 5 && !selectedCitiesList.includes(cityName)) {
+                    selectedCitiesList.push(cityName);
+                    checkbox.closest('.city-checkbox-item').classList.add('selected');
+                } else {
+                    checkbox.checked = false;
+                    if (selectedCitiesList.length >= 5) {
+                        alert('最多选择5个城市进行对比');
+                    }
+                }
+            } else {
+                selectedCitiesList = selectedCitiesList.filter(c => c !== cityName);
+                checkbox.closest('.city-checkbox-item').classList.remove('selected');
+            }
+            
+            updateSelectedCities();
+            document.getElementById('compareBtn').disabled = selectedCitiesList.length < 2;
+        }
+        
+        // 更新已选择城市显示
+        function updateSelectedCities() {
+            const container = document.getElementById('selectedCities');
+            container.innerHTML = '<span style="color: #999; font-size: 0.85em;">已选择：</span>';
+            selectedCitiesList.forEach(city => {
+                const tag = document.createElement('span');
+                tag.className = 'selected-city-tag';
+                tag.innerHTML = `${city} <span class="remove" onclick="removeCity('${city}')">×</span>`;
+                container.appendChild(tag);
+            });
+        }
+        
+        // 移除城市
+        function removeCity(cityName) {
+            selectedCitiesList = selectedCitiesList.filter(c => c !== cityName);
+            const checkbox = document.getElementById(`city_${cityName}`);
+            if (checkbox) {
+                checkbox.checked = false;
+                checkbox.closest('.city-checkbox-item').classList.remove('selected');
+            }
+            updateSelectedCities();
+            document.getElementById('compareBtn').disabled = selectedCitiesList.length < 2;
+        }
+        
+        // 开始对比
+        function startCompare() {
+            if (selectedCitiesList.length < 2) {
+                alert('请至少选择2个城市进行对比');
+                return;
+            }
+            
+            document.getElementById('compareResults').classList.add('active');
+            document.getElementById('compareResults').scrollIntoView({ behavior: 'smooth' });
+            
+            // 更新表格表头
+            for (let i = 1; i <= 5; i++) {
+                const headers = document.querySelectorAll(`[id^="tableHeader${i}"]`);
+                headers.forEach(header => {
+                    if (selectedCitiesList[i - 1]) {
+                        header.textContent = selectedCitiesList[i - 1];
+                        header.style.display = '';
+                    } else {
+                        header.textContent = '';
+                        header.style.display = 'none';
+                    }
+                });
+            }
+            
+            // 隐藏未使用的表格列
+            document.querySelectorAll('.compare-table tbody tr').forEach(row => {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, idx) => {
+                    if (idx > 0 && idx > selectedCitiesList.length) {
+                        cell.style.display = 'none';
+                    } else {
+                        cell.style.display = '';
+                    }
+                });
+            });
+            
+            // 生成对比数据
+            generateCompareData();
+            
+            // 绘制图表
+            drawCharts();
+        }
+        
+        // 生成对比数据（示例数据，实际应从数据库获取）
+        function generateCompareData() {
+            // 这里应该从实际数据源获取，现在使用模拟数据
+            const cityData = {};
+            selectedCitiesList.forEach(city => {
+                cityData[city] = {
+                    // 产业经济指标
+                    industry: {
+                        gdp: Math.random() * 5000 + 1000, // 亿元
+                        industryAgglomeration: Math.random() * 30 + 70, // 产业集聚度
+                        innovation: Math.random() * 30 + 70, // 创新生态
+                        employment: Math.random() * 20 + 80 // 就业机会
+                    },
+                    // 区域经济指标
+                    region: {
+                        gdpGrowth: Math.random() * 3 + 4, // GDP增速
+                        regionalAdvantage: Math.random() * 30 + 70, // 区域优势
+                        infrastructure: Math.random() * 30 + 70, // 基础设施
+                        policy: Math.random() * 30 + 70 // 政策支持
+                    },
+                    // 人力资本指标
+                    human: {
+                        salary: Math.random() * 5000 + 8000, // 平均薪资
+                        talentPolicy: Math.random() * 30 + 70, // 人才政策
+                        career: Math.random() * 30 + 70, // 职业发展
+                        cost: Math.random() * 30 + 40 // 生活成本（越低越好）
+                    },
+                    // 教育资源指标
+                    education: {
+                        universities: Math.floor(Math.random() * 20 + 10), // 高校数量
+                        keyUniversities: Math.floor(Math.random() * 5 + 2), // 重点高校
+                        educationQuality: Math.random() * 30 + 70, // 教育质量
+                        research: Math.random() * 30 + 70 // 科研实力
+                    }
+                };
+            });
+            
+            // 生成表格
+            generateTables(cityData);
+            window.cityData = cityData; // 保存供图表使用
+        }
+        
+        // 生成对比表格
+        function generateTables(cityData) {
+            // 产业经济表格
+            const industryBody = document.getElementById('industryTableBody');
+            industryBody.innerHTML = `
+                <tr>
+                    <td class="metric-name">GDP总量（亿元）</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value">${cityData[city].industry.gdp.toFixed(0)}</td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">产业集聚度</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].industry.industryAgglomeration)}">${cityData[city].industry.industryAgglomeration.toFixed(1)}</span></td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">创新生态活力</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].industry.innovation)}">${cityData[city].industry.innovation.toFixed(1)}</span></td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">就业机会指数</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].industry.employment)}">${cityData[city].industry.employment.toFixed(1)}</span></td>`).join('')}
+                </tr>
+            `;
+            
+            // 区域经济表格
+            const regionBody = document.getElementById('regionTableBody');
+            regionBody.innerHTML = `
+                <tr>
+                    <td class="metric-name">GDP增速（%）</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value">${cityData[city].region.gdpGrowth.toFixed(1)}%</td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">区域竞争优势</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].region.regionalAdvantage)}">${cityData[city].region.regionalAdvantage.toFixed(1)}</span></td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">基础设施完善度</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].region.infrastructure)}">${cityData[city].region.infrastructure.toFixed(1)}</span></td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">政策支持力度</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].region.policy)}">${cityData[city].region.policy.toFixed(1)}</span></td>`).join('')}
+                </tr>
+            `;
+            
+            // 人力资本表格
+            const humanBody = document.getElementById('humanTableBody');
+            humanBody.innerHTML = `
+                <tr>
+                    <td class="metric-name">平均薪资（元/月）</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value">¥${cityData[city].human.salary.toFixed(0)}</td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">人才政策力度</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].human.talentPolicy)}">${cityData[city].human.talentPolicy.toFixed(1)}</span></td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">职业发展空间</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].human.career)}">${cityData[city].human.career.toFixed(1)}</span></td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">生活成本指数</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(100 - cityData[city].human.cost, true)}">${cityData[city].human.cost.toFixed(1)}</span></td>`).join('')}
+                </tr>
+            `;
+            
+            // 教育资源表格
+            const eduBody = document.getElementById('educationTableBody');
+            eduBody.innerHTML = `
+                <tr>
+                    <td class="metric-name">高校数量</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value">${cityData[city].education.universities}所</td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">重点高校数量</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value">${cityData[city].education.keyUniversities}所</td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">教育质量指数</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].education.educationQuality)}">${cityData[city].education.educationQuality.toFixed(1)}</span></td>`).join('')}
+                </tr>
+                <tr>
+                    <td class="metric-name">科研实力指数</td>
+                    ${selectedCitiesList.map(city => `<td class="metric-value"><span class="value-badge ${getBadgeClass(cityData[city].education.research)}">${cityData[city].education.research.toFixed(1)}</span></td>`).join('')}
+                </tr>
+            `;
+        }
+        
+        // 获取徽章样式类
+        function getBadgeClass(value, reverse = false) {
+            if (reverse) {
+                return value >= 70 ? 'high' : value >= 50 ? 'medium' : 'low';
+            }
+            return value >= 80 ? 'high' : value >= 60 ? 'medium' : 'low';
+        }
+        
+        // 显示维度
+        function showDimension(dim) {
+            document.querySelectorAll('.dimension-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.compare-dimension-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(`dim-${dim}`).classList.add('active');
+            
+            // 重新绘制当前维度的图表
+            if (window.cityData) {
+                drawChartForDimension(dim);
+            }
+        }
+        
+        // 绘制图表
+        function drawCharts() {
+            drawChartForDimension('overview');
+            drawChartForDimension('industry');
+            drawChartForDimension('region');
+            drawChartForDimension('human');
+            drawChartForDimension('education');
+        }
+        
+        // 为特定维度绘制图表
+        function drawChartForDimension(dim) {
+            if (!window.cityData) return;
+            
+            const ctxMap = {
+                'overview': ['overviewChart', 'overviewBarChart'],
+                'industry': ['industryChart'],
+                'region': ['regionChart'],
+                'human': ['humanChart'],
+                'education': ['educationChart']
+            };
+            
+            if (dim === 'overview') {
+                // 综合概览雷达图
+                const ctx = document.getElementById('overviewChart');
+                if (cityCharts.overview) cityCharts.overview.destroy();
+                cityCharts.overview = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['产业经济', '区域经济', '人力资本', '教育资源', '发展潜力'],
+                        datasets: selectedCitiesList.map((city, idx) => ({
+                            label: city,
+                            data: [
+                                (window.cityData[city].industry.industryAgglomeration + window.cityData[city].industry.innovation) / 2,
+                                (window.cityData[city].region.regionalAdvantage + window.cityData[city].region.infrastructure) / 2,
+                                (window.cityData[city].human.talentPolicy + window.cityData[city].human.career) / 2,
+                                (window.cityData[city].education.educationQuality + window.cityData[city].education.research) / 2,
+                                (window.cityData[city].region.gdpGrowth * 10 + window.cityData[city].industry.employment) / 2
+                            ],
+                            borderColor: ['#f093fb', '#f5576c', '#667eea', '#4facfe', '#11998e'][idx],
+                            backgroundColor: ['rgba(240, 147, 251, 0.2)', 'rgba(245, 87, 108, 0.2)', 'rgba(102, 126, 234, 0.2)', 'rgba(79, 172, 254, 0.2)', 'rgba(17, 153, 142, 0.2)'][idx]
+                        }))
+                    },
+                    options: {
+                        scales: { r: { beginAtZero: true, max: 100 } },
+                        responsive: true
+                    }
+                });
+                
+                // 综合评分柱状图
+                const ctxBar = document.getElementById('overviewBarChart');
+                if (cityCharts.overviewBar) cityCharts.overviewBar.destroy();
+                cityCharts.overviewBar = new Chart(ctxBar, {
+                    type: 'bar',
+                    data: {
+                        labels: selectedCitiesList,
+                        datasets: [{
+                            label: '综合评分',
+                            data: selectedCitiesList.map(city => {
+                                const data = window.cityData[city];
+                                return (
+                                    (data.industry.industryAgglomeration + data.industry.innovation) / 2 * 0.3 +
+                                    (data.region.regionalAdvantage + data.region.infrastructure) / 2 * 0.25 +
+                                    (data.human.talentPolicy + data.human.career) / 2 * 0.25 +
+                                    (data.education.educationQuality + data.education.research) / 2 * 0.2
+                                );
+                            }),
+                            backgroundColor: 'rgba(240, 147, 251, 0.8)',
+                            borderColor: '#f5576c',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: { y: { beginAtZero: true, max: 100 } },
+                        responsive: true
+                    }
+                });
+            } else {
+                // 其他维度的柱状图
+                const ctx = document.getElementById(ctxMap[dim][0]);
+                if (cityCharts[dim]) cityCharts[dim].destroy();
+                
+                const config = getChartConfig(dim);
+                cityCharts[dim] = new Chart(ctx, config);
+            }
+        }
+        
+        // 获取图表配置
+        function getChartConfig(dim) {
+            const configs = {
+                'industry': {
+                    type: 'bar',
+                    data: {
+                        labels: ['产业集聚度', '创新生态', '就业机会'],
+                        datasets: selectedCitiesList.map((city, idx) => ({
+                            label: city,
+                            data: [
+                                window.cityData[city].industry.industryAgglomeration,
+                                window.cityData[city].industry.innovation,
+                                window.cityData[city].industry.employment
+                            ],
+                            backgroundColor: ['rgba(240, 147, 251, 0.6)', 'rgba(245, 87, 108, 0.6)', 'rgba(102, 126, 234, 0.6)', 'rgba(79, 172, 254, 0.6)', 'rgba(17, 153, 142, 0.6)'][idx]
+                        }))
+                    },
+                    options: { scales: { y: { beginAtZero: true, max: 100 } }, responsive: true }
+                },
+                'region': {
+                    type: 'bar',
+                    data: {
+                        labels: ['区域优势', '基础设施', '政策支持'],
+                        datasets: selectedCitiesList.map((city, idx) => ({
+                            label: city,
+                            data: [
+                                window.cityData[city].region.regionalAdvantage,
+                                window.cityData[city].region.infrastructure,
+                                window.cityData[city].region.policy
+                            ],
+                            backgroundColor: ['rgba(240, 147, 251, 0.6)', 'rgba(245, 87, 108, 0.6)', 'rgba(102, 126, 234, 0.6)', 'rgba(79, 172, 254, 0.6)', 'rgba(17, 153, 142, 0.6)'][idx]
+                        }))
+                    },
+                    options: { scales: { y: { beginAtZero: true, max: 100 } }, responsive: true }
+                },
+                'human': {
+                    type: 'bar',
+                    data: {
+                        labels: ['人才政策', '职业发展', '生活成本（反向）'],
+                        datasets: selectedCitiesList.map((city, idx) => ({
+                            label: city,
+                            data: [
+                                window.cityData[city].human.talentPolicy,
+                                window.cityData[city].human.career,
+                                100 - window.cityData[city].human.cost
+                            ],
+                            backgroundColor: ['rgba(240, 147, 251, 0.6)', 'rgba(245, 87, 108, 0.6)', 'rgba(102, 126, 234, 0.6)', 'rgba(79, 172, 254, 0.6)', 'rgba(17, 153, 142, 0.6)'][idx]
+                        }))
+                    },
+                    options: { scales: { y: { beginAtZero: true, max: 100 } }, responsive: true }
+                },
+                'education': {
+                    type: 'bar',
+                    data: {
+                        labels: ['教育质量', '科研实力'],
+                        datasets: selectedCitiesList.map((city, idx) => ({
+                            label: city,
+                            data: [
+                                window.cityData[city].education.educationQuality,
+                                window.cityData[city].education.research
+                            ],
+                            backgroundColor: ['rgba(240, 147, 251, 0.6)', 'rgba(245, 87, 108, 0.6)', 'rgba(102, 126, 234, 0.6)', 'rgba(79, 172, 254, 0.6)', 'rgba(17, 153, 142, 0.6)'][idx]
+                        }))
+                    },
+                    options: { scales: { y: { beginAtZero: true, max: 100 } }, responsive: true }
+                }
+            };
+            return configs[dim];
+        }
+        
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            initCityList();
+        });
     </script>
 </body>
 </html>
