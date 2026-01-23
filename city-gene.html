@@ -1,0 +1,2808 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市基因深度解析 - 城市性格研究</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-blue: #4A90E2;
+            --primary-blue-dark: #357ABD;
+            --primary-blue-light: #6BA3E8;
+            --blue-bg: #E8F4FD;
+            --bg-light: #F8F9FA;
+            --bg-white: #FFFFFF;
+            --text-dark: #2C3E50;
+            --text-gray: #6C757D;
+            --text-light: #ADB5BD;
+            --border-color: #E9ECEF;
+            --accent-orange: #FF6B6B;
+            --accent-green: #51CF66;
+            --accent-purple: #9775FA;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-white);
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.95em;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+            font-size: 0.9em;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-login, .btn-register {
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-login {
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+        
+        .btn-login:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .btn-register {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            color: white;
+            border: 2px solid transparent;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-logout {
+            padding: 6px 15px;
+            background: var(--bg-light);
+            color: var(--text-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: var(--text-gray);
+            color: white;
+        }
+        
+        .user-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        /* 头部区域 */
+        .header {
+            background: linear-gradient(135deg, var(--blue-bg) 0%, var(--bg-white) 100%);
+            padding: 140px 60px 100px;
+            text-align: center;
+            margin-top: 80px;
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+        
+        .header .subtitle {
+            font-size: 1.3em;
+            color: var(--text-gray);
+            max-width: 900px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+        
+        .header .intro-text {
+            font-size: 1.1em;
+            color: var(--text-gray);
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 2;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        /* 内容区域 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 60px;
+        }
+        
+        /* 方法论标签页 */
+        .methodology-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        
+        .methodology-tab {
+            padding: 15px 30px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+        
+        .methodology-tab:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+        
+        .methodology-tab.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        /* 城市选择器 */
+        .city-selector-section {
+            background: var(--bg-light);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .city-selector-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+        }
+        
+        .city-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .city-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            color: var(--text-gray);
+        }
+        
+        .city-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+        
+        .city-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        /* 历史板块内容 */
+        .methodology-content {
+            display: none;
+        }
+        
+        .methodology-content.active {
+            display: block;
+        }
+        
+        .methodology-intro {
+            background: var(--blue-bg);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .methodology-intro h3 {
+            color: var(--primary-blue);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .methodology-intro p {
+            color: var(--text-gray);
+            line-height: 2;
+            font-size: 1.05em;
+        }
+        
+        /* 时间轴容器 */
+        .timeline-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+        
+        .city-timeline-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary-blue);
+        }
+        
+        .city-timeline-header h2 {
+            font-size: 2.5em;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        
+        .city-timeline-header p {
+            color: var(--text-gray);
+            font-size: 1.1em;
+        }
+        
+        /* 时间轴 */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-blue), var(--primary-blue-light));
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: var(--bg-light);
+            padding: 25px;
+            border-radius: 16px;
+            margin: 0 30px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 50%;
+            margin-left: 0;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 50%;
+            margin-right: 0;
+        }
+        
+        .timeline-content:hover {
+            background: var(--blue-bg);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.15);
+        }
+        
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3em;
+            font-weight: 700;
+            z-index: 10;
+            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.3);
+        }
+        
+        .timeline-year::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) translateY(-50%) scale(1); opacity: 0.3; }
+            50% { transform: translateX(-50%) translateY(-50%) scale(1.1); opacity: 0.1; }
+        }
+        
+        .timeline-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 12px;
+        }
+        
+        .timeline-description {
+            color: var(--text-gray);
+            line-height: 2;
+            font-size: 1.05em;
+        }
+        
+        .timeline-highlight {
+            background: rgba(74, 144, 226, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid var(--primary-blue);
+        }
+        
+        .timeline-highlight strong {
+            color: var(--primary-blue);
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 80px;
+            }
+            
+            .timeline-year {
+                left: 30px;
+                transform: translateX(-50%);
+                width: 100px;
+                height: 100px;
+                font-size: 1.1em;
+            }
+            
+            .timeline-content {
+                margin: 0 !important;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header { padding: 120px 25px 60px; }
+            .header h1 { font-size: 2.5em; }
+            .container { padding: 40px 25px; }
+            .methodology-tabs { flex-direction: column; }
+            .methodology-tab { width: 100%; }
+        }
+        
+        .footer {
+            background: var(--bg-light);
+            color: var(--text-gray);
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <span>城市性格研究</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="economy.html">区域经济</a>
+        </div>
+        <div class="user-menu" id="userMenu">
+            <!-- 用户信息或登录按钮将在这里动态显示 -->
+        </div>
+    </nav>
+    
+    <header class="header">
+        <h1>📜 城市基因深度解析</h1>
+        <p class="subtitle">从不同视角，读懂城市的历史密码</p>
+        <div class="intro-text">
+            <strong>历史学家告诉我们：</strong>读懂一座城市，就像读懂一个人，需要从多个角度观察。政治史告诉我们城市如何建立和治理，经济史告诉我们城市如何繁荣和发展，文化史告诉我们城市如何传承和创新，社会史告诉我们城市如何生活和变迁。选择不同的视角，你会看到不同的城市故事。
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- 城市选择器 -->
+        <div class="city-selector-section">
+            <h3>选择要探索的城市</h3>
+            <div class="city-buttons">
+                <button class="city-btn active" onclick="selectCity('fuzhou')">福州</button>
+                <button class="city-btn" onclick="selectCity('shenzhen')">深圳</button>
+                <button class="city-btn" onclick="selectCity('qingdao')">青岛</button>
+                <button class="city-btn" onclick="selectCity('beijing')">北京</button>
+                <button class="city-btn" onclick="selectCity('shanghai')">上海</button>
+                <button class="city-btn" onclick="selectCity('chengdu')">成都</button>
+                <button class="city-btn" onclick="selectCity('shijiazhuang')">石家庄</button>
+                <button class="city-btn" onclick="selectCity('guangzhou')">广州</button>
+                <button class="city-btn" onclick="selectCity('xian')">西安</button>
+                <button class="city-btn" onclick="selectCity('jinan')">济南</button>
+                <button class="city-btn" onclick="selectCity('wuhan')">武汉</button>
+                <button class="city-btn" onclick="selectCity('xiamen')">厦门</button>
+                <button class="city-btn" onclick="selectCity('nanning')">南宁</button>
+                <button class="city-btn" onclick="selectCity('kunming')">昆明</button>
+                <button class="city-btn" onclick="selectCity('urumqi')">乌鲁木齐</button>
+            </div>
+        </div>
+        
+        <!-- 方法论标签页 -->
+        <div class="methodology-tabs">
+            <button class="methodology-tab active" onclick="showMethodology('political')">🏛️ 政治史视角</button>
+            <button class="methodology-tab" onclick="showMethodology('economic')">💰 经济史视角</button>
+            <button class="methodology-tab" onclick="showMethodology('cultural')">🎭 文化史视角</button>
+            <button class="methodology-tab" onclick="showMethodology('social')">👥 社会史视角</button>
+        </div>
+        
+        <!-- 政治史视角 -->
+        <div id="political" class="methodology-content active">
+            <div class="methodology-intro">
+                <h3>🏛️ 政治史视角：城市如何建立和治理</h3>
+                <p>政治史告诉我们城市是如何建立的，谁统治过它，经历了哪些政治变革。从建城之初的行政设置，到历朝历代的政权更迭，再到近现代的政治转型，政治因素深刻影响着城市的发展轨迹。</p>
+            </div>
+            
+            <div id="political-fuzhou" class="city-timeline">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>福州的政治史</h2>
+                        <p>从闽越王都到现代省会，2200年的政治变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前202年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">闽越王建城</div>
+                                <div class="timeline-description">闽越王无诸在闽江下游建立"冶城"，这是福州作为行政中心的起点。无诸选择这里，看中了它的战略位置：面朝大海，背靠群山，既有山海之利，又有天险可守。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了福州在东南沿海的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">282年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">晋朝设晋安郡</div>
+                                <div class="timeline-description">西晋统一后，在福州设立晋安郡，这是福州首次成为正式的行政建制。郡治设在今天的福州，标志着福州正式纳入中央王朝的行政体系。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>从地方政权纳入中央集权体系</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">725年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">唐朝设福州都督府</div>
+                                <div class="timeline-description">唐玄宗时期，福州升格为都督府，成为东南沿海重要的政治、军事中心。这一时期，福州的政治地位显著提升，成为"闽都"。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了福州在唐代的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">新中国成立，福州解放</div>
+                                <div class="timeline-description">1949年8月17日，福州解放，成为福建省省会。从此，福州进入新的历史时期，成为新中国东南沿海重要的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>从旧政权到新中国的政治转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="political-shenzhen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>深圳的政治史</h2>
+                        <p>从边陲小镇到经济特区，40年的政治变革</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1979年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">深圳建市</div>
+                                <div class="timeline-description">1979年3月，国务院批准撤销宝安县，设立深圳市。这是深圳作为独立行政建制的开始，也是改革开放的重要标志。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>改革开放的试验田正式建立</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">设立经济特区</div>
+                                <div class="timeline-description">1980年8月，全国人大常委会批准设立深圳经济特区。这是中国第一个经济特区，标志着改革开放的正式启动。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为中国改革开放的窗口和试验田</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1992年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">邓小平南巡</div>
+                                <div class="timeline-description">1992年，邓小平南巡深圳，发表重要讲话，肯定了深圳的发展成就，坚定了改革开放的决心。这次南巡，为深圳的进一步发展注入了强大的政治动力。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了深圳在改革开放中的历史地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="political-qingdao" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>青岛的政治史</h2>
+                        <p>从德国租借到现代城市，130年的政治变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1891年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">清政府建置</div>
+                                <div class="timeline-description">1891年，清政府在此设立总兵衙门，青岛正式建置。这是青岛作为行政建制的开始。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>青岛正式登上历史舞台</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1897年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">德国强占</div>
+                                <div class="timeline-description">1897年，德国以"巨野教案"为借口，强占青岛。从此，青岛成为德国的租借地，开始了17年的殖民统治。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为列强争夺的焦点，民族危机加深</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1919年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">五四运动</div>
+                                <div class="timeline-description">1919年，因青岛问题爆发的"五四运动"，标志着中国新民主主义革命的开始。青岛成为民族觉醒的起点。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为民族觉醒和反帝反封建的象征</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="political-beijing" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>北京的政治史</h2>
+                        <p>从燕国都城到共和国首都，3000年的政治中心</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前1045年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">燕国建都</div>
+                                <div class="timeline-description">周武王分封，燕国在此建都，这是北京作为政治中心的起点。3000多年来，北京始终是重要的政治中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了北京在华北的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1271年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">元大都</div>
+                                <div class="timeline-description">元朝建立，定都北京，称为"大都"。这是北京首次成为全国性的政治中心，从此开始了800多年的建都史。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>从地方政治中心到全国政治中心</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">新中国首都</div>
+                                <div class="timeline-description">1949年，北京成为中华人民共和国的首都。从此，北京成为新中国的政治、文化、国际交往中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>从旧都到新都的政治转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="political-shanghai" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>上海的政治史</h2>
+                        <p>从小渔村到国际大都市，180年的政治变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1843年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠通商</div>
+                                <div class="timeline-description">《南京条约》签订后，上海开埠通商。从此，上海从小渔村变成了"东方巴黎"，开始了现代化的进程。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>被迫开放，但也迎来了发展机遇</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1927年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">特别市设立</div>
+                                <div class="timeline-description">1927年，上海设立特别市，成为独立的行政建制。这一时期，上海的政治地位显著提升。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了上海的政治地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1990年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">浦东开发开放</div>
+                                <div class="timeline-description">1990年，浦东开发开放，上海进入新的发展时期。从"东方巴黎"到"国际金融中心"，上海的政治地位不断提升。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为改革开放的重要窗口</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="political-chengdu" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>成都的政治史</h2>
+                        <p>从古蜀国都到现代省会，2300年的政治中心</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前316年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">古蜀国都</div>
+                                <div class="timeline-description">古蜀国在此建都，这是成都作为政治中心的起点。2300多年来，成都始终是西南地区的政治中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了成都在西南的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">221年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">蜀汉建都</div>
+                                <div class="timeline-description">刘备建立蜀汉，定都成都。这是成都历史上最辉煌的时期之一，也是"天府之国"美誉的来源。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为三国时期的政治中心之一</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">四川省会</div>
+                                <div class="timeline-description">1949年，成都成为四川省会。从此，成都成为西南地区重要的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了成都的省会地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 石家庄政治史 -->
+            <div id="political-shijiazhuang" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>石家庄的政治史</h2>
+                        <p>从小村庄到省会城市，100年的政治变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1902年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">正太铁路修建</div>
+                                <div class="timeline-description">正太铁路（正定-太原）修建，石家庄作为铁路枢纽开始发展。这是石家庄从村庄向城市转变的起点。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>交通枢纽地位的确立</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1925年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">石门市设立</div>
+                                <div class="timeline-description">1925年，石家庄与休门合并，设立石门市。这是石家庄首次成为正式的行政建制。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>从村庄到城市的行政转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1968年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">河北省会</div>
+                                <div class="timeline-description">1968年，石家庄成为河北省会。从此，石家庄成为河北省的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了石家庄的省会地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 广州政治史 -->
+            <div id="political-guangzhou" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>广州的政治史</h2>
+                        <p>从南越国都到现代省会，2200年的政治中心</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前214年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">南越国建都</div>
+                                <div class="timeline-description">秦朝统一后，赵佗在此建立南越国，定都番禺（今广州）。这是广州作为政治中心的起点。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了广州在岭南的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">广州都督府</div>
+                                <div class="timeline-description">唐代，广州设立都督府，成为岭南地区的政治、军事中心。这一时期，广州的政治地位显著提升。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了广州在唐代的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">广东省会</div>
+                                <div class="timeline-description">1949年，广州成为广东省会。从此，广州成为华南地区重要的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了广州的省会地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 西安政治史 -->
+            <div id="political-xian" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>西安的政治史</h2>
+                        <p>从西周都城到现代省会，3100年的政治中心</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前1046年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">西周建都</div>
+                                <div class="timeline-description">周文王、周武王在此建都，称为"丰京"和"镐京"。这是西安作为政治中心的起点，也是中国历史上最早的都城之一。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了西安在中国历史上的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">前221年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">秦朝建都</div>
+                                <div class="timeline-description">秦始皇统一中国，定都咸阳（今西安）。这是中国历史上第一个统一的中央集权国家的都城。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为统一中国的政治中心</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">618年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">唐朝建都</div>
+                                <div class="timeline-description">唐朝建立，定都长安（今西安）。这是西安历史上最辉煌的时期，也是世界历史上最伟大的都城之一。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为世界级的政治中心</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 济南政治史 -->
+            <div id="political-jinan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>济南的政治史</h2>
+                        <p>从齐国重镇到现代省会，2600年的政治中心</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前685年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">齐国重镇</div>
+                                <div class="timeline-description">春秋时期，济南是齐国的重要城市。这里地理位置优越，是连接中原和山东半岛的重要节点。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了济南在山东的政治地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">明代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">山东省会</div>
+                                <div class="timeline-description">明代，济南成为山东省会。从此，济南成为山东省的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了济南的省会地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">新中国省会</div>
+                                <div class="timeline-description">1949年，济南成为新中国的山东省会。从此，济南进入新的历史时期。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>从旧政权到新中国的政治转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 武汉政治史 -->
+            <div id="political-wuhan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>武汉的政治史</h2>
+                        <p>从三镇合并到现代省会，3500年的政治变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前1500年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">盘龙城</div>
+                                <div class="timeline-description">商代，在今天的武汉地区建立了盘龙城。这是武汉地区最早的行政中心，也是长江中游地区的重要政治中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了武汉在长江中游的政治地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1927年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">三镇合并</div>
+                                <div class="timeline-description">1927年，武昌、汉口、汉阳三镇合并，设立武汉市。这是武汉作为统一行政建制的开始。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>三镇统一，形成现代武汉</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">湖北省会</div>
+                                <div class="timeline-description">1949年，武汉成为湖北省会。从此，武汉成为华中地区重要的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了武汉的省会地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 厦门政治史 -->
+            <div id="political-xiamen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>厦门的政治史</h2>
+                        <p>从海防要塞到经济特区，600年的政治变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1387年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">厦门城建立</div>
+                                <div class="timeline-description">明朝在此建立厦门城，作为海防要塞。这是厦门作为行政建制的开始。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了厦门在海防中的重要地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1842年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">五口通商</div>
+                                <div class="timeline-description">《南京条约》签订后，厦门成为五个通商口岸之一。从此，厦门开始对外开放。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>被迫开放，但也迎来了发展机遇</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">经济特区</div>
+                                <div class="timeline-description">1980年，厦门成为经济特区。从此，厦门进入新的发展时期，成为改革开放的重要窗口。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>成为改革开放的试验田</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 南宁政治史 -->
+            <div id="political-nanning" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>南宁的政治史</h2>
+                        <p>从邕州到现代省会，1700年的政治中心</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">318年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">晋朝设晋兴郡</div>
+                                <div class="timeline-description">东晋时期，在此设立晋兴郡，这是南宁作为行政建制的开始。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了南宁在岭南的政治地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">邕州设立</div>
+                                <div class="timeline-description">唐代，南宁称为"邕州"，成为岭南地区重要的政治、军事中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了南宁在唐代的政治地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1958年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">广西首府</div>
+                                <div class="timeline-description">1958年，南宁成为广西壮族自治区的首府。从此，南宁成为广西的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了南宁的首府地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 昆明政治史 -->
+            <div id="political-kunming" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>昆明的政治史</h2>
+                        <p>从南诏国都到现代省会，1300年的政治中心</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">765年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">南诏国建都</div>
+                                <div class="timeline-description">南诏国在此建立拓东城，这是昆明作为政治中心的起点。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了昆明在云南的政治中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1254年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">元朝设中庆路</div>
+                                <div class="timeline-description">元朝统一云南后，在此设立中庆路，昆明成为云南的政治中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了昆明在元朝的政治地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">云南省会</div>
+                                <div class="timeline-description">1949年，昆明成为云南省会。从此，昆明成为西南地区重要的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了昆明的省会地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 乌鲁木齐政治史 -->
+            <div id="political-urumqi" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>乌鲁木齐的政治史</h2>
+                        <p>从边陲要塞到现代首府，250年的政治变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1755年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">清军建城</div>
+                                <div class="timeline-description">清朝统一新疆后，在此建立迪化城（今乌鲁木齐），作为新疆的政治、军事中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了乌鲁木齐在新疆的政治地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1884年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">新疆建省</div>
+                                <div class="timeline-description">1884年，新疆建省，迪化（今乌鲁木齐）成为省会。这是乌鲁木齐首次成为正式的行政建制。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了乌鲁木齐的省会地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1955年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">新疆首府</div>
+                                <div class="timeline-description">1955年，乌鲁木齐成为新疆维吾尔自治区的首府。从此，乌鲁木齐成为新疆的政治、经济、文化中心。</div>
+                                <div class="timeline-highlight"><strong>政治意义：</strong>确立了乌鲁木齐的首府地位</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 经济史视角 -->
+        <div id="economic" class="methodology-content">
+            <div class="methodology-intro">
+                <h3>💰 经济史视角：城市如何繁荣和发展</h3>
+                <p>经济史告诉我们城市是如何发展经济的，依靠什么产业，经历了哪些经济转型。从古代的农业、手工业，到近代的工业、商业，再到现代的服务业、数字经济，经济因素决定了城市的兴衰。</p>
+            </div>
+            
+            <div id="economic-fuzhou" class="city-timeline">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>福州的经济史</h2>
+                        <p>从海上贸易到数字经济，2000年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">海上贸易兴起</div>
+                                <div class="timeline-description">唐代，福州成为海上丝绸之路的重要起点。大量的丝绸、茶叶、瓷器从这里运往海外，换回香料、珠宝等商品。福州港成为当时中国最重要的对外贸易港口之一。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了福州在海上贸易中的重要地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1405-1433年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">郑和七下西洋</div>
+                                <div class="timeline-description">郑和七次下西洋，福州是重要的启航地和补给站。这一时期，福州的海上贸易达到巅峰，成为"海上丝绸之路"的重要节点。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>海上贸易的黄金时期</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1842年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">五口通商</div>
+                                <div class="timeline-description">《南京条约》签订后，福州成为五个通商口岸之一。外国商品大量涌入，传统手工业受到冲击，但也带来了新的商业机会。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>被迫开放，经济结构开始转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">数字福州</div>
+                                <div class="timeline-description">福州正在打造"数字中国建设峰会"永久举办地，数字经济、海洋经济、绿色经济成为三大支柱产业。从"海上丝绸之路"到"数字丝绸之路"，福州的经济基因在不断进化。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统贸易到数字经济的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="economic-shenzhen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>深圳的经济史</h2>
+                        <p>从"三来一补"到"创新之都"，40年的经济奇迹</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">"三来一补"模式</div>
+                                <div class="timeline-description">深圳经济特区建立初期，主要依靠"三来一补"（来料加工、来样加工、来件装配、补偿贸易）模式。大量外资企业入驻，深圳成为"世界工厂"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>完成了原始积累，奠定了工业基础</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1990年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">自主创新起步</div>
+                                <div class="timeline-description">华为、中兴等企业开始崛起，深圳从"制造"转向"创造"。这一时期，深圳的产业结构开始升级，高新技术产业成为新的增长点。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从代工制造到自主创新的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2000年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">创新之都崛起</div>
+                                <div class="timeline-description">腾讯、比亚迪等企业成为行业巨头，深圳成为"创新之都"。完整的创新生态形成：从基础研究到产业应用，从创业孵化到资本支持。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>建立了完整的创新生态系统</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="economic-qingdao" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>青岛的经济史</h2>
+                        <p>从港口贸易到品牌之都，130年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1897-1914年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">德国殖民时期的工业基础</div>
+                                <div class="timeline-description">德国占领青岛后，建立了现代化的港口、铁路和工业设施。青岛啤酒厂、四方机车厂等企业建立，奠定了青岛的工业基础。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>建立了现代化的工业基础</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年后</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">工业基地建设</div>
+                                <div class="timeline-description">新中国成立后，青岛成为重要的工业基地。纺织、机械、化工等产业快速发展，青岛成为"上青天"（上海、青岛、天津）三大纺织工业基地之一。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了工业城市的地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">品牌崛起</div>
+                                <div class="timeline-description">海尔、海信等企业开始崛起，青岛从"青岛制造"转向"青岛创造"。这些品牌不仅在国内市场占据重要地位，还走向了国际市场。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>形成了品牌经济的特色</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="economic-beijing" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>北京的经济史</h2>
+                        <p>从农业中心到现代都市，3000年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">农业与手工业</div>
+                                <div class="timeline-description">古代北京是典型的农业社会，以农业和手工业为主。作为政治中心，北京的经济主要服务于政治需要。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>政治中心的经济特征</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">明清</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">商业繁荣</div>
+                                <div class="timeline-description">明清时期，北京成为全国最大的商业中心。大量的商人和手工业者汇聚于此，形成了繁荣的商业文化。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>商业中心的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代服务业</div>
+                                <div class="timeline-description">今天，北京是中国的政治、文化、国际交往中心，现代服务业、文化创意产业、高新技术产业成为支柱产业。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统经济到现代经济的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="economic-shanghai" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>上海的经济史</h2>
+                        <p>从"东方巴黎"到"国际金融中心"，180年的经济奇迹</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1843年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠通商</div>
+                                <div class="timeline-description">上海开埠后，迅速成为全国最大的对外贸易港口。大量的外国商品和资本涌入，上海成为"东方巴黎"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了上海在对外贸易中的重要地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1920-1930年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">金融中心</div>
+                                <div class="timeline-description">这一时期，上海成为远东最大的金融中心。大量的银行、交易所、保险公司汇聚于此，形成了完整的金融体系。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>金融中心的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1990年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">浦东开发</div>
+                                <div class="timeline-description">浦东开发开放，上海进入新的发展时期。从"东方巴黎"到"国际金融中心"，上海的经济地位不断提升。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>成为国际金融中心</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="economic-chengdu" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>成都的经济史</h2>
+                        <p>从"天府之国"到"西部中心"，2300年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前256年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">都江堰修建</div>
+                                <div class="timeline-description">李冰父子修建都江堰，让成都平原成为"天府之国"。从此，成都的农业经济开始繁荣，成为全国最富庶的地区之一。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>奠定了"天府之国"的经济基础</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐宋</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">商业繁荣</div>
+                                <div class="timeline-description">唐宋时期，成都成为全国最繁荣的商业城市之一。"扬一益二"（扬州第一，益州第二）的说法，说明了成都的经济地位。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>商业中心的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">西部中心</div>
+                                <div class="timeline-description">今天，成都是西部地区的经济中心。电子信息、装备制造、现代服务业成为支柱产业，成都正在打造"西部中心"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统农业到现代经济的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 石家庄经济史 -->
+            <div id="economic-shijiazhuang" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>石家庄的经济史</h2>
+                        <p>从铁路枢纽到现代工业城市，120年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1902年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">铁路枢纽</div>
+                                <div class="timeline-description">正太铁路和京汉铁路在此交汇，石家庄成为重要的铁路枢纽。交通优势带动了商业和物流的发展。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>交通枢纽地位的确立</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1950年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">工业基地建设</div>
+                                <div class="timeline-description">新中国成立后，石家庄成为重要的工业基地。纺织、制药、化工等产业快速发展。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从商业城市到工业城市的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代产业体系</div>
+                                <div class="timeline-description">今天，石家庄形成了以生物医药、电子信息、装备制造、现代服务业为主的现代产业体系。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统工业到现代产业的升级</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 广州经济史 -->
+            <div id="economic-guangzhou" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>广州的经济史</h2>
+                        <p>从"海上丝绸之路"到"国际商贸中心"，2200年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前214年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">海上贸易</div>
+                                <div class="timeline-description">广州是"海上丝绸之路"的起点，自古以来就是重要的对外贸易港口。这是广州经济繁荣的基础。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了广州的对外贸易中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1757年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">一口通商</div>
+                                <div class="timeline-description">清朝实行"一口通商"政策，广州成为全国唯一的对外贸易口岸。这一时期，广州的经济地位达到顶峰。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>垄断对外贸易，经济繁荣</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">国际商贸中心</div>
+                                <div class="timeline-description">今天，广州是国际商贸中心。广交会、现代服务业、先进制造业成为支柱产业，广州正在打造"国际商贸中心"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统贸易到现代商贸的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 西安经济史 -->
+            <div id="economic-xian" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>西安的经济史</h2>
+                        <p>从"丝绸之路"起点到"西部中心"，3100年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">前138年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">丝绸之路起点</div>
+                                <div class="timeline-description">张骞出使西域，开辟了"丝绸之路"。长安（今西安）成为丝绸之路的起点，也是东西方贸易的中心。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了西安在东西方贸易中的中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">世界贸易中心</div>
+                                <div class="timeline-description">唐代，长安是世界上最繁荣的城市之一。丝绸之路的贸易让长安成为世界贸易中心，经济繁荣达到顶峰。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>世界级的贸易中心</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">西部中心</div>
+                                <div class="timeline-description">今天，西安是西部地区的经济中心。航空航天、电子信息、装备制造成为支柱产业，西安正在打造"西部中心"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统贸易到现代产业的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 济南经济史 -->
+            <div id="economic-jinan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>济南的经济史</h2>
+                        <p>从"泉城"到"现代产业城市"，2600年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">春秋</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">商业重镇</div>
+                                <div class="timeline-description">春秋时期，济南是齐国的重要商业城市。这里地理位置优越，是连接中原和山东半岛的重要商业节点。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了济南在山东的商业地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠通商</div>
+                                <div class="timeline-description">1904年，济南开埠通商。从此，济南开始对外开放，现代工商业开始发展。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统商业到现代工商业的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代产业城市</div>
+                                <div class="timeline-description">今天，济南形成了以信息技术、生物医药、装备制造、现代服务业为主的现代产业体系。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统产业到现代产业的升级</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 武汉经济史 -->
+            <div id="economic-wuhan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>武汉的经济史</h2>
+                        <p>从"九省通衢"到"中部中心"，3500年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">水运枢纽</div>
+                                <div class="timeline-description">武汉位于长江和汉江的交汇处，自古以来就是重要的水运枢纽。"九省通衢"的美誉，说明了武汉的交通优势。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了武汉在长江中游的经济中心地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1861年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">汉口开埠</div>
+                                <div class="timeline-description">1861年，汉口开埠通商。从此，武汉开始对外开放，现代工商业开始发展，成为"东方芝加哥"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统商业到现代工商业的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">中部中心</div>
+                                <div class="timeline-description">今天，武汉是中部地区的经济中心。光电子信息、汽车、生物医药、现代服务业成为支柱产业，武汉正在打造"中部中心"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统产业到现代产业的升级</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 厦门经济史 -->
+            <div id="economic-xiamen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>厦门的经济史</h2>
+                        <p>从"海防要塞"到"经济特区"，600年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1842年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">五口通商</div>
+                                <div class="timeline-description">《南京条约》签订后，厦门成为五个通商口岸之一。从此，厦门开始对外开放，对外贸易开始发展。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了厦门的对外贸易地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">经济特区</div>
+                                <div class="timeline-description">1980年，厦门成为经济特区。从此，厦门进入新的发展时期，成为改革开放的重要窗口。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>成为改革开放的试验田</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代产业体系</div>
+                                <div class="timeline-description">今天，厦门形成了以电子信息、机械装备、现代服务业为主的现代产业体系，成为"海上花园"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统贸易到现代产业的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 南宁经济史 -->
+            <div id="economic-nanning" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>南宁的经济史</h2>
+                        <p>从"边陲重镇"到"区域中心"，1700年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">边贸重镇</div>
+                                <div class="timeline-description">南宁位于中国与东南亚的交界处，自古以来就是重要的边贸重镇。这里是中国与东南亚贸易的重要节点。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了南宁在边贸中的重要地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1958年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">首府建设</div>
+                                <div class="timeline-description">1958年，南宁成为广西首府。从此，南宁开始大规模建设，现代工商业开始发展。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从边陲重镇到区域中心的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">区域中心</div>
+                                <div class="timeline-description">今天，南宁是北部湾经济区的核心城市。现代服务业、先进制造业、现代物流成为支柱产业，南宁正在打造"区域中心"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统边贸到现代产业的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 昆明经济史 -->
+            <div id="economic-kunming" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>昆明的经济史</h2>
+                        <p>从"春城"到"区域中心"，1300年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">边贸重镇</div>
+                                <div class="timeline-description">昆明位于中国与东南亚的交界处，自古以来就是重要的边贸重镇。这里是中国与东南亚贸易的重要节点。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了昆明在边贸中的重要地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1910年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">滇越铁路</div>
+                                <div class="timeline-description">1910年，滇越铁路通车。从此，昆明开始对外开放，现代工商业开始发展。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统边贸到现代工商业的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">区域中心</div>
+                                <div class="timeline-description">今天，昆明是面向东南亚的区域中心。现代服务业、先进制造业、现代物流成为支柱产业，昆明正在打造"区域中心"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统边贸到现代产业的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 乌鲁木齐经济史 -->
+            <div id="economic-urumqi" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>乌鲁木齐的经济史</h2>
+                        <p>从"边陲要塞"到"区域中心"，250年的经济变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1755年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">边贸重镇</div>
+                                <div class="timeline-description">清朝统一新疆后，乌鲁木齐成为重要的边贸重镇。这里是中国与中亚贸易的重要节点。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>确立了乌鲁木齐在边贸中的重要地位</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1955年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">首府建设</div>
+                                <div class="timeline-description">1955年，乌鲁木齐成为新疆首府。从此，乌鲁木齐开始大规模建设，现代工商业开始发展。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从边陲重镇到区域中心的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">区域中心</div>
+                                <div class="timeline-description">今天，乌鲁木齐是面向中亚的区域中心。现代服务业、先进制造业、现代物流成为支柱产业，乌鲁木齐正在打造"区域中心"。</div>
+                                <div class="timeline-highlight"><strong>经济意义：</strong>从传统边贸到现代产业的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 文化史视角 -->
+        <div id="cultural" class="methodology-content">
+            <div class="methodology-intro">
+                <h3>🎭 文化史视角：城市如何传承和创新</h3>
+                <p>文化史告诉我们城市有什么独特的文化传统，出了哪些文化名人，经历了哪些文化变革。从古代的文学、艺术，到近代的教育、思想，再到现代的文化创意产业，文化因素塑造了城市的气质。</p>
+            </div>
+            
+            <div id="cultural-fuzhou" class="city-timeline">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>福州的文化史</h2>
+                        <p>从"文教立市"到"文化名城"，2000年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">"闽都"文化形成</div>
+                                <div class="timeline-description">唐代，福州成为"闽都"，文化教育开始兴盛。大量的文人墨客汇聚于此，形成了独特的"闽都文化"。这一时期，福州的文化底蕴开始积累。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>确立了"文教立市"的传统</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">明清</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">"三坊七巷"文化</div>
+                                <div class="timeline-description">明清时期，"三坊七巷"成为福州的文化名片。这里走出了林则徐、严复、林觉民等历史名人，他们改变了中国历史。福州的文化基因在这一时期达到高峰。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了"文雅而务实"的文化气质</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">"下南洋"文化</div>
+                                <div class="timeline-description">近代，大量福州人"下南洋"，形成了独特的"侨乡文化"。这种文化既保留了传统的价值观念，又融入了开放的国际视野。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了开放包容的文化特质</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cultural-shenzhen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>深圳的文化史</h2>
+                        <p>从"文化沙漠"到"文化绿洲"，40年的文化创新</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">"文化沙漠"的质疑</div>
+                                <div class="timeline-description">深圳建市初期，有人质疑这里是"文化沙漠"。确实，作为一个新兴城市，深圳缺乏深厚的历史文化底蕴。但这也意味着没有历史包袱，可以自由创新。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>没有历史包袱，可以自由创新</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1990年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">移民文化形成</div>
+                                <div class="timeline-description">大量来自全国各地的移民涌入深圳，带来了不同的文化。这种多元文化的碰撞和融合，形成了深圳独特的"移民文化"——包容、开放、创新。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了包容开放的移民文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2000年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">文化创意产业崛起</div>
+                                <div class="timeline-description">深圳的文化创意产业开始崛起，从设计之都到文化创意产业基地，深圳正在从"文化沙漠"变成"文化绿洲"。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了创新活力的文化特质</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cultural-qingdao" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>青岛的文化史</h2>
+                        <p>从"东方瑞士"到"品牌之都"，130年的文化融合</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1897-1914年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">德国文化的影响</div>
+                                <div class="timeline-description">德国占领青岛后，留下了"红瓦绿树、碧海蓝天"的城市风貌和欧式建筑。这种建筑风格，成为青岛独特的文化符号。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>中西方文化的第一次碰撞</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1919年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">五四运动的文化意义</div>
+                                <div class="timeline-description">五四运动因青岛问题而爆发，这里成为新文化运动的起点。青岛的文化基因，从此与民族觉醒紧密相连。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>成为新文化运动的象征</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">品牌文化</div>
+                                <div class="timeline-description">青岛啤酒、海尔、海信等品牌，不仅是经济现象，更是文化现象。这些品牌承载着青岛的文化基因——兼容并蓄、精益求精。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了品牌文化的特色</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cultural-beijing" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>北京的文化史</h2>
+                        <p>从"文化古都"到"文化中心"，3000年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">元明清</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">古都文化</div>
+                                <div class="timeline-description">作为元明清三朝的都城，北京积累了深厚的文化底蕴。紫禁城、天坛、颐和园等文化遗产，成为北京文化的象征。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了厚重的古都文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1919年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">新文化运动</div>
+                                <div class="timeline-description">五四运动在北京爆发，这里成为新文化运动的中心。北京大学、清华大学等高校，成为新文化运动的摇篮。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>成为新文化运动的中心</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">文化中心</div>
+                                <div class="timeline-description">今天，北京是中国的文化中心。大量的高校、科研院所、文化机构汇聚于此，形成了完整的文化生态。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了完整的文化生态</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cultural-shanghai" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>上海的文化史</h2>
+                        <p>从"海派文化"到"国际文化"，180年的文化融合</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1843年后</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">海派文化形成</div>
+                                <div class="timeline-description">开埠后，中西方文化在上海交融，形成了独特的"海派文化"。这种文化既保留了传统的价值观念，又融入了现代的国际视野。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的海派文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1920-1930年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">文化黄金时期</div>
+                                <div class="timeline-description">这一时期，上海成为全国的文化中心。大量的作家、艺术家、电影人汇聚于此，形成了繁荣的文化生态。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>文化黄金时期的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">国际文化</div>
+                                <div class="timeline-description">今天，上海是国际文化大都市。大量的国际文化交流活动在这里举行，上海正在打造"国际文化大都市"。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>国际文化大都市的形成</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cultural-chengdu" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>成都的文化史</h2>
+                        <p>从"天府文化"到"休闲文化"，2300年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">天府文化</div>
+                                <div class="timeline-description">成都平原物产丰富，生活安逸，形成了独特的"天府文化"。这种文化既重视物质享受，又重视精神追求。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了安逸舒适的文化特质</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐宋</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">诗歌文化</div>
+                                <div class="timeline-description">唐宋时期，大量的诗人汇聚成都，留下了许多脍炙人口的诗篇。"锦城丝管日纷纷"的诗句，描绘了成都的文化繁荣。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>诗歌文化的繁荣</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">休闲文化</div>
+                                <div class="timeline-description">今天，成都以"休闲之都"闻名。茶馆、火锅、麻将，这些生活方式，体现了成都独特的文化气质——悠闲、包容、创新。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的休闲文化</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 石家庄文化史 -->
+            <div id="cultural-shijiazhuang" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>石家庄的文化史</h2>
+                        <p>从"铁路文化"到"现代文化"，120年的文化变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1902年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">铁路文化</div>
+                                <div class="timeline-description">正太铁路修建后，石家庄成为铁路枢纽。来自各地的铁路工人带来了不同的文化，形成了独特的"铁路文化"。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>多元文化的融合</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1950年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">工业文化</div>
+                                <div class="timeline-description">新中国成立后，石家庄成为重要的工业基地。工业文化成为主流，形成了"工人文化"。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>工业文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，石家庄形成了以现代服务业、文化创意产业为主的现代文化。既有传统工业文化，又有现代创新文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统工业文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 广州文化史 -->
+            <div id="cultural-guangzhou" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>广州的文化史</h2>
+                        <p>从"岭南文化"到"开放文化"，2200年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">岭南文化</div>
+                                <div class="timeline-description">广州是岭南文化的中心。岭南文化既保留了中原文化的传统，又融合了海洋文化的特色，形成了独特的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的岭南文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开放文化</div>
+                                <div class="timeline-description">广州是中国最早对外开放的城市之一。开放文化成为主流，形成了"敢为人先"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>开放文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，广州形成了以现代服务业、文化创意产业为主的现代文化。既有传统岭南文化，又有现代开放文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统岭南文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 西安文化史 -->
+            <div id="cultural-xian" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>西安的文化史</h2>
+                        <p>从"古都文化"到"现代文化"，3100年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">古都文化</div>
+                                <div class="timeline-description">西安是十三朝古都，拥有深厚的文化底蕴。古都文化成为主流，形成了"厚重、包容、开放"的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的古都文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">唐代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">盛唐文化</div>
+                                <div class="timeline-description">唐代，长安是世界上最繁荣的城市之一。盛唐文化成为主流，形成了"开放、包容、创新"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>盛唐文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，西安形成了以现代服务业、文化创意产业为主的现代文化。既有传统古都文化，又有现代创新文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统古都文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 济南文化史 -->
+            <div id="cultural-jinan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>济南的文化史</h2>
+                        <p>从"泉城文化"到"现代文化"，2600年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">泉城文化</div>
+                                <div class="timeline-description">济南以"泉城"闻名，拥有丰富的泉水资源。泉城文化成为主流，形成了"温润、包容、开放"的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的泉城文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠文化</div>
+                                <div class="timeline-description">1904年，济南开埠通商。开埠文化成为主流，形成了"开放、包容、创新"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>开埠文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，济南形成了以现代服务业、文化创意产业为主的现代文化。既有传统泉城文化，又有现代创新文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统泉城文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 武汉文化史 -->
+            <div id="cultural-wuhan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>武汉的文化史</h2>
+                        <p>从"楚文化"到"现代文化"，3500年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">楚文化</div>
+                                <div class="timeline-description">武汉是楚文化的中心。楚文化既保留了中原文化的传统，又融合了长江文化的特色，形成了独特的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的楚文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠文化</div>
+                                <div class="timeline-description">1861年，汉口开埠通商。开埠文化成为主流，形成了"开放、包容、创新"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>开埠文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，武汉形成了以现代服务业、文化创意产业为主的现代文化。既有传统楚文化，又有现代创新文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统楚文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 厦门文化史 -->
+            <div id="cultural-xiamen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>厦门的文化史</h2>
+                        <p>从"闽南文化"到"开放文化"，600年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">闽南文化</div>
+                                <div class="timeline-description">厦门是闽南文化的中心。闽南文化既保留了中原文化的传统，又融合了海洋文化的特色，形成了独特的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的闽南文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1842年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠文化</div>
+                                <div class="timeline-description">《南京条约》签订后，厦门成为五个通商口岸之一。开埠文化成为主流，形成了"开放、包容、创新"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>开埠文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，厦门形成了以现代服务业、文化创意产业为主的现代文化。既有传统闽南文化，又有现代开放文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统闽南文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 南宁文化史 -->
+            <div id="cultural-nanning" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>南宁的文化史</h2>
+                        <p>从"壮族文化"到"现代文化"，1700年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">壮族文化</div>
+                                <div class="timeline-description">南宁是壮族文化的中心。壮族文化既保留了中原文化的传统，又融合了东南亚文化的特色，形成了独特的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的壮族文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1958年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">首府文化</div>
+                                <div class="timeline-description">1958年，南宁成为广西首府。首府文化成为主流，形成了"开放、包容、创新"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>首府文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，南宁形成了以现代服务业、文化创意产业为主的现代文化。既有传统壮族文化，又有现代创新文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统壮族文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 昆明文化史 -->
+            <div id="cultural-kunming" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>昆明的文化史</h2>
+                        <p>从"春城文化"到"现代文化"，1300年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">春城文化</div>
+                                <div class="timeline-description">昆明以"春城"闻名，拥有宜人的气候。春城文化成为主流，形成了"温润、包容、开放"的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的春城文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1910年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠文化</div>
+                                <div class="timeline-description">1910年，滇越铁路通车。开埠文化成为主流，形成了"开放、包容、创新"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>开埠文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，昆明形成了以现代服务业、文化创意产业为主的现代文化。既有传统春城文化，又有现代创新文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统春城文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 乌鲁木齐文化史 -->
+            <div id="cultural-urumqi" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>乌鲁木齐的文化史</h2>
+                        <p>从"丝路文化"到"现代文化"，250年的文化传承</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">丝路文化</div>
+                                <div class="timeline-description">乌鲁木齐是丝绸之路的重要节点。丝路文化成为主流，形成了"多元、包容、开放"的文化气质。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>形成了独特的丝路文化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1955年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">首府文化</div>
+                                <div class="timeline-description">1955年，乌鲁木齐成为新疆首府。首府文化成为主流，形成了"开放、包容、创新"的文化精神。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>首府文化的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代文化</div>
+                                <div class="timeline-description">今天，乌鲁木齐形成了以现代服务业、文化创意产业为主的现代文化。既有传统丝路文化，又有现代创新文化。</div>
+                                <div class="timeline-highlight"><strong>文化意义：</strong>从传统丝路文化到现代文化的转型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会史视角 -->
+        <div id="social" class="methodology-content">
+            <div class="methodology-intro">
+                <h3>👥 社会史视角：城市如何生活和变迁</h3>
+                <p>社会史告诉我们城市的人们如何生活，社会结构如何变化，经历了哪些社会变革。从古代的社会等级，到近代的社会转型，再到现代的社会发展，社会因素反映了城市的变迁。</p>
+            </div>
+            
+            <div id="social-fuzhou" class="city-timeline">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>福州的社会史</h2>
+                        <p>从传统社会到现代社会，2000年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">宗族社会</div>
+                                <div class="timeline-description">古代福州是典型的宗族社会，以血缘关系为纽带，形成了稳定的社会结构。这种社会结构既保证了社会的稳定，也限制了社会的发展。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了重视家庭和传统的价值观念</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">社会转型</div>
+                                <div class="timeline-description">近代，随着"下南洋"和对外开放，福州的社会结构开始转型。传统的宗族社会开始松动，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统社会向现代社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">现代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">多元社会</div>
+                                <div class="timeline-description">今天，福州是一个多元化的现代社会。既有传统的价值观念，又有现代的生活方式；既有本地文化，又有外来文化。这种多元性，让福州的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="social-shenzhen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>深圳的社会史</h2>
+                        <p>从边陲小镇到移民城市，40年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1979年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">小渔村社会</div>
+                                <div class="timeline-description">1979年，深圳还是一个人口不足3万的小渔村。这里的社会结构简单，主要是本地渔民和农民，社会关系以血缘和地缘为主。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>传统农业社会的典型代表</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980-1990年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">移民社会形成</div>
+                                <div class="timeline-description">大量来自全国各地的移民涌入深圳，这里成为"移民城市"。传统的血缘、地缘关系被打破，新的社会关系开始建立——以能力、机会为纽带。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统社会到现代社会的快速转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2000年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">多元包容社会</div>
+                                <div class="timeline-description">今天，深圳是一个典型的多元包容社会。来自全国各地、世界各地的人们在这里生活、工作、创业。这里没有"本地人"和"外地人"的区分，只有"深圳人"。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代移民社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="social-qingdao" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>青岛的社会史</h2>
+                        <p>从殖民社会到现代城市，130年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1897-1914年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">殖民社会</div>
+                                <div class="timeline-description">德国占领青岛后，这里形成了典型的殖民社会结构。德国人、中国人分居不同的区域，社会等级分明。这种社会结构，既带来了现代化的基础设施，也带来了民族屈辱。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>殖民统治下的社会分化</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1949年后</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">工业社会</div>
+                                <div class="timeline-description">新中国成立后，青岛成为重要的工业基地。大量的工人涌入，形成了典型的工业社会结构。工人阶级成为社会的主体，社会关系以工作单位为主。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从殖民社会到工业社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，青岛是一个现代化的多元社会。既有传统的工业基础，又有现代的服务业；既有本地文化，又有外来文化。这种多元性，让青岛的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="social-beijing" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>北京的社会史</h2>
+                        <p>从皇城社会到现代都市，3000年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">元明清</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">皇城社会</div>
+                                <div class="timeline-description">作为元明清三朝的都城，北京形成了典型的皇城社会结构。皇帝、贵族、官员、平民，社会等级分明。这种社会结构，既保证了社会的稳定，也限制了社会的发展。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了等级分明的皇城社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1912年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">社会转型</div>
+                                <div class="timeline-description">清朝灭亡后，北京的社会结构开始转型。传统的皇城社会开始解体，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从皇城社会到现代社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，北京是一个现代化的多元社会。既有传统的文化底蕴，又有现代的生活方式；既有本地人，又有来自全国各地、世界各地的人。这种多元性，让北京的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="social-shanghai" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>上海的社会史</h2>
+                        <p>从"冒险家乐园"到"国际都市"，180年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1843年后</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">租界社会</div>
+                                <div class="timeline-description">开埠后，上海形成了典型的租界社会结构。外国人、中国人分居不同的区域，社会关系复杂。这种社会结构，既带来了现代化的生活方式，也带来了社会分化。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了复杂的租界社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1920-1930年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">商业社会</div>
+                                <div class="timeline-description">这一时期，上海成为全国最大的商业中心。大量的商人和手工业者汇聚于此，形成了典型的商业社会结构。商业关系成为社会关系的主要纽带。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>商业社会的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">国际都市社会</div>
+                                <div class="timeline-description">今天，上海是国际大都市。来自世界各地的人们在这里生活、工作、创业。这里的社会关系以能力、机会为纽带，形成了包容开放的现代都市社会。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的国际都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="social-chengdu" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>成都的社会史</h2>
+                        <p>从"天府社会"到"现代都市"，2300年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">农业社会</div>
+                                <div class="timeline-description">古代成都是典型的农业社会，以农业和手工业为主。社会结构简单，社会关系以血缘和地缘为主。这种社会结构，既保证了社会的稳定，也形成了安逸舒适的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了安逸舒适的农业社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">商业社会</div>
+                                <div class="timeline-description">近代，随着商业的繁荣，成都的社会结构开始转型。传统的农业社会开始松动，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从农业社会到商业社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，成都是一个现代化的多元社会。既有传统的安逸舒适，又有现代的创新创业；既有本地文化，又有外来文化。这种多元性，让成都的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 石家庄社会史 -->
+            <div id="social-shijiazhuang" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>石家庄的社会史</h2>
+                        <p>从"铁路社会"到"现代都市"，120年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1902年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">铁路社会</div>
+                                <div class="timeline-description">正太铁路修建后，石家庄成为铁路枢纽。来自各地的铁路工人带来了不同的社会文化，形成了独特的"铁路社会"。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>多元社会的形成</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1950年代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">工业社会</div>
+                                <div class="timeline-description">新中国成立后，石家庄成为重要的工业基地。工业社会成为主流，形成了"工人社会"。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从农业社会到工业社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，石家庄是一个现代化的多元社会。既有传统工业社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让石家庄的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 广州社会史 -->
+            <div id="social-guangzhou" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>广州的社会史</h2>
+                        <p>从"商业社会"到"现代都市"，2200年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">商业社会</div>
+                                <div class="timeline-description">古代广州是典型的商业社会，以对外贸易为主。社会结构复杂，社会关系以商业和贸易为主。这种社会结构，既保证了社会的繁荣，也形成了开放包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了开放包容的商业社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠社会</div>
+                                <div class="timeline-description">近代，随着开埠通商，广州的社会结构开始转型。传统的商业社会开始松动，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统商业社会到开埠社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，广州是一个现代化的多元社会。既有传统商业社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让广州的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 西安社会史 -->
+            <div id="social-xian" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>西安的社会史</h2>
+                        <p>从"古都社会"到"现代都市"，3100年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">古都社会</div>
+                                <div class="timeline-description">古代西安是典型的古都社会，以政治和贸易为主。社会结构复杂，社会关系以政治和贸易为主。这种社会结构，既保证了社会的稳定，也形成了厚重包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了厚重包容的古都社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">转型社会</div>
+                                <div class="timeline-description">近代，随着政治中心的转移，西安的社会结构开始转型。传统的古都社会开始松动，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统古都社会到转型社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，西安是一个现代化的多元社会。既有传统古都社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让西安的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 济南社会史 -->
+            <div id="social-jinan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>济南的社会史</h2>
+                        <p>从"泉城社会"到"现代都市"，2600年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">商业社会</div>
+                                <div class="timeline-description">古代济南是典型的商业社会，以商业和手工业为主。社会结构简单，社会关系以商业和地缘为主。这种社会结构，既保证了社会的稳定，也形成了温润包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了温润包容的商业社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠社会</div>
+                                <div class="timeline-description">近代，随着开埠通商，济南的社会结构开始转型。传统的商业社会开始松动，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统商业社会到开埠社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，济南是一个现代化的多元社会。既有传统商业社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让济南的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 武汉社会史 -->
+            <div id="social-wuhan" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>武汉的社会史</h2>
+                        <p>从"水运社会"到"现代都市"，3500年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">水运社会</div>
+                                <div class="timeline-description">古代武汉是典型的水运社会，以水运和商业为主。社会结构复杂，社会关系以水运和商业为主。这种社会结构，既保证了社会的繁荣，也形成了开放包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了开放包容的水运社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠社会</div>
+                                <div class="timeline-description">近代，随着开埠通商，武汉的社会结构开始转型。传统的水运社会开始松动，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统水运社会到开埠社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，武汉是一个现代化的多元社会。既有传统水运社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让武汉的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 厦门社会史 -->
+            <div id="social-xiamen" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>厦门的社会史</h2>
+                        <p>从"海防社会"到"现代都市"，600年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">海防社会</div>
+                                <div class="timeline-description">古代厦门是典型的海防社会，以海防和渔业为主。社会结构简单，社会关系以海防和地缘为主。这种社会结构，既保证了社会的稳定，也形成了开放包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了开放包容的海防社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">近代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠社会</div>
+                                <div class="timeline-description">近代，随着开埠通商，厦门的社会结构开始转型。传统的海防社会开始松动，新的社会阶层开始出现。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统海防社会到开埠社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，厦门是一个现代化的多元社会。既有传统海防社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让厦门的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 南宁社会史 -->
+            <div id="social-nanning" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>南宁的社会史</h2>
+                        <p>从"边陲社会"到"现代都市"，1700年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">边陲社会</div>
+                                <div class="timeline-description">古代南宁是典型的边陲社会，以边贸和农业为主。社会结构简单，社会关系以边贸和地缘为主。这种社会结构，既保证了社会的稳定，也形成了开放包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了开放包容的边陲社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1958年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">首府社会</div>
+                                <div class="timeline-description">1958年，南宁成为广西首府。首府社会成为主流，形成了"开放、包容、创新"的社会精神。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统边陲社会到首府社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，南宁是一个现代化的多元社会。既有传统边陲社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让南宁的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 昆明社会史 -->
+            <div id="social-kunming" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>昆明的社会史</h2>
+                        <p>从"边陲社会"到"现代都市"，1300年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">古代</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">边陲社会</div>
+                                <div class="timeline-description">古代昆明是典型的边陲社会，以边贸和农业为主。社会结构简单，社会关系以边贸和地缘为主。这种社会结构，既保证了社会的稳定，也形成了开放包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了开放包容的边陲社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1910年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">开埠社会</div>
+                                <div class="timeline-description">1910年，滇越铁路通车。开埠社会成为主流，形成了"开放、包容、创新"的社会精神。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统边陲社会到开埠社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，昆明是一个现代化的多元社会。既有传统边陲社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让昆明的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 乌鲁木齐社会史 -->
+            <div id="social-urumqi" class="city-timeline" style="display: none;">
+                <div class="timeline-container">
+                    <div class="city-timeline-header">
+                        <h2>乌鲁木齐的社会史</h2>
+                        <p>从"边陲社会"到"现代都市"，250年的社会变迁</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1755年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">边陲社会</div>
+                                <div class="timeline-description">清朝统一新疆后，乌鲁木齐成为重要的边陲社会，以边贸和农业为主。社会结构简单，社会关系以边贸和地缘为主。这种社会结构，既保证了社会的稳定，也形成了开放包容的生活方式。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了开放包容的边陲社会</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1955年</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">首府社会</div>
+                                <div class="timeline-description">1955年，乌鲁木齐成为新疆首府。首府社会成为主流，形成了"开放、包容、创新"的社会精神。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>从传统边陲社会到首府社会的转型</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">今天</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">现代多元社会</div>
+                                <div class="timeline-description">今天，乌鲁木齐是一个现代化的多元社会。既有传统边陲社会，又有现代服务业；既有本地文化，又有外来文化。这种多元性，让乌鲁木齐的社会更加包容和开放。</div>
+                                <div class="timeline-highlight"><strong>社会意义：</strong>形成了包容开放的现代都市社会</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2026 城市性格研究</p>
+        <p>本站内容仅供参考，请结合实际情况综合决策</p>
+    </footer>
+    
+    <script>
+        let currentCity = 'fuzhou';
+        let currentMethodology = 'political';
+        
+        function selectCity(city) {
+            currentCity = city;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.city-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 显示对应城市的时间轴
+            showCityTimeline(city, currentMethodology);
+        }
+        
+        function showMethodology(methodology) {
+            currentMethodology = methodology;
+            
+            // 更新标签页状态
+            document.querySelectorAll('.methodology-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 显示对应方法论的内容
+            document.querySelectorAll('.methodology-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(methodology).classList.add('active');
+            
+            // 显示对应城市的时间轴
+            showCityTimeline(currentCity, methodology);
+        }
+        
+        function showCityTimeline(city, methodology) {
+            // 隐藏所有时间轴
+            document.querySelectorAll('.city-timeline').forEach(timeline => {
+                timeline.style.display = 'none';
+            });
+            
+            // 显示对应的时间轴
+            const timelineId = `${methodology}-${city}`;
+            const timeline = document.getElementById(timelineId);
+            if (timeline) {
+                timeline.style.display = 'block';
+            }
+        }
+        
+        // 初始化
+        showCityTimeline('fuzhou', 'political');
+    </script>
+    <script src="js/user-auth.js"></script>
+</body>
+</html>
