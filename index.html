@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>蓝图咨询</title>
+    <title>城市性格研究</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
@@ -214,6 +214,38 @@
             border-radius: 16px;
             overflow: hidden;
             transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .history-city-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .history-city-card:nth-child(1)::before {
+            background-image: url('https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800&q=80');
+        }
+        
+        .history-city-card:nth-child(2)::before {
+            background-image: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80');
+        }
+        
+        .history-city-card:nth-child(3)::before {
+            background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80');
+        }
+        
+        .history-city-card .history-city-header,
+        .history-city-card .history-city-body {
+            position: relative;
+            z-index: 1;
         }
         
         .history-city-card:hover {
@@ -278,6 +310,29 @@
             border-radius: 16px;
             margin-bottom: 50px;
             border-left: 4px solid var(--primary-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .economy-intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .economy-intro h3,
+        .economy-intro p,
+        .economy-intro a {
+            position: relative;
+            z-index: 1;
         }
         
         .economy-intro h3 {
@@ -351,6 +406,48 @@
             border-radius: 16px;
             padding: 30px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .culture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            z-index: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .culture-card:hover::before {
+            opacity: 0.15;
+        }
+        
+        .culture-card:nth-child(1)::before {
+            background-image: url('https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=800&q=80');
+        }
+        
+        .culture-card:nth-child(2)::before {
+            background-image: url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&q=80');
+        }
+        
+        .culture-card:nth-child(3)::before {
+            background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80');
+        }
+        
+        .culture-card:nth-child(4)::before {
+            background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&q=80');
+        }
+        
+        .culture-card h4,
+        .culture-card p {
+            position: relative;
+            z-index: 1;
         }
         
         .culture-card:hover {
@@ -417,6 +514,44 @@
             border-radius: 16px;
             padding: 30px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .education-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            z-index: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .education-card:hover::before {
+            opacity: 0.15;
+        }
+        
+        .education-card:nth-child(1)::before {
+            background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80');
+        }
+        
+        .education-card:nth-child(2)::before {
+            background-image: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&q=80');
+        }
+        
+        .education-card:nth-child(3)::before {
+            background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80');
+        }
+        
+        .education-card h4,
+        .education-card p {
+            position: relative;
+            z-index: 1;
         }
         
         .education-card:hover {
@@ -486,7 +621,7 @@
     <!-- 导航栏 -->
     <nav class="navbar" id="navbar">
         <a href="index.html" class="nav-brand">
-            <span>蓝图咨询</span>
+            <span>城市性格研究</span>
         </a>
         <div class="nav-links">
             <a href="#team">蓝图团队</a>
@@ -497,8 +632,8 @@
     <!-- Hero区域 -->
     <section class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">择城择校·安放你的理想</h1>
-            <p class="hero-subtitle">基于历史、经济、文化、教育四维分析框架<br>为每一位选择城市的人提供深度洞察与科学决策支持</p>
+            <h1 class="hero-title">择一座城 安一颗心</h1>
+            <p class="hero-subtitle">历史·经济·文化·教育 四维分析<br>深度洞察，科学决策</p>
         </div>
         <div class="scroll-hint">向下滚动 ↓</div>
     </section>
@@ -507,13 +642,13 @@
     <section class="section history-section" id="history">
         <div class="section-header">
             <h2>从历史看基因</h2>
-            <p>每一座城市的历史，都塑造了它的文化基因和发展路径。了解城市的历史，就是理解它的"性格密码"</p>
+            <p>历史塑造城市的性格密码</p>
         </div>
         
         <div class="history-content">
             <div class="history-intro">
                 <h3>📜 历史是城市的基因密码</h3>
-                <p>作为历史研究者，我深知城市的历史不是尘封的档案，而是活生生的基因。从建城之初的地理选择，到历朝历代的兴衰变迁，再到近现代的转型发展，每一段历史都在城市的文化肌理中留下深刻印记。这些历史基因，决定了城市的性格、气质和发展路径。</p>
+                <p>城市的历史不是尘封的档案，而是活生生的基因。从建城之初的地理选择，到历朝历代的兴衰变迁，每一段历史都在城市的文化肌理中留下深刻印记。</p>
             </div>
             
             <div class="history-cities">
@@ -525,11 +660,8 @@
                     </div>
                     <div class="history-city-body">
                         <h4>📜 历史基因</h4>
-                        <p>福州，古称"榕城"，2200多年建城史。这里是海上丝绸之路的重要起点，郑和七下西洋的启航地。从唐代的"闽都"到明清的"三坊七巷"，福州始终是东南沿海的文化重镇。林则徐、严复、林觉民——这些改变中国历史的人物，都从这座城市的文脉中走出。</p>
-                        <p><strong>历史告诉我们：</strong>福州是一座"文教立市"的城市。深厚的文化底蕴、重视教育的传统，让这里成为人才的摇篮。选择福州，就是选择一种"文雅而务实"的城市气质。</p>
-                        
-                        <h4>🌊 向海而生</h4>
-                        <p>福州面朝大海，背靠群山。这种地理格局塑造了福州人"敢闯敢拼、开放包容"的性格。从古代的海上贸易，到近代的"下南洋"，再到今天的"数字福州"，福州始终在与海洋的对话中寻找机遇。</p>
+                        <p>福州，古称"榕城"，2200多年建城史。海上丝绸之路的重要起点，郑和七下西洋的启航地。林则徐、严复、林觉民——这些改变中国历史的人物，都从这座城市的文脉中走出。</p>
+                        <p><strong>城市气质：</strong>文雅而务实，文教立市，向海而生。</p>
                     </div>
                 </div>
                 
@@ -541,11 +673,8 @@
                     </div>
                     <div class="history-city-body">
                         <h4>⚡ 从零到一的奇迹</h4>
-                        <p>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它已成为拥有1700万人口的国际化大都市，GDP从1.96亿元增长到3.24万亿元。这不是偶然，而是改革开放的必然。</p>
-                        <p><strong>历史告诉我们：</strong>深圳没有历史包袱，只有对未来的无限渴望。这里没有"关系"，只有"能力"；没有"论资排辈"，只有"敢为人先"。选择深圳，就是选择一种"拼搏、创新、包容"的城市精神。</p>
-                        
-                        <h4>🔬 创新基因的密码</h4>
-                        <p>从"三来一补"到"自主创新"，从"世界工厂"到"创新之都"，深圳的每一次转型都走在时代前列。华为、腾讯、比亚迪、大疆——这些改变世界的企业，都诞生在这片热土上。</p>
+                        <p>1979年，深圳还是一个人口不足3万的边陲小镇。40年后，它已成为拥有1700万人口的国际化大都市。这不是偶然，而是改革开放的必然。</p>
+                        <p><strong>城市精神：</strong>拼搏、创新、包容。华为、腾讯、比亚迪、大疆——这些改变世界的企业，都诞生在这片热土上。</p>
                     </div>
                 </div>
                 
@@ -557,11 +686,8 @@
                     </div>
                     <div class="history-city-body">
                         <h4>🏛️ 历史交汇的见证</h4>
-                        <p>1891年，青岛建置。1897年，德国强占青岛，留下了"红瓦绿树、碧海蓝天"的城市风貌。1919年，"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。1949年后，青岛成为重要的工业基地和港口城市。</p>
-                        <p><strong>历史告诉我们：</strong>青岛是一座"兼容并蓄"的城市。中西方文化在这里交融，传统与现代在这里对话。这种文化基因，让青岛既有深厚的底蕴，又有开放的胸怀。</p>
-                        
-                        <h4>🏭 品牌之都的密码</h4>
-                        <p>青岛啤酒、海尔、海信、中车四方——这些响当当的品牌，都诞生在青岛。为什么是青岛？因为这里既有工业基础，又有创新精神；既有工匠传统，又有品牌意识。</p>
+                        <p>1891年，青岛建置。1897年，德国强占青岛，留下了"红瓦绿树、碧海蓝天"的城市风貌。1919年，"五四运动"因青岛问题而爆发，这里成为民族觉醒的起点。</p>
+                        <p><strong>城市特质：</strong>兼容并蓄，中西方文化交融。青岛啤酒、海尔、海信、中车四方——这些响当当的品牌，都诞生在青岛。</p>
                     </div>
                 </div>
             </div>
@@ -576,14 +702,14 @@
     <section class="section economy-section" id="economy">
         <div class="section-header">
             <h2>从经济看未来</h2>
-            <p>城市的产业结构和发展方向，决定了未来的就业机会和发展空间。读懂经济逻辑，就是把握发展机遇</p>
+            <p>产业结构决定发展机遇</p>
         </div>
         
         <div class="economy-content">
             <div class="economy-intro">
                 <h3>📊 经济是城市发展的引擎</h3>
-                <p>作为经济学家，我深知城市的经济结构不是静态的数据，而是动态的发展引擎。从产业集聚理论到区域竞争优势，从产业链完整性到创新生态活力，每一个经济指标都揭示着城市的发展潜力。了解城市的经济逻辑，就是把握未来的发展机遇。</p>
-                <p style="margin-top: 15px;"><strong>区域经济深度解析：</strong>我们基于产业集聚理论、区域竞争优势、产业链完整性等维度，深度剖析各城市产业发展现状、未来趋势与就业机会分布。通过城市对比分析工具，您可以同时对比多个城市的经济指标，包括GDP总量、产业集聚度、创新生态活力、就业机会指数等关键数据。</p>
+                <p>从产业集聚理论到区域竞争优势，从产业链完整性到创新生态活力，每一个经济指标都揭示着城市的发展潜力。</p>
+                <p style="margin-top: 15px;"><strong>深度解析：</strong>基于产业集聚理论、区域竞争优势等维度，剖析各城市产业发展现状、未来趋势与就业机会分布。</p>
                 <a href="economy.html" class="economy-link">进入区域经济深度解析 →</a>
             </div>
         </div>
@@ -593,34 +719,34 @@
     <section class="section culture-section" id="culture">
         <div class="section-header">
             <h2>从文化看氛围</h2>
-            <p>城市的文化氛围和生活环境，影响你的生活方式和价值认同。选择城市，就是选择一种生活</p>
+            <p>文化氛围影响生活方式</p>
         </div>
         
         <div class="culture-content">
             <div class="culture-intro">
                 <h3>🌍 文化是城市的灵魂</h3>
-                <p>作为文化研究者，我深知城市的文化不是抽象的符号，而是具体的生活方式。从历史传承到现代创新，从地域特色到国际视野，每一种文化元素都塑造着城市的气质。了解城市的文化氛围，就是理解它的生活方式和价值认同。</p>
+                <p>城市的文化不是抽象的符号，而是具体的生活方式。从历史传承到现代创新，每一种文化元素都塑造着城市的气质。</p>
             </div>
             
             <div class="culture-grid">
                 <div class="culture-card">
                     <h4>🏛️ 历史文化的传承</h4>
-                    <p>每一座城市都有其独特的历史文化传承。从古都的厚重底蕴，到新兴城市的创新活力，历史文化的传承决定了城市的文化气质。了解城市的历史文化，就是理解它的文化基因。</p>
+                    <p>从古都的厚重底蕴，到新兴城市的创新活力，历史文化的传承决定了城市的文化气质。</p>
                 </div>
                 
                 <div class="culture-card">
                     <h4>🎭 现代文化的创新</h4>
-                    <p>现代城市的文化创新，体现在艺术、设计、媒体、娱乐等各个领域。从文化创意产业到国际文化交流，现代文化的创新决定了城市的文化活力。了解城市的文化创新，就是把握它的文化趋势。</p>
+                    <p>艺术、设计、媒体、娱乐等各个领域的文化创新，决定了城市的文化活力。</p>
                 </div>
                 
                 <div class="culture-card">
                     <h4>🍜 生活方式的特色</h4>
-                    <p>城市的生活方式，体现在饮食、居住、出行、娱乐等各个方面。从慢生活的悠闲，到快节奏的拼搏，生活方式的特色决定了城市的生活品质。了解城市的生活方式，就是选择一种生活。</p>
+                    <p>从慢生活的悠闲，到快节奏的拼搏，生活方式的特色决定了城市的生活品质。</p>
                 </div>
                 
                 <div class="culture-card">
                     <h4>🤝 价值认同的共鸣</h4>
-                    <p>城市的价值认同，体现在人们的价值观念、行为方式、社交习惯等方面。从传统的重视家庭，到现代的追求自由，价值认同的共鸣决定了城市的人文环境。了解城市的价值认同，就是找到一种归属。</p>
+                    <p>从传统的重视家庭，到现代的追求自由，价值认同的共鸣决定了城市的人文环境。</p>
                 </div>
             </div>
             
@@ -634,29 +760,29 @@
     <section class="section education-section" id="education">
         <div class="section-header">
             <h2>从教育看潜力</h2>
-            <p>城市的教育资源和人才政策，决定了你的成长空间和发展机会。教育是城市未来的基石</p>
+            <p>教育资源决定成长空间</p>
         </div>
         
         <div class="education-content">
             <div class="education-intro">
                 <h3>🎓 教育是城市的未来</h3>
-                <p>作为教育研究者，我深知城市的教育不是简单的学校数量，而是完整的教育生态。从基础教育到高等教育，从人才培养到人才引进，每一个教育环节都影响着城市的发展潜力。了解城市的教育资源，就是把握自己的成长空间。</p>
+                <p>城市的教育不是简单的学校数量，而是完整的教育生态。从基础教育到高等教育，从人才培养到人才引进，每一个教育环节都影响着城市的发展潜力。</p>
             </div>
             
             <div class="education-grid">
                 <div class="education-card">
                     <h4>📚 高等教育资源</h4>
-                    <p>城市的高等教育资源，包括高校数量、重点高校、学科优势等。从985/211高校到双一流建设，从综合性大学到特色院校，高等教育资源决定了城市的人才培养能力。了解城市的高等教育资源，就是选择自己的成长平台。</p>
+                    <p>从985/211高校到双一流建设，从综合性大学到特色院校，高等教育资源决定了城市的人才培养能力。</p>
                 </div>
                 
                 <div class="education-card">
                     <h4>🔬 科研创新实力</h4>
-                    <p>城市的科研创新实力，体现在科研院所、实验室、创新平台等方面。从基础研究到应用研究，从原始创新到成果转化，科研创新实力决定了城市的发展后劲。了解城市的科研创新实力，就是把握未来的发展机遇。</p>
+                    <p>从基础研究到应用研究，从原始创新到成果转化，科研创新实力决定了城市的发展后劲。</p>
                 </div>
                 
                 <div class="education-card">
                     <h4>💼 人才政策支持</h4>
-                    <p>城市的人才政策支持，包括落户政策、人才补贴、创业扶持等。从应届生落户到高层次人才引进，从购房补贴到创业资助，人才政策支持决定了城市的人才吸引力。了解城市的人才政策，就是评估自己的发展机会。</p>
+                    <p>从落户政策到人才补贴，从创业扶持到发展空间，人才政策支持决定了城市的人才吸引力。</p>
                 </div>
             </div>
             
@@ -668,7 +794,7 @@
     
     <!-- 页脚 -->
     <footer class="footer">
-        <p>&copy; 2026 蓝图咨询</p>
+        <p>&copy; 2026 城市性格研究</p>
         <p>本站内容仅供参考，请结合实际情况综合决策</p>
     </footer>
     
